@@ -17,7 +17,7 @@ class Profile(models.Model):
     phone_number = models.CharField(validators=[phone_number_check],max_length=13,blank=True)
     email = models.EmailField()
     address = models.CharField(max_length=50)
-    photo = models.ImageField(blank=False)
+    photo = models.ImageField(blank=True, default='', upload_to = 'accounts/media')
                              
     def __repr__(self):
         return '{}님의 계정'.format(self.name)                 

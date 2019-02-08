@@ -82,17 +82,31 @@ def changepw(request):   #비번 찾기는 아직 안됩니다.
 @login_required
 def edit(request):  
     if request.method == 'POST':
-        form = EditForm(request.POST)
-
+        form = EditForm(request.POST, request.FILES)
+        user = request.user
+        profile = Profile.objects.get(user=user)
+        
         if form.is_valid():
             username = form.cleaned_data['username']
-            email = form.cleaned_data['email']
+            count = User.objects.filter(username=username).count()
             
-            user = authenticate(request, username=username, email=email)
-
+            if count > 0 and user.username != username:
+                form.add_error('username', '이미 존재하는 이름입니다.')
+                return render(request, 'accounts/edit.html', {'form' : form})
+            else:
+                user.username = username
+            
+            email = form.cleaned_data['email']
+            user.email = email
+            user.save()
+            
+            photo = request.FILES.get('photo', False)
+            profile.photo = photo
+            profile.save()
+            
             return render(request, 'accounts/edit.html',{'form':form})
     else:
-        form = NewpwForm()
+        form = EditForm()
     return render(request, 'accounts/edit.html', {'form':form})
 
 @login_required
