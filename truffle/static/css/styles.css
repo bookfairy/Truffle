@@ -1,0 +1,15 @@
+@charset "UTF-8";
+@import "font.css";
+@import "nucleo.css";
+@import "font-awesome.min.css";
+@import "argon.min.css";
+
+.display-5 {
+    font-size: 1.45rem;
+    font-weight: 600;
+    line-height: 1.25;
+}
+
+.card-img-overlay {
+    background-color: rgba(255, 255, 255, .5);
+}

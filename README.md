@@ -2,21 +2,14 @@
 
 * User : id(pk), email, name, password, register_date
 * Follow : from_id(fk), to_id(fk), date
-* Post : id(pk), title, content, date
-* Travel : id(pk), title, description, content, date, tags, cost
+* Scrap : user_id(fk), playlist_id(fk), date
+* Playlist : id(pk), title, description, content, date, tags, cost
   * Place : id(pk), address, name
     * Place_Content : id(pk), place_id(fk), content
       * Place_Content_Image : id(pk), place_content_id(fk), image
   * Photo : id(pk), photo, 
-* Comment_Post : id(pk), user_id(fk), post_id(fk), content
-* Comment_Travel : id(pk), user_id(fk), travel_id(fk), content
-* Scrap : user_id(fk), travel_id(fk), date
+* Comment : id(pk), user_id(fk), travel_id(fk), content
 
-유저가 여러 개의 글을 가질 수 있으면
-각각의 글에 유저 id를 갖는게 나은가?
-
-태그: 포스트가 여러 개의 태그를 가질 수 있고, 태그가 여러 개의 포스트를 가질 수 있다면
-스크랩: 유저가 여러 개의 포스트를 가질 수 있고, 포스트가 여러 개의 유저를 가질 수 있는....
 
 # Assets
 * [서버](https://truffle.run.goorm.io/)
@@ -25,3 +18,29 @@
 * [Argon GitHub](https://github.com/creativetimofficial/argon-design-system/tree/master/assets)
 
 https://docs.djangoproject.com/en/2.1/topics/forms/
+
+# App
+* 프로필, 로그인, 로그아웃, 피드(팔로우), 스크랩
+* 여행 일정 게시판
+* 코어
+
+# 프론트
+* 로그인 전 메인 : 랜딩 페이지
+* 로그인 후 메인 : 피드 페이지
+* 여행 일정 게시판 : 모든 일정 목록
+
+# 페이지 종류
+* 일정 피드 + 추천 게시물 
+* 랜딩 페이지
+* 일정 등록
+* 프로필
+-
+* 회원가입
+* 로그인
+* 비밀번호 찾기
+* 개인정보 수정
+
+
+# ㅇㅇㅇ
+* 바보
+* 건태

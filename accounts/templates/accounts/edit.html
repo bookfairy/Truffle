@@ -1,0 +1,58 @@
+{% extends 'layout/layout.html' %} {% block title %}계정 정보 수정{% endblock %} {% block content %}
+
+<section class="container">
+    <div class="row">
+        <div class="offset-2 col-8">
+            <h2>{{ user.username }}님의 정보 수정</h2>
+            <h5>아직 미구현입니다. 비밀번호 수정은 '비밀번호 바꾸기' 버튼을 눌러주세요.</h5>
+
+            {% if form.non_field_errors %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <span class="alert-inner--text">{{ form.non_field_errors }}</span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endif %}
+
+            <form role="form" method="POST">{% csrf_token %}
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <i class="ni ni-lock-circle-open"></i>
+                            </span>
+                        </div>
+                        <input class="form-control" name="{{ form.current_pw.html_name }}" placeholder="{{ form.current_pw.label }}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <i class="ni ni-lock-circle-open"></i>
+                            </span>
+                        </div>
+                        <input class="form-control" name="{{ form.new_pw1.html_name }}" placeholder="{{ form.new_pw1.label }}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <i class="ni ni-lock-circle-open"></i>
+                            </span>
+                        </div>
+                        <input class="form-control" name="{{ form.new_pw2.html_name }}" placeholder="{{ form.new_pw2.label }}">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <input class="btn btn-primary" type="submit" value="수정하기">
+                </div>
+            </form>
+
+            <a class="btn btn-primary" href="{% url 'accounts:edit_pw' %}">비밀번호 바꾸기</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

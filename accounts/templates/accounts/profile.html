@@ -1,0 +1,31 @@
+{% extends 'layout/layout.html' %} {% block title %}계정 관리{% endblock %} {% block content %}
+
+<section class="container">
+    <div class="row">
+        <div class="col-12">
+            {% if user.username %}
+            <h2>{{ user.username }}님, 반갑습니다!</h2>
+            {% else %}
+            <h2>로그인을 해야 계정을 관리할 수 있습니다!</h2>
+            {% endif %}
+        </div>
+    </div>
+    <div class="row">
+        {% if user.username %}
+        <div class="col-3">
+            <a class="btn btn-primary" href="{% url 'accounts:edit' %}">회원정보 수정</a>
+        </div>
+        <div class="col-3">
+            <a class="btn btn-primary" href="{% url 'accounts:logout' %}">로그아웃</a>
+        </div>
+        {% else %}
+        <div class="col-3">
+            <a class="btn btn-primary" href="{% url 'accounts:login' %}">로그인</a>
+        </div>
+        <div class="col-3">
+            <a class="btn btn-primary" href="{% url 'accounts:signup' %}">회원가입</a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
