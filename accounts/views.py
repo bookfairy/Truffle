@@ -22,8 +22,10 @@ def signup(request):
                 return render(request, 'accounts/signup.html', {'form' : form})
 
             pw = form.cleaned_data['pw']
-
+            print(form)
+            print(form.cleaned_data)
             profile = form.save(commit=False)
+            print(profile.email)
             user = User()
             user.username = profile.name
             user.set_password(pw)
