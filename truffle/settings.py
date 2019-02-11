@@ -131,8 +131,34 @@ STATICFILES_DIRS = [
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 #
 LOGIN_URL='/accounts/'
-LOGIN_REDIRECT_URL='/accounts/profile/'
-LOGOUT_REDIRECT_URL=None
+#LOGIN_REDIRECT_URL='/accounts/profile/'
+#LOGOUT_REDIRECT_URL=None
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',  # <- 디폴트 모델 백엔드
+    'allauth.account.auth_backends.AuthenticationBackend',  # <- 추가
+)
+
+SITE_ID = 1  # 사이트 아이디 기본값
+
+INSTALLED_APPS += [
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.kakao',
+    'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.github',
+]
+
+SOCIALACCOUNT_EMAIL_VARIFICATION = 'none'
+#LOGIN_REDIRECT_URL = '/'
+
+
+
+

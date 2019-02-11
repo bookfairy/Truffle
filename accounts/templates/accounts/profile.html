@@ -18,6 +18,7 @@
         <div class="col-3">
             <a class="btn btn-primary" href="{% url 'accounts:logout' %}">로그아웃</a>
         </div>
+        <img src="{{ user.socialaccount_set.all.first.get_avatar_url }}" />
         {% else %}
         <div class="col-3">
             <a class="btn btn-primary" href="{% url 'accounts:login' %}">로그인</a>
