@@ -25,7 +25,7 @@ SECRET_KEY = '6t0bs79y0(o^z6fwe$jlgy#r=6qrf7r^r_sffmp)f8p8bh%=5@'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['truffle.run.goorm.io', ]
+ALLOWED_HOSTS = ['truffle.run.goorm.io', '*']
 
 
 # Application definition
@@ -130,34 +130,35 @@ STATICFILES_DIRS = [
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 #
-LOGIN_URL='/accounts/'
-#LOGIN_REDIRECT_URL='/accounts/profile/'
-#LOGOUT_REDIRECT_URL=None
+LOGIN_URL = '/accounts/'
+
 
 MEDIA_URL = '/media/'
+
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-
-
-AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',  # <- 디폴트 모델 백엔드
-    'allauth.account.auth_backends.AuthenticationBackend',  # <- 추가
-)
-
-SITE_ID = 1  # 사이트 아이디 기본값
 
 INSTALLED_APPS += [
     'django.contrib.sites',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'allauth.socialaccount.providers.kakao',
-    'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.github',
+    'allauth.socialaccount.providers.kakao',
+    'allauth.socialaccount.providers.naver',
+    'allauth.socialaccount.providers.google',
 ]
 
-SOCIALACCOUNT_EMAIL_VARIFICATION = 'none'
-#LOGIN_REDIRECT_URL = '/'
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+
+)
+
+SITE_ID = 1
+
+LOGIN_REDIRECT_URL = '/accounts/check'
+
 
 
 

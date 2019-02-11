@@ -93,8 +93,6 @@ def edit(request):
         
     if request.method == 'POST':
         form = EditForm(request.POST, request.FILES)
-        
-        
         if form.is_valid():
             username = form.cleaned_data['username']
             count = User.objects.filter(username=username).count()
@@ -114,10 +112,10 @@ def edit(request):
                 profile.photo = photo
             profile.save()
             
-            return render(request, 'accounts/edit.html',{'form':form, 'profile':profile,})
+            return render(request, 'accounts/edit.html', {'form':form, 'profile':profile,})
     else:
         form = EditForm(initial={'username':profile.user.username, 'email':profile.user.email,})
-    return render(request, 'accounts/edit.html', {'form':form, 'profile':profile,})
+    return render(request, 'accounts/edit.html')
 
 @login_required
 def edit_pw(request):  
@@ -144,8 +142,7 @@ def edit_pw(request):
         form = NewpwForm()
     return render(request, 'accounts/edit_pw.html', {'form':form})
 
-
-def so_login(request):
+def slogin(request):
     providers = []
     for provider in get_providers():
         # social_app속성은 provider에는 없는 속성입니다.
@@ -155,20 +152,21 @@ def so_login(request):
             provider.social_app = None
         providers.append(provider)
 
-    return LoginView.as_view(template_name='accounts/sologin.html', extra_context={'providers': providers})(request)
+    return render(request, 'accounts/slogin.html', {'providers':providers })
 
 
 def check(request):
-    if Profile.objects.filter( name = request.user.username):
-        return redirect('/')
+    
     cur_soc = SocialAccount.objects.filter(user=request.user)[0]
-    cur_user = request.user
-    cur_user.username = cur_soc.get_provider_account()
-    cur_user.save()
-    form = ProfileForm()
-    new_prof = form.save(commit=False)
-    new_prof.name = cur_user.username
-    new_prof.user = cur_user
-    new_prof.save()
+    cur_soc.name = cur_soc.get_provider_account()
+    request.user.username = cur_soc.name
+    print(cur_soc.name)
+    if Profile.objects.filter(name = cur_soc.name):
+        print('yes')
+        return redirect('/')
+    else:
+        print('no')
+        Profile.objects.create(user = request.user, name = cur_soc.name )
     return redirect('/')
+
 

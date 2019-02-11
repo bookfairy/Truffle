@@ -40,7 +40,8 @@ https://docs.djangoproject.com/en/2.1/topics/forms/
 * 비밀번호 찾기
 * 개인정보 수정
 
-
-# ㅇㅇㅇ
-* 바보
-* 건태
+# 포스트 에디터 종류
+* [스타 21k] https://quilljs.com/
+* [스타 13k] https://yabwe.github.io/medium-editor/
+* [스타 1k] http://linkesch.com/medium-editor-insert-plugin/
+* [스타 2k] http://raphaelcruzeiro.github.io/jquery-notebook/

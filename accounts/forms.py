@@ -26,9 +26,12 @@ class ProfileForm(forms.ModelForm):
 
     class Meta:
         model = Profile
-        fields = ('name','email',)
+        fields = ('name','email','address','phone_number')
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '이름'}), 
+            'phone_number':forms.TextInput(attrs={'class':'form-control','placeholder':'전화번호'}),
+            'email':forms.TextInput(attrs={'class':'form-control','placeholder':'이메일'}),
+            'address':forms.TextInput(attrs={'class':'form-control','placeholder':'주소'})
         }
 
 class LoginForm(forms.Form):
