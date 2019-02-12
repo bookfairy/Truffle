@@ -1,4 +1,3 @@
-from allauth.account.views import LoginView
 from allauth.socialaccount.models import SocialApp
 from allauth.socialaccount.templatetags.socialaccount import get_providers
 from django.conf import settings
@@ -7,30 +6,38 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from allauth.socialaccount.models import SocialAccount
-from allauth.account.views import LogoutView
+from allauth.account.views import LogoutView, SignupView, LoginView
 
 from .forms import ProfileForm, LoginForm, EditForm, NewpwForm, ChangepwForm
 from .models import Profile
 
 
-def profile_view(request):
+def profile_view(request):  
+    #print(request.user)
+    #a=SocialAccount.objects.filter(user__username = request.user.username)[0]
+    #print(a)
+    #print(a.extra_data)
+    
     return render(request, 'accounts/profile.html')
 
 
 def signup(request):
     if request.method == 'POST':
-        print('second: login_redirect_url : {}'.format(settings.LOGIN_REDIRECT_URL))
         form = ProfileForm(request.POST)
         if form.is_valid():
-            name = form.cleaned_data['name']
-            count = User.objects.filter(username=name).count()
+            userid = form.cleaned_data['userid']
+            email = form.cleaned_data['email']
+            count = User.objects.filter(username=userid).count()
             if count > 0:
-                form.add_error('name', '이미 존재하는 이름입니다.')
+                form.add_error('userid', '이미 존재하는 아이디입니다.')
                 return render(request, 'accounts/signup.html', {'form': form})
             pw = form.cleaned_data['pw']
             profile = form.save(commit=False)
             user = User()
-            user.username = name
+            user.email = email
+            user.username = userid
+            user.first_name = form.cleaned_data['name'][1:]
+            user.last_name = form.cleaned_data['name'][:1]
             user.set_password(pw)
             user.save()
             profile.user = user
@@ -38,21 +45,17 @@ def signup(request):
             return redirect('accounts:login')
     else:
         form = ProfileForm()
-        print('first: login_redirect_url : {}'.format(settings.LOGIN_REDIRECT_URL))
     
     return render(request, 'accounts/signup.html', {'form':form})
 
 
 def login_view(request):
     if request.method == 'POST':
-        print("")
         form = LoginForm(request.POST)
-
         if form.is_valid():
-            username = form.cleaned_data['username']
+            userid = form.cleaned_data['userid']
             pw = form.cleaned_data['pw']
-
-            user = authenticate(request, username=username, password=pw)
+            user = authenticate(request, username=userid, password=pw)
             if user is not None:
                 login(request, user)
                 return redirect('core:index')
@@ -73,10 +76,10 @@ def changepw(request):   #비번 찾기는 아직 안됩니다.
     if request.method == 'POST':
         form = ChangepwForm(request.POST)
         if form.is_valid():
-            username = form.cleaned_data['username']
+            userid = form.cleaned_data['userid']
             email = form.cleaned_data['email']
-            if User.objects.filter(username=username).exists():
-                form.add_error('Username "%s" 은 등록되지 않은 아이디입니다.' % username)
+            if User.objects.filter(username=userid).exists():
+                form.add_error(' "%s" 은 등록되지 않은 아이디입니다.' % userid)
                 return redirect('changepw')
 
             if not request.user.check_email(email=email):
@@ -94,7 +97,7 @@ def edit(request):
     if request.method == 'POST':
         form = EditForm(request.POST, request.FILES)
         if form.is_valid():
-            username = form.cleaned_data['username']
+            username = form.cleaned_data['name']
             count = User.objects.filter(username=username).count()
             
             if count > 0 and user.username != username:
@@ -110,12 +113,15 @@ def edit(request):
             photo = request.FILES.get('photo', False)
             if photo:
                 profile.photo = photo
+            profile.user=user
+            profile.name = username
+            profile.email = email
             profile.save()
             
             return render(request, 'accounts/edit.html', {'form':form, 'profile':profile,})
     else:
         form = EditForm(initial={'username':profile.user.username, 'email':profile.user.email,})
-    return render(request, 'accounts/edit.html')
+    return render(request, 'accounts/edit.html',{'form':form})
 
 @login_required
 def edit_pw(request):  
@@ -152,21 +158,29 @@ def slogin(request):
             provider.social_app = None
         providers.append(provider)
 
-    return render(request, 'accounts/slogin.html', {'providers':providers })
+    return LoginView.as_view(
+        template_name='accounts/slogin.html',
+        extra_context={'providers': providers})(request)
 
+def is_social(request):
+    try:
+        SocialAccount.objects.get(user__username = request.user.username)
+        return True
+    except:
+        return False
 
 def check(request):
+    try:
+        Profile.objects.get(user__username = request.user.username)
+    except:
+        prof = Profile.objects.create(user = request.user)
+        prof.save()
     
-    cur_soc = SocialAccount.objects.filter(user=request.user)[0]
-    cur_soc.name = cur_soc.get_provider_account()
-    request.user.username = cur_soc.name
-    print(cur_soc.name)
-    if Profile.objects.filter(name = cur_soc.name):
-        print('yes')
-        return redirect('/')
-    else:
-        print('no')
-        Profile.objects.create(user = request.user, name = cur_soc.name )
+        
     return redirect('/')
 
 
+def connect(reuqest):
+    print(request.user)
+    
+    return redirect('/')

@@ -1,12 +1,15 @@
 {% extends 'layout/layout.html' %} {% block title %}계정 정보 수정{% endblock %} {% block content %}
-
+{% load imagekit %}
 <section class="container">
     <div class="row">
         <div class="offset-2 col-8">
-            <h2>{{ user.username }}님의 정보 수정</h2>
+            <h2>{{ user.username }}님의 정보</h2>
             <h5>아직 미구현입니다. 비밀번호 수정은 '비밀번호 바꾸기' 버튼을 눌러주세요.</h5>
              <form method="POST" enctype="multipart/form-data">{% csrf_token %}
-                 <img src="{{ profile.photo.url|default:'/static/images/default_profile.png'}}"/>
+                 {% if profile.photo %}
+                 {% thumbnail "300x300" profile.photo as thumb %}
+                    <img src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}"/>
+                 {% endif %}
             {{ form.as_p }}
             <input type="submit" value="정보수정" class="login-button">
         </form>

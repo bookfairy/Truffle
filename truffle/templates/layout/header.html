@@ -1,50 +1,101 @@
 {% load static %}
-<nav class="navbar navbar-expand-lg navbar-light bg-white">
+<nav class="navbar navbar-expand fixed-top navbar-light">
     <div class="container">
-        <a class="navbar-brand" href="{% url 'root' %}"><img src="{% static 'images/icon.png' %}" width="35" height="35" class="d-inline-block align-top mr-2"> <span class="display-5">Truffle</span></a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-default" aria-controls="navbar-default" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbar-default">
-            <div class="navbar-collapse-header">
-                <div class="row">
-                    <div class="col-6 collapse-brand">
-                        <a href="{% url 'root' %}">
-                            <img src="{% static 'images/icon-white.svg' %}">
-                        </a>
-                    </div>
-                    <div class="col-6 collapse-close">
-                        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-default" aria-controls="navbar-default" aria-expanded="false" aria-label="Toggle navigation">
-                            <span></span>
-                            <span></span>
-                        </button>
-                    </div>
-                </div>
+        <div class="col-2">
+            <a class="navbar-brand" href="{% url 'root' %}">
+                <span class="d-none d-md-inline">Truffle</span>
+            </a>
+        </div>
+        <form class="search col-8 col-md-7" action="" method="GET">
+            <div class="input-group">
+                <div class="input-group-prepend icon-search-outline"></div>
+                <input class="form-control" type="search" name="search" placeholder="오늘 뭐 먹지?">
             </div>
-
-            <ul class="navbar-nav ml-lg-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Discover</a>
-                    
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Profile</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link" href="#" id="navbar-default_dropdown_1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Settings</a>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbar-default_dropdown_1">
-                        {% if not user.is_authenticated %}
-                            <a class="dropdown-item" href="{% url 'accounts:login' %}?next={{ request.path }}">로그인</a>
-                            <a class="dropdown-item" href="{% url 'accounts:signup' %}">회원가입</a>
-                        {% else %}
-                            <a class="dropdown-item" href="{% url 'accounts:profile' %}">프로필</a>
-                        <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{% url 'accounts:logout' %}?next={% url 'core:index' %}">로그아웃</a>
-                        {% endif %}
-                    </div>
+        </form>
+        <div class="d-none d-md-flex col-md-3 container">
+            <ul class="navbar-nav col-md-3">
+                <li class="nav-item" data-toggle="tooltip" data-placement="bottom" title="홈">
+                    <a href="{% url 'root' %}" class="nav-link active">
+                        <i class="icon-home-filled"></i>
+                    </a>
                 </li>
             </ul>
-
+            <ul class="navbar-nav col-md-3">
+                <li class="nav-item" data-toggle="tooltip" data-placement="bottom" title="검색">
+                    <a href="#" class="nav-link active">
+                        <i class="icon-search-outline"></i>
+                    </a>
+                </li>
+            </ul>
+            <ul class="navbar-nav col-md-3">
+                <li class="nav-item" data-toggle="tooltip" data-placement="bottom" title="구독">
+                    <a href="#" class="nav-link active">
+                        <i class="icon-people-outline"></i>
+                    </a>
+                </li>
+            </ul>
+            <ul class="navbar-nav col-md-3">
+                {% if not user.is_authenticated %}
+                <li class="nav-item" data-toggle="tooltip" data-placement="bottom" title="로그인">
+                    <a href="{% url 'accounts:login' %}?next={{ request.path }}" class="nav-link active">
+                        <i class="icon-settings-outline"></i>
+                    </a>
+                </li>
+                {% else %}
+                <li class="nav-item" data-toggle="tooltip" data-placement="bottom" title="설정">
+                    <a href="{% url 'accounts:profile' %}" class="nav-link active">
+                        <i class="icon-settings-outline"></i>
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
         </div>
+        <div class="d-flex d-md-none col-md-2">
+            Hello
+        </div>
+    </div>
+</nav>
+<nav class="navbar navbar-expand fixed-bottom navbar-light d-md-none pt-1 pb-0">
+    <div class="container navbar-collapse">
+        <ul class="navbar-nav w-100 text-center">
+            <li class="nav-item col-3">
+                <a href="{% url 'root' %}" class="nav-link active">
+                    <i class="icon-home-filled"></i>
+                    <br>
+                    <small>홈</small>
+                </a>
+            </li>
+            <li class="nav-item col-3">
+                <a href="#" class="nav-link active">
+                    <i class="icon-search-outline"></i>
+                    <br>
+                    <small>검색</small>
+                </a>
+            </li>
+            <li class="nav-item col-3">
+                <a href="#" class="nav-link active">
+                    <i class="icon-people-outline"></i>
+                    <br>
+                    <small>구독</small>
+                </a>
+            </li>
+            {% if not user.is_authenticated %}
+            <li class="nav-item col-3">
+                <a href="{% url 'accounts:login' %}?next={{ request.path }}" class="nav-link active">
+                    <i class="icon-settings-outline"></i>
+                    <br>
+                    <small>로그인</small>
+                </a>
+            </li>
+            {% else %}
+            <li class="nav-item col-3">
+                <a href="{% url 'accounts:profile' %}" class="nav-link active">
+                    <i class="icon-settings-outline"></i>
+                    <br>
+                    <small>설정</small>
+                </a>
+            </li>
+            {% endif %}
+        </ul>
     </div>
 </nav>

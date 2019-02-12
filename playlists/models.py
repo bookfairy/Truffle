@@ -3,6 +3,11 @@ from django.db import models
 # Create your models here
 from accounts.models import Profile
 
+class Tag(models.Model):
+    tag=models.CharField(max_length=4,unique=True)
+
+    def __str__(self):
+        return self.tag
 
 class PlayList(models.Model):
     author = models.ForeignKey(Profile, on_delete=models.CASCADE)
@@ -10,8 +15,7 @@ class PlayList(models.Model):
     description = models.CharField(max_length=50)
     detail = models.TextField()
     main_image = models.ImageField(upload_to = 'playlist/main_image/%Y/%m/%d')
-    tag = models.CharField(max_length = 100)
-    
+    tag_set = models.ManyToManyField(Tag)
     scrap = models.ManyToManyField(Profile, related_name='scrap',through = 'Scrap')
     comments = models.ManyToManyField(Profile, related_name='comments',through = 'Comments')
     
@@ -43,4 +47,5 @@ class Card(models.Model):
     
 class Photo(models.Model):
     image=models.ImageField()
-    card_id=models.ForeignKey(Card,on_delete=models.CASCADE)
+    card=models.ForeignKey(Card,on_delete=models.CASCADE)
+    

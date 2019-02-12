@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'accounts',
     'playlists',
     'core',
+    'imagekit',
 ]
 
 MIDDLEWARE = [
@@ -144,9 +145,8 @@ INSTALLED_APPS += [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.github',
-    'allauth.socialaccount.providers.kakao',
-    'allauth.socialaccount.providers.naver',
     'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.kakao',
 ]
 
 AUTHENTICATION_BACKENDS = (
@@ -158,8 +158,7 @@ AUTHENTICATION_BACKENDS = (
 SITE_ID = 1
 
 LOGIN_REDIRECT_URL = '/accounts/check'
-
-
-
-
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_REQUIRED = True
+LOGOUT_REDIRECT_URL = '/'
 

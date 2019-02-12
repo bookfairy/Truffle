@@ -1,3 +1,86 @@
 @charset "UTF-8";
-@import "font.css";
-@import "bootstrap.min.css";
+@import 'font.css';
+@import 'bootstrap.min.css';
+
+main {
+    padding-top: 56.2px;
+}
+
+.navbar.fixed-top {
+    background-color: white;
+    box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.1);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.navbar.fixed-top.is-scrolled {
+    transform: translate3d(0, -100%, 0);
+}
+
+.navbar.fixed-top .navbar-brand::before {
+    content: url('../images/icon.svg');
+    display: inline-block;
+    width: 22px;
+    height: 26px;
+    opacity: 0.8;
+    margin-right: 0.5rem;
+    vertical-align: middle;
+}
+
+.navbar.fixed-bottom {
+    background-color: white;
+    box-shadow: 0 -2px 6px 0 rgba(0, 0, 0, 0.1);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.navbar.fixed-bottom.is-scrolled {
+    transform: translate3d(0, 100%, 0);
+}
+
+.navbar.navbar.fixed-bottom .nav-link {
+    line-height: 1.25rem;
+}
+
+.navbar.fixed-bottom [class^='icon-'] {
+    font-size: 120%;
+}
+
+[class$='-filled'],
+[class$='-filled'] + small {
+    font-weight: bold;
+    color: #795548 !important;
+}
+
+.search .form-control {
+    border: 0;
+    background-color: transparent;
+}
+
+.search .form-control:focus,
+.search .form-control:active {
+    box-shadow: none;
+    background-color: transparent;
+}
+
+.search .form-control::placeholder {
+    color: #999999 !important;
+}
+
+.search > .input-group {
+    background-color: rgba(0, 0, 0, 0.04);
+    border: 0;
+    color: #555555;
+    border-radius: 0.25rem;
+}
+
+.search > .input-group:focus-within {
+    background-color: rgba(0, 0, 0, 0.015);
+}
+
+.search > .input-group > .input-group-prepend::before {
+    width: 0;
+    line-height: 2.3rem;
+    padding-left: 0.4rem;
+    padding-right: 0.8rem;
+    vertical-align: middle;
+    display: inline-block;
+}
