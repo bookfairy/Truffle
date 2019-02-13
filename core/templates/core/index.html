@@ -1,121 +1,57 @@
-{% extends 'layout/layout.html' %} {% block title %}메인 페이지{% endblock %} {% block content %}
-<section id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-    <ol class="carousel-indicators">
-        <li data-target="#carouselExampleIndicators" data-slide-to="0" class=""></li>
-        <li data-target="#carouselExampleIndicators" data-slide-to="1" class=""></li>
-        <li data-target="#carouselExampleIndicators" data-slide-to="2" class="active"></li>
-    </ol>
-    <div class="carousel-inner w-100" style="max-height: 400px;">
-        <div class="carousel-item">
-            <img class="d-block w-100" src="https://i.imgur.com/Nubk9vB.jpg" alt="First slide">
-        </div>
-        <div class="carousel-item">
-            <img class="d-block w-100" src="https://i.imgur.com/P9IVqkS.jpg" alt="Second slide">
-        </div>
-        <div class="carousel-item active">
-            <img class="d-block w-100" src="https://i.imgur.com/FUsyxR5.jpg" alt="Third slide">
-        </div>
-    </div>
-    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-    </a>
-    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-    </a>
-</section>
-
-<section class="container">
-    <div class="row">
-        <div class="col-12">
-            <h1>안녕하세요</h1>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-12 col-md-6 col-lg-3">
-            <div class="card text-center">
-                <img class="card-img-top" src="https://i.imgur.com/vSZxUmp.jpg" alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">제목</h5>
-                    <p class="card-text">카드 내용</p>
-                    <a href="#" class="btn btn-primary">버튼</a>
+{% extends 'layout/raw.html' %} {% block title %}함께 하세요!{% endblock %} {% block raw_content %}
+    <section class="container-fluid vh-100">
+        <div class="row h-100">
+            <div class="order-md-first order-last col-12 col-md-6 bg-wall d-flex align-items-center justify-content-center">
+                <div class="p-3 p-md-5 text-white text-center text-md-left">
+                    <h1 class="display-5 mb-4">나그네를 위한<br>최고의 여행 커뮤니티</h1>
+                    <p class="lead text-muted mb-4">트러플(Truffle)은 전세계 모든 나그네들을 위해, 다양한 여행 일정과 정보를 서로 공유하고 추천하는 최고의
+                        커뮤니티입니다.</p>
+                    <a class="btn btn-light" href="#" role="button">자세히 알아보기</a>
+                </div>
+            </div>
+            <div
+                class="order-md-last order-first col-12 col-md-6 bg-white d-flex flex-column align-items-center justify-content-between">
+                <form action="" method="POST" class="mt-3">
+                    {% csrf_token %}
+                    <div class="form-row">
+                        <div class="col-5">
+                            <input type="text" class="form-control" name="username" placeholder="아이디">
+                        </div>
+                        <div class="col-5">
+                            <input type="password" class="form-control" name="password" placeholder="비밀번호">
+                        </div>
+                        <button type="submit" class="col-2 btn btn-dark">로그인</button>
+                    </div>
+                </form>
+                <div class="p-3 p-md-5 text-dark text-center text-md-left">
+                    <h1 class="display-6 mb-4">지금,<br>당신은 어떤 여행?</h1>
+                    <p class="lead text-muted">함께 알아보아요.</p>
+                    <a class="btn btn-dark w-100 mb-2" href="{% url 'accounts:signup' %}" role="button">회원가입</a>
+                    <a class="btn btn-white border w-100" href="{% url 'accounts:login' %}" role="button">로그인</a>
+                </div>
+                <div class="w-100">
+                    <div class="d-none d-md-flex align-items-center justify-content-md-between">
+                        <div class="copyright">
+                            <p class="mt-3 text-muted">© 2019 Truffle</p>
+                        </div>
+                        <ul class="nav nav-footer justify-content-end">
+                            <li class="nav-item">
+                                <a href="#" class="nav-link text-muted" target="_blank">About Us</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link text-muted" target="_blank">Terms</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link text-muted" target="_blank">Privacy</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://github.com/pirogramming/Truffle" class="nav-link text-muted"
+                                    target="_blank">GitHub</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-12 col-md-6 col-lg-3">
-            <div class="card text-center">
-                <img class="card-img-top" src="https://i.imgur.com/vSZxUmp.jpg" alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">제목</h5>
-                    <p class="card-text">카드 내용</p>
-                    <a href="#" class="btn btn-primary">버튼</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-md-6 col-lg-3">
-            <div class="card text-center">
-                <img class="card-img-top" src="https://i.imgur.com/vSZxUmp.jpg" alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">제목</h5>
-                    <p class="card-text">카드 내용</p>
-                    <a href="#" class="btn btn-primary">버튼</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-md-6 col-lg-3">
-            <div class="card text-center">
-                <img class="card-img-top" src="https://i.imgur.com/vSZxUmp.jpg" alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">제목</h5>
-                    <p class="card-text">카드 내용</p>
-                    <a href="#" class="btn btn-primary">버튼</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-12 col-md-6 col-lg-3">
-            <div class="card text-center">
-                <img class="card-img-top" src="https://i.imgur.com/vSZxUmp.jpg" alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">제목</h5>
-                    <p class="card-text">카드 내용</p>
-                    <a href="#" class="btn btn-primary">버튼</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-md-6 col-lg-3">
-            <div class="card text-center">
-                <img class="card-img-top" src="https://i.imgur.com/vSZxUmp.jpg" alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">제목</h5>
-                    <p class="card-text">카드 내용</p>
-                    <a href="#" class="btn btn-primary">버튼</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-md-6 col-lg-3">
-            <div class="card text-center">
-                <img class="card-img-top" src="https://i.imgur.com/vSZxUmp.jpg" alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">제목</h5>
-                    <p class="card-text">카드 내용</p>
-                    <a href="#" class="btn btn-primary">버튼</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-md-6 col-lg-3">
-            <div class="card text-center">
-                <img class="card-img-top" src="https://i.imgur.com/vSZxUmp.jpg" alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">제목</h5>
-                    <p class="card-text">카드 내용</p>
-                    <a href="#" class="btn btn-primary">버튼</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
+    </section>
 {% endblock %}

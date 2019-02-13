@@ -16,8 +16,7 @@ class Profile(models.Model):
     phone_number = models.CharField(validators=[phone_number_check],max_length=13,blank=True) 
     address = models.CharField(max_length=50)
     photo = models.ImageField(default='media/default_profile.png', upload_to='accounts/media')
-
-
+    
     following = models.ManyToManyField('self',related_name='followings',through='Following',symmetrical=False)
     followed = models.ManyToManyField('self',related_name='followeds',through='Followed',symmetrical=False)
     

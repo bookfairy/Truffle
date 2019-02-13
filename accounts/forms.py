@@ -12,7 +12,7 @@ def phone_number_check(number):
     #     raise ValidationError('{}는 형식이 틀렸습니다.\n010-xxxx-xxxx 형식으로 입력하세요.'.format(number)
 
 class ProfileForm(forms.ModelForm):
-    userid = forms.CharField(label='', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': '아이디'}))
+    username = forms.CharField(label='', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': '아이디'}))
     email = forms.EmailField(label='', widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': '이메일'}))
     name = forms.CharField(label='', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': '이름'}))
     pw1 = forms.CharField(label='', widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': '비밀번호'}))
@@ -37,11 +37,11 @@ class ProfileForm(forms.ModelForm):
 
 
 class LoginForm(forms.Form):
-    userid = forms.CharField(label='', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': '아이디'}))
+    username = forms.CharField(label='', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': '아이디'}))
     pw = forms.CharField(label='', widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': '비밀번호'}))
     
 class EditForm(forms.Form):
-    name = forms.CharField(label='이름', required=False, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder': '이름'}))
+    username = forms.CharField(label='아이디', required=False, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder': '아이디'}))
     email = forms.EmailField(label='이메일',required=False, widget=forms.EmailInput(attrs={'class':'form-control', 'placeholder': '이메일'}))
     photo = forms.ImageField(label='프로필 사진', required=False, widget=forms.FileInput(attrs={'class':'form-control', 'placeholder': '프로필사진'}))
 # class EditForm(forms.ModelForm):

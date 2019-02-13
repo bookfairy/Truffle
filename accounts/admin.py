@@ -6,6 +6,7 @@ from .models import Profile
 class ProfielAdmin(admin.ModelAdmin):
     list_display = ('user', 'get_name', 'get_email')    
     
+    
     def get_email(self, obj):
         return obj.user.email
     

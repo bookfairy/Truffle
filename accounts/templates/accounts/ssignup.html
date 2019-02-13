@@ -1,0 +1,14 @@
+<form action="" method='POST'>
+    {% csrf_token %}
+    <p>
+        {% if mes == '' %}
+        {% else %}
+            <p>
+                {{ mes }}
+    </p>
+        {% endif %}
+        아이디 : <input type='text' name='username'><br>
+        비밀번호 : <input type='text' name='pw'><br>
+        <input type='submit' value='제출'>
+    </p>
+</form>
