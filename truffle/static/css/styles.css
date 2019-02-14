@@ -40,12 +40,12 @@ main {
     line-height: 1.25rem;
 }
 
-.navbar.fixed-bottom [class^='icon-'] {
+.navbar.fixed-bottom [class^='eva-'] {
     font-size: 120%;
 }
 
-[class$='-filled'],
-[class$='-filled'] + small {
+[class*='eva'][class*='-filled'],
+[class*='eva'][class*='-filled'] + small {
     font-weight: bold;
     color: #795548 !important;
 }
@@ -101,4 +101,13 @@ main {
 .bg-wall {
     background: url('../images/background-black.svg') no-repeat;
     background-size: cover;
+}
+
+#toast-container-inner {
+    max-width: calc(350px + 1rem);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#toast-container-inner.is-scrolled {
+    transform: translate3d(0, -100%, 0);
 }

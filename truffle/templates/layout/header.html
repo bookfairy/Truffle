@@ -8,46 +8,38 @@
         </div>
         <form class="search col-8 col-md-7" action="" method="GET">
             <div class="input-group">
-                <div class="input-group-prepend icon-search-outline"></div>
+                <div class="input-group-prepend eva-search-outline"></div>
                 <input class="form-control" type="search" name="search" placeholder="오늘 뭐 먹지?">
             </div>
         </form>
         <div class="d-none d-md-flex col-md-3 container">
             <ul class="navbar-nav col-md-3">
                 <li class="nav-item" data-toggle="tooltip" data-placement="bottom" title="홈">
-                    <a href="{% url 'root' %}" class="nav-link active">
-                        <i class="icon-home-filled"></i>
+                    <a href="{% url 'root' %}" class="nav-link active d-flex justify-content-center align-items-center">
+                        <i class="eva-home-filled"></i>
                     </a>
                 </li>
             </ul>
             <ul class="navbar-nav col-md-3">
                 <li class="nav-item" data-toggle="tooltip" data-placement="bottom" title="검색">
-                    <a href="#" class="nav-link active">
-                        <i class="icon-search-outline"></i>
+                    <a href="#" class="nav-link active d-flex justify-content-center align-items-center">
+                        <i class="eva-search-outline"></i>
                     </a>
                 </li>
             </ul>
             <ul class="navbar-nav col-md-3">
                 <li class="nav-item" data-toggle="tooltip" data-placement="bottom" title="구독">
-                    <a href="#" class="nav-link active">
-                        <i class="icon-people-outline"></i>
+                    <a href="#" class="nav-link active d-flex justify-content-center align-items-center">
+                        <i class="eva-people-outline"></i>
                     </a>
                 </li>
             </ul>
             <ul class="navbar-nav col-md-3">
-                {% if not user.is_authenticated %}
-                <li class="nav-item" data-toggle="tooltip" data-placement="bottom" title="로그인">
-                    <a href="{% url 'accounts:login' %}?next={{ request.path }}" class="nav-link active">
-                        <i class="icon-settings-outline"></i>
-                    </a>
-                </li>
-                {% else %}
                 <li class="nav-item" data-toggle="tooltip" data-placement="bottom" title="설정">
-                    <a href="{% url 'accounts:profile' %}" class="nav-link active">
-                        <i class="icon-settings-outline"></i>
+                    <a href="{% url 'accounts:profile' %}" class="nav-link active d-flex justify-content-center align-items-center">
+                        <i class="eva-settings-outline"></i>
                     </a>
                 </li>
-                {% endif %}
             </ul>
         </div>
         <div class="d-flex d-md-none col-md-2">
@@ -59,43 +51,29 @@
     <div class="container navbar-collapse">
         <ul class="navbar-nav w-100 text-center">
             <li class="nav-item col-3">
-                <a href="{% url 'root' %}" class="nav-link active">
-                    <i class="icon-home-filled"></i>
-                    <br>
+                <a href="{% url 'root' %}" class="nav-link active d-flex flex-column align-items-center">
+                    <i class="eva-home-filled"></i>
                     <small>홈</small>
                 </a>
             </li>
             <li class="nav-item col-3">
-                <a href="#" class="nav-link active">
-                    <i class="icon-search-outline"></i>
-                    <br>
+                <a href="#" class="nav-link active d-flex flex-column align-items-center">
+                    <i class="eva-search-outline"></i>
                     <small>검색</small>
                 </a>
             </li>
             <li class="nav-item col-3">
-                <a href="#" class="nav-link active">
-                    <i class="icon-people-outline"></i>
-                    <br>
+                <a href="#" class="nav-link active d-flex flex-column align-items-center">
+                    <i class="eva-people-outline"></i>
                     <small>구독</small>
                 </a>
             </li>
-            {% if not user.is_authenticated %}
             <li class="nav-item col-3">
-                <a href="{% url 'accounts:login' %}?next={{ request.path }}" class="nav-link active">
-                    <i class="icon-settings-outline"></i>
-                    <br>
-                    <small>로그인</small>
-                </a>
-            </li>
-            {% else %}
-            <li class="nav-item col-3">
-                <a href="{% url 'accounts:profile' %}" class="nav-link active">
-                    <i class="icon-settings-outline"></i>
-                    <br>
+                <a href="{% url 'accounts:profile' %}" class="nav-link active d-flex flex-column align-items-center">
+                    <i class="eva-settings-outline"></i>
                     <small>설정</small>
                 </a>
             </li>
-            {% endif %}
         </ul>
     </div>
 </nav>

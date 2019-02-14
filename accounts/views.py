@@ -1,4 +1,4 @@
-from allauth.socialaccount.models import SocialApp, SocialAccount
+from allauth.socialaccount.models import SocialApp
 from allauth.socialaccount.templatetags.socialaccount import get_providers
 from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
@@ -6,9 +6,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from allauth.socialaccount.models import SocialAccount
-from allauth.account.views import LogoutView, SignupView, LoginView
-import json 
-from .forms import ProfileForm, LoginForm, EditForm, NewpwForm, ChangepwForm
+from allauth.account.views import LoginView
+
+from .forms import ProfileForm, LoginForm, EditForm, NewpwForm, ChangepwForm, SoSignupForm
 from .models import Profile
 
 
@@ -27,22 +27,24 @@ def signup(request):
         if form.is_valid():
             username = form.cleaned_data['username']
             email = form.cleaned_data['email']
-            count = User.objects.filter(username=username).count()
-            if count > 0:
-                form.add_error('userid', '이미 존재하는 아이디입니다.')
-                return render(request, 'accounts/signup.html', {'form': form})
-            pw = form.cleaned_data['pw']
-            profile = form.save(commit=False)
-            user = User()
-            user.email = email
-            user.username = username
-            user.first_name = form.cleaned_data['name'][1:]
-            user.last_name = form.cleaned_data['name'][:1]
-            user.set_password(pw)
-            user.save()
-            profile.user = user
-            profile.save()
-            return redirect('accounts:login')
+            if User.objects.filter(username=username).count():
+                form.add_error('username', '이미 존재하는 닉네임입니다.')
+            if User.objects.filter( email = email).count():
+                form.add_error('email', '이미 존재하는 이메일입니다.')
+            else:
+                pw = form.cleaned_data['pw']
+                profile = form.save(commit=False)
+                user = User()
+                user.email = email
+                user.username = username
+                user.first_name = form.cleaned_data['name'][1:]
+                user.last_name = form.cleaned_data['name'][:1]
+                user.set_password(pw)
+                user.save()
+                profile.user = user
+                profile.save()
+                return redirect('accounts:login')
+            return render(request, 'accounts/signup.html', {'form': form})
     else:
         form = ProfileForm()
     
@@ -53,13 +55,15 @@ def login_view(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
-            username = form.cleaned_data['username']
+            email = form.cleaned_data['email']
             pw = form.cleaned_data['pw']
             try:
-                User.objects.get(username = username) 
+                cur_user = User.objects.get(email = email)
+                username = cur_user.email
             except:
-                print('해당 아이디로 가입된 계정이 없습니다..')
-                return redirect('/')
+                form.add_error('email','해당 이메일로 가입된 계정이 없습니다..')
+                return render(request, 'accounts/login.html',{'form':form})
+            
             
             user = authenticate(request, username=username, password=pw)
             if user is not None:
@@ -149,7 +153,7 @@ def edit_pw(request):
             else:
                 request.user.set_password(new_pw2)
                 request.user.save()
-                login(request, request.user, backend='django.contrib.auth.backends.ModelBackend')
+                login(request, request.user)
                 return redirect('core:index')
     else:
         form = NewpwForm()
@@ -174,20 +178,22 @@ def check(request):
     try:
         Profile.objects.get(user__username = request.user.username)    # 가입된 프로필이 있다면 홈으
     except:
-        ctx = {'mes' : ''}
+        form = SoSignupForm(request.POST, request.FILES)
         if request.method == 'POST':
-            if User.objects.filter(username = request.POST.get('username')):
-                ctx['mes'] = '이미 있는 아이디입니다.'
-                return render(request, 'accounts/ssignup.html', ctx)
-            request.user.set_password(request.POST.get('pw'))
+            if Profile.objects.filter(user__username = request.POST.get('username')):
+                form.add_error('username', '이미 있는 닉네임입니다.')
+                return render(request, 'accounts/SoSignup.html', {'form':form})
+            request.user.set_password(request.POST.get('pw1'))
             request.user.username = request.POST.get('username')
             request.user.save()
             prof = Profile.objects.create(user = request.user)
             prof.save()
             user = authenticate(request, username=request.user.username, password=request.user.password)
-            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+            login(request, user, backend='allauth.account.auth_backends.AuthenticationBackend')
+
         else:
-            return render(request, 'accounts/ssignup.html', ctx)
+            form = SoSignupForm()
+            return render(request, 'accounts/SoSignup.html', {'form':form})
         
     return redirect('/')
 

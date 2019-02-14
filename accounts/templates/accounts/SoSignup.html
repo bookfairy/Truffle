@@ -1,0 +1,9 @@
+<form action="" method='POST'>
+    {% csrf_token %}
+    <p>
+        {{ form.as_p }}
+    </p>
+    <p>
+        <input type='submit' value='제출'>
+    </p>
+</form>
