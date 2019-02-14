@@ -1,0 +1,38 @@
+{% extends 'layout/layout.html' %}
+
+{% block content %}
+
+ <table class="table">
+     <tr>
+        <th scope="col">제목</th>
+        <th scope="col">{{ playlist.title }}</th> 
+     </tr>
+     <tr>
+        <td scope="col">작성자</td>
+        <td scope="col">{{ playlist.author }}</td> 
+     </tr>
+      <tr>
+        <td scope="col">내용</td>
+        <td scope="col">{{ playlist.detail }}</td> 
+      </tr>
+     {% for card, photos in cards %}
+     <tr></tr>
+    <tr>
+        <td>{{forloop.counter}}번 카드</td>
+        <td>{{ card.text }}</td>
+        {% for photo in photos %}
+        <td>사진</td>
+        <td>{{ photo.image }}</td>
+        {% endfor %}
+
+     </tr>
+     <tr></tr>
+     {% endfor %}
+     
+  <tr>
+    <td scope="col">댓글</td>
+    <td scope="col">{% for comment in  playlists.comment.all %}{{ comment }}{% endfor %}</td> 
+  </tr>
+</table>
+{% endblock %}
+

@@ -10,5 +10,5 @@ urlpatterns = [
     path('edit', views.edit, name='edit'),
     path('edit_pw', views.edit_pw, name='edit_pw'),
     path('changepw', views.changepw, name='changepw'),
-    path('check', views.check, name='check'),    #  todo 소셜로그인 후 특정 주소로 리다이렉트하고 프로필 생성하기. 
+    path('check', views.check, name='check'),    #  todo 소셜로그인 후 특정 주소로 리다이렉트하고 프로필 생성하기. \
 ]

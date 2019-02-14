@@ -17,7 +17,7 @@ class ProfileForm(forms.ModelForm):
     name = forms.CharField(label='', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': '이름'}))
     pw1 = forms.CharField(label='', widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': '비밀번호'}))
     pw2 = forms.CharField(label='', widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': '비밀번호 재입력'}))
-    
+
     def clean(self):
         pw1 = self.cleaned_data['pw1']
         pw2 = self.cleaned_data['pw2']
@@ -32,7 +32,7 @@ class ProfileForm(forms.ModelForm):
         fields = ('address','phone_number')
         widgets = {
             'phone_number':forms.TextInput(attrs={'class':'form-control','placeholder':'전화번호'}),
-            'address':forms.TextInput(attrs={'class':'form-control','placeholder':'주소'})
+            'address':forms.TextInput(attrs={'class':'form-control','placeholder':'주소'}),
         }
 
 

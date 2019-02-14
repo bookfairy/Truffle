@@ -174,10 +174,11 @@ def slogin(request):
         extra_context={'providers': providers})(request)
 
 
+
 def check(request):
-    try:
-        Profile.objects.get(user__username = request.user.username)    # 가입된 프로필이 있다면 홈으
-    except:
+    if Profile.objects.filter(user__username = request.user.username):
+        return redirect('/')    # 가입된 프로필이 있다면 홈으
+    else:
         form = SoSignupForm(request.POST, request.FILES)
         if request.method == 'POST':
             if Profile.objects.filter(user__username = request.POST.get('username')):
@@ -195,7 +196,7 @@ def check(request):
             form = SoSignupForm()
             return render(request, 'accounts/SoSignup.html', {'form':form})
         
-    return redirect('/')
+
 
 def show(request):
         print(request.GET)

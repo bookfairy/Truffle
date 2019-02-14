@@ -1,0 +1,24 @@
+                <table class="table table-hover table-bordered">     {# 표만들기 #}
+                    <thead>
+                        <tr>
+                            <th>id</th>  {# 색인 #}
+                            <th>title</th>
+                            <th>author</th>
+                            <th>updated_at</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for post in post_list %}
+                            <tr>
+                                <td>{{ post.id }}</td>
+                                <td><a href="{% url "blog:post_detail" post.id %}">{{ post.title }}</a></td>
+                                <td><small>by {{ post.author }}</small></td>
+                                <td><small>at {{ post.updated_at }}</small></td>
+                            </tr>
+                        {% endfor %}
+
+                        {% if not post_list %}
+                        <p>('검색결과가 없습니다 ٩(இ ⌓ இ๑)۶ ')</p>
+                        {% endif %}
+                    </tbody>
+                </table>

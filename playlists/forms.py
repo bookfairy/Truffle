@@ -1,73 +1,33 @@
 from .models import *
-from multiupload.fields import MultiImageField
+
 from django import forms
 from django.forms import modelformset_factory
+from django.forms.models import BaseInlineFormSet, inlineformset_factory
 
-# class PhotoForm(forms.ModelForm):
-#     class Meta:
-#         model=Photo
-#         fields=('image')
-#         widgets={
-#             'image':
-#         }
-# class CardForm(forms.ModelForm):
-#     class Meta:
-#         model=Card
-#         fields=('photo','text')
 
-# class AddCardForm(forms.ModelForm):
-#     photos=MultiImageField(min_num=1, max_num=10)
-    
-#     class Meta:
-#         model=Card
-#         fields=('photos','text')
-    
-        
-#     def save(self,commit=True):
-#         photos=self.cleaned_data.pop('photos')
-#         instance=super(AddCardForm,self).save()
-#         for each in photos:
-#             photo=Photo(image=each,card=instance)
-#             photo.save()
-#         return instance
+class PlayListModelForm(forms.ModelForm):
+    title=forms.CharField(widget=forms.Textarea(attrs={'cols':100,'rows':1,'placehodlder':'제목을 입력해주세요'}))
+    description=forms.CharField(widget=forms.Textarea(attrs={'cols':100,'rows':2,'placeholder':'여행 일정에 대해 요약해주세요'}))
+    detail=forms.CharField(widget=forms.Textarea(attrs={
+        'cols':100,
+        'rows':5,
+        'placeholder':'여행에 대해서 자세하게 써주세요'
+    }))
+    main_image=forms.ImageField(widget=forms.FileInput())
+    tag_string = forms.CharField(label='태그', widget=forms.TextInput(attrs={'placeholder':'태그 앞에 꼭 #을 붙여서 작성해주세요'}))
 
-# class CardModelForm(forms.ModelForm):
-#     class Meta:
-#         model=Card
-#         fields=('text',)
-#         widgets={
-#             'text':forms.TextInput(attrs={
-#                 'class':form-control,
-#                 'placeholder':'사진에 대해 설명해주세요'
-#             })
-#         }
-        
-# PhotoFormSet=modelformset_factory(
-#     Photo,
-#     fields=('image',),
-#     extra = 1,
-#     widgets={
-#         'image':forms.FileInput(
-#         attrs={
-#             'class':'form-control',
-#             'placeholder':'사진을 추가해주세요'
-#         })
-#     },
-# )
-# class AddPlaylistForm(forms.ModelForm):
-#     pass
-    
-# class PlayListForm(forms.ModelForm):
-    
-    
-    
-#     class Meta:
-#         model=PlayList
-#         fields=('author','title','description','detail','main_image','tag')
-#         widgets={
-#             'author':,
-#             'title':forms.TextInput(attrs={'class':'form-control','placeholder':'제목'}),
-#             'description':forms.TextInput(attrs={'class':'form-control','placeholder':'요약'}),
-#             'detail':forms.TextInput(attrs={'class':'form-control','placeholder':'상세설명'}),
-            
-#         }
+    class Meta:
+        model=PlayList
+        fields=('title','description','detail','main_image')
+
+class CardModelForm(forms.ModelForm):
+    text=forms.CharField(widget=forms.Textarea(attrs={'cols': 40, 'rows': 10,'placeholder':'사진에 대해 설명해주세요'}))
+    class Meta:
+        model=Card
+        fields=('text',)
+
+class PhotoModelForm(forms.ModelForm):
+    image=forms.ImageField(widget=forms.FileInput(attrs={'multiple':True}))
+    class Meta:
+        model=Photo
+        fields=('image',)

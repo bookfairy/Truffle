@@ -21,7 +21,8 @@ class Profile(models.Model):
     followed = models.ManyToManyField('self',related_name='followeds',through='Followed',symmetrical=False)
     
     def __repr__(self):
-        return '{}님의 계정'.format(self.name)                     
+        return '{}님의 계정'.format(self.name)   
+    
 
 class Following(models.Model):
     following_user=models.ForeignKey(Profile,related_name='following_user_1', on_delete=models.CASCADE)

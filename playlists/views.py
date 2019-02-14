@@ -1,61 +1,124 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect,reverse, get_object_or_404
 from .models import *
 from .forms import *
 from django.contrib.auth.decorators import login_required
+from django.forms import modelformset_factory,formset_factory
+from django.contrib import messages
+from django.views.generic import CreateView, FormView
+from django.views.generic.detail import SingleObjectMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponseRedirect
 
-# @login_required
-# def upload_card(request):
-#     template_name='playlists/upload_card.html'
-    
-#     if request.method=='POST':
-#         cardform=CardModelForm(request.POST)
-#         formset=PhotoFormSet(request.POST,request.FILES)
-#         if cardform.is_valid() and formset.is_valid():
-#             card=cardform.save()
-#             for form in formset:
-#                 photo=form.save(commit=False)
-#                 photo.card=card
-#                 photo.save()
-#             return redirect('core:index')
+
+CardFormSet=formset_factory(CardModelForm)
+@login_required
+def upload(request):
+    template_name = 'playlists/upload.html'
+    user = request.user
+    if request.method == 'POST':
+        playlistform = PlayListModelForm(request.POST, request.FILES)
+        cardformset = CardFormSet(request.POST)
+
+        if playlistform.is_valid() and cardformset.is_valid():
+
+            playlist = playlistform.save(commit=False)
+            title = playlistform.cleaned_data['title']
+            description = playlistform.cleaned_data['description']
+            detail = playlistform.cleaned_data['detail']
+            main_image = request.FILES.get('main_image')
+            author = user
+            input_tags = playlistform.cleaned_data['tag_string']
             
-#     else:
-#         cardform=CardModelForm(request.GET or None)
-#         formset=PhotoFormSet(queryset=photo.objects.none())
-#     return render(requset,template_name,{'cardform':cardform,'formset':formset})
-# def playlist_list(request):
-#     queryset=PlayList.objects.all()
-    
-#     tag=request.GET.get('tag','')
-#     if tag:
-#         queryset= queryset.filter(title__icontains=tag)
+            if main_image:
+                playlist.main_image = main_image
+            playlist.author = author
+            playlist.title = title
+            playlist.description = description
+            playlist.detail = detail
+            playlist.save()
+            
+            playlist.add_tag_string(input_tags)
 
-#     return render(request, 'playlists/playlist_list.html',{
-#         'playlist_list':queryset,
-#         'tag':tag,
-#     })
+            for i, cf in enumerate(cardformset):
+                card = cf.save(commit=False)
+                card.playlist = playlist
+                card.save()
+                for img in request.FILES.getlist('img-card-' + str(i)):
+                    photo = Photo()
+                    photo.image = img
+                    photo.card = card
+                    photo.save()
+            return redirect('core:index')
+    else:
+        data = {
+            'form-TOTAL_FORMS': '1',
+            'form-INITIAL_FORMS': '1',
+            'from-MAX_NUM_FORMS': '10',
+        }
 
-# def upload_post(request):
-#     if request.method=='POST':
-#         playlist_form=PlayListForm(request.POST)
-#         card_form=CardForm(request.POST)
-#         photo_form=PhotoForm(request.POST,request.FILES)
+        playlistform = PlayListModelForm()
+        cardformset = CardFormSet(data)
+    return render(request, template_name, {'playlistform': playlistform, 'cardformset': cardformset})
+
+def search_view(request):
+    q = request.GET.get('q')
+
+    if q:
+        tag_keywords = [keyword.strip() for keyword in q.split('#')][1:]
+        tags = []
+        for tag_keyword in tag_keywords:
+
+            tag = Tag.objects.filter(name__iexact=tag_keyword)
+            if tag.count() > 0:
+                tags.append(tag.first())
+                
+        posts = [tag.post_set.all() for tag in tags]
+
+        if posts:
+            posts = reduce(lambda x, y: x.intersection(y), posts)  # and 조건
+
+    else:
+        posts = []
+
+
+    return render(request, 'playlists/search.html', {
+        'post_list': posts,
+    })
+
+
+def detail(request, pk):
+
+            
+    if PlayList.objects.filter(id=pk):
+        ctx = {}
+
+        playlist = PlayList.objects.get(id=pk)
         
-#         if photo_form.is_valid():
-#             image=photo_form.cleaned_data['iamge']
+        ctx['playlist'] = playlist
+        card_count = 0
+        ctx['cards'] = []
+        #ctx['photos'] = []
+        for card in playlist.card_set.all():
+            ctx['cards'].append([])
+            ctx['cards'][card_count].append(card)
+            ctx['cards'][card_count].append([])
+            photo_count = 0
             
-#         if card_form.is_valid():
-#             text=card_form.cleaned_data['text']
-#         if playlist_form.is_valid():
-#             title=playlist_form.cleaned_data['title']
-#             description=playlist_form.cleaned_data['description']
-#             detail=playlist_form.cleaned_data['detail']
+            for photo in card.photo_set.all():
+                ctx['cards'][card_count][1].append(photo)
+                photo_count += 1
+            card_count += 1
             
-            
-#     else:
-#         form=PlayListForm()
-#     return render(request,'playlists/upload.html',
-#                   {'playlist_form':playlist_form,'card_form':card_form,'photo_form':photo_form})
+        print(ctx)
 
 
-# def search_keyword(request):
-#     pass
+        return render(request, 'playlists/detail.html', ctx)
+    
+    else:
+        return redirect('/')
+        
+
+        
+        
+    
+    return redirect('/')

@@ -111,3 +111,33 @@ main {
 #toast-container-inner.is-scrolled {
     transform: translate3d(0, -100%, 0);
 }
+
+.slogan {
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.markable-link {
+    font-weight: bold;
+    color: rgba(0, 0, 0, 1);
+    border-bottom: 0.15rem solid rgba(0, 0, 0, 1);
+    text-decoration: none;
+}
+
+.markable-link:hover {
+    color: rgba(0, 0, 0, 0.75);
+    border-bottom: 0.15rem solid rgba(0, 0, 0, 0.75);
+    text-decoration: none;
+}
+
+.unmarkable-link {
+    font-weight: bold;
+    color: rgba(0, 0, 0, 0.25);
+    text-decoration: none;
+}
+
+.unmarkable-link:hover {
+    color: rgba(0, 0, 0, 0.5);
+    border-bottom: 0.15rem solid rgba(0, 0, 0, 0.5);
+    text-decoration: none;
+}
