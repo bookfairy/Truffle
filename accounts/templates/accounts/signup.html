@@ -1,20 +1,41 @@
-{% load static %}
-<head>
-    <meta charset="UTF-8">
-    <title>SIGNUP</title>
-    <link href="{% static 'login/login_style.css' %}" type='text/css' rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic" rel="stylesheet">
-</head>
-<body>
-<div class="login-form">
-<h3> 회원가입 </h3>
-<form method="POST" style="margin-bottom: 0px;">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="login-button">제출</button>
-</form>
-    <div id="return">
-    <a href="{% url 'root' %}">돌아가기</a>
-    </div>
+{% extends 'accounts/layout_anonymous.html' %} {% load socialaccount %} {% load static %} {% providers_media_js %} {% block title %}회원가입{% endblock %} {% block outer-title %}환영합니다!{% endblock %} {% block inner-title %}회원가입{% endblock %} {% block inner-content%}
+<div class="col-12">
+    {% block connect_message %}{% endblock %}
+    <form {% block connect_next %}{% endblock %} method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="{{ form.username.id_for_label }}">{{ form.username.label }}</label>
+            <input type="text" id="{{ form.username.auto_id }}" class="form-control" name="{{ form.username.html_name }}" placeholder="{{ form.username.label }}">
+        </div>
+        <div class="form-group">
+            <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
+            <input type="email" id="{{ form.email.auto_id }}" class="form-control" name="{{ form.email.html_name }}" placeholder="{{ form.email.label }}">
+        </div>
+        <div class="form-group">
+            <label for="{{ form.address.id_for_label }}">{{ form.address.label }}</label>
+            <input type="text" id="{{ form.address.auto_id }}" class="form-control" name="{{ form.address.html_name }}" placeholder="{{ form.address.label }}">
+        </div>
+        <div class="form-group">
+            <label for="{{ form.phone_number.id_for_label }}">{{ form.phone_number.label }}</label>
+            <input type="text" id="{{ form.phone_number.auto_id }}" class="form-control" name="{{ form.phone_number.html_name }}" placeholder="{{ form.phone_number.label }}">
+        </div>
+        <div class="form-group">
+            <label for="{{ form.name.id_for_label }}">{{ form.name.label }}</label>
+            <input type="text" id="{{ form.name.auto_id }}" class="form-control" name="{{ form.name.html_name }}" placeholder="{{ form.name.label }}">
+        </div>
+        <div class="form-group">
+            <label for="{{ form.pw1.id_for_label }}">{{ form.pw1.label }}</label>
+            <input type="password" id="{{ form.pw1.auto_id }}" class="form-control" name="{{ form.pw1.html_name }}" placeholder="{{ form.pw1.label }}">
+        </div>
+        <div class="form-group">
+            <label for="{{ form.pw2.id_for_label }}">{{ form.pw2.label }}</label>
+            <input type="password" id="{{ form.pw2.auto_id }}" class="form-control" name="{{ form.pw2.html_name }}" placeholder="{{ form.pw2.label }}">
+        </div>
+        
+        <div class="text-center mt-4">
+            <input type="submit" value="회원가입" class="btn btn-dark">
+        </div>
+        {% block connect_id %}{% endblock %}
+    </form>
 </div>
-</body>
+{% endblock %}

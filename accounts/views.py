@@ -177,10 +177,14 @@ def profile_edit_password_view(request):
 
 
 def check(request):
+    print('checkin')
     if Profile.objects.filter(user__username=request.user.username).exists():
+        print('signedin')
         # 가입된 프로필이 있다면 홈으로
         return redirect('/')
     else:
+        print('notsignedin')
+        print(request.POST)
         form = CheckForm(request.POST, request.FILES)
         if request.method == 'POST':
             if Profile.objects.filter(user__username=request.POST.get('username')):
@@ -251,3 +255,13 @@ def subs(request):
 def send(request):
     send_mail('Subject here','Here is the message.','wlq4568@naver.com',['wlq4568@gmail.com'],fail_silently=False,)
     return redirect('/')
+
+
+def user_list(request,id):
+    if id:
+        user = User.objects.get(id=id)
+    else:
+        user = request.user
+        
+    userlist = PlayList.objects.filter(author=user).order_by('-created_at')
+    return render(request, 'accounts/userlist.html', {'userlist': userlist, 'author': user, })

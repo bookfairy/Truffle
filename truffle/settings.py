@@ -50,6 +50,7 @@ INSTALLED_APPS += [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.kakao',
+    'allauth.socialaccount.providers.github',
     'allauth.socialaccount.providers.facebook',
 ]
 
@@ -159,5 +160,7 @@ ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 SOCIALACCOUNT_AUTO_SIGNUP = 'False'
+ACCOUNT_DEFAULT_HTTP_PROTOCOL='https'
+SOCIAL_AUTH_REDIRECT_IS_HTTPS = True
 
 SITE_ID = 1

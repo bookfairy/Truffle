@@ -3,39 +3,41 @@
 <div class="container mt-4">
     <div class="row">
         <div class="col-12 col-md-8">
-            
+
             {% for playlist in playlists %}
             <article class="feed-area mb-4">
                 <setcion class="feed-prepend d-none d-md-block mr-1 mr-md-3">
-                        <a class="profile-outer" href="{% url 'playlists:user_list' playlist.author.id %}"><img class="profile-inner" src="{{ playlist.author.profile.photo.url }}"></a>
+                    <a class="profile-outer" href="{% url 'accounts:user_list' playlist.author.id %}">
+                        <img class="profile-inner" src="{{ playlist.author.profile.photo.url }}">
+                    </a>
                 </setcion>
 
-                <setcion class="card feed-box">
+                <section class="card feed-box">
                     <div class="card-header feed-header">
                         <div class="feed-title">
-                            <a class="profile-outer d-inline-block d-md-none" href="{% url 'playlists:user_list' playlist.author.id %}">
+                            <a class="profile-outer d-inline-block d-md-none" href="{% url 'accounts:user_list' playlist.author.id %}">
                                 <img class="profile-inner" src="{{ playlist.author.profile.photo.url }}">
                             </a>
-                            <a href='{% url "playlists:detail" playlist.id %}'>{{ playlist.title }}</a>
+                            <a href="{% url 'playlists:detail' playlist.id %}">{{ playlist.title }}</a>
                         </div>
                         <div class="feed-time">{{ playlist.created_at }}</div>
                     </div>
-                    <div class="feed-image">
+                    <a href="{% url 'playlists:detail' playlist.id %}" class="feed-image">
                         <img src="{{ playlist.main_image.url }}" class="feed-image-main">
                         <div class="feed-image-sub-area">
                             <img src="https://i.imgur.com/bAZs0HI.jpg" class="feed-image-sub">
                             <img src="https://i.imgur.com/GvB85NN.jpg" class="feed-image-sub">
                             <img src="https://i.imgur.com/1EK5qDf.jpg" class="feed-image-sub">
                         </div>
-                    </div>
+                    </a>
                     <div class="card-body feed-content">
                         <p class="card-text">
                             {% for tag in playlist.tags.all %}
-                            <span href="#" class="tag">#{{tag}}</span>
+                            <span class="tag">#{{tag}}</span>
                             {% endfor %}
                         </p>
                     </div>
-                </setcion>
+                </section>
             </article>
             {% endfor %}
 

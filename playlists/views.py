@@ -125,22 +125,46 @@ def detail(request, pk):
             ctx['is_mine']=True
             
         
-        print(ctx)
+
         if request.method=='GET':
             commentform=CommentForm()
             comments=Comments.objects.filter(playlist=playlist)
             ctx['comment_form']=commentform
             ctx['comments']=[(item.comment,item.user.username,item.created_at) for item in comments]
+            stars=Stars.objects.filter(user=request.user,playlist=playlist)
+            if stars:
+                ctx['review_available']=False
+            else:
+                ctx['review_available']=True
+            print(stars)
+            print(ctx['review_available'])
             return render(request, 'playlists/detail.html', ctx)
+        
         else:
             print(request.POST)
             commentform=CommentForm(request.POST)
             comment=commentform.save(commit=False)
-            
+            stars=Stars.objects.filter(user=request.user,playlist=playlist)
+            if not stars:
+                raw_star=request.POST.get('rating')
+                stars=Stars()
+                if len(raw_star)==1:
+                    stars.star=float(raw_star)
+                elif len(raw_star)==4:
+                    stars.star=0.5
+                else:
+                    stars.star=float(raw_star[0]+'.5')
+                stars.user=request.user  
+                stars.playlist=playlist 
+                stars.save()
+                ctx['review_available']=False
             comment.user=request.user
             comment.playlist=playlist 
             comment.save()
             comments=Comments.objects.filter(playlist=playlist)
+            
+            
+            
             ctx['comments']=[(item.comment,item.user.username,item.created_at) for item in comments]
             commentform=CommentForm()
             ctx['comment_form']=commentform
@@ -153,17 +177,6 @@ def detail(request, pk):
     return redirect('/')
 
 
-@login_required
-def my_list(request):
-    user=request.user
-    mylist=PlayList.objects.filter(author=user).order_by('-created_at')
-    return render(request,'playlists/mylist.html',{'mylist':mylist})
-
-@login_required
-def user_list(request,id):
-    user=User.objects.get(pk=id)
-    userlist=PlayList.objects.filter(author=user).order_by('-created_at')
-    return render(request,'playlists/userlist.html',{'userlist':userlist})
 
 @login_required
 def edit_mine(request,id):

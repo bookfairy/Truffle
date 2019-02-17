@@ -12,11 +12,11 @@ def phone_number_check(number):
     #     raise ValidationError('{}는 형식이 틀렸습니다.\n010-xxxx-xxxx 형식으로 입력하세요.'.format(number)
 
 class ProfileForm(forms.ModelForm):
-    username = forms.CharField(label='', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': '닉네임'}))
-    email = forms.EmailField(label='', widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': '이메일'}))
-    name = forms.CharField(label='', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': '이름'}))
-    pw1 = forms.CharField(label='', widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': '비밀번호'}))
-    pw2 = forms.CharField(label='', widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': '비밀번호 재입력'}))
+    username = forms.CharField(label='닉네임', widget=forms.TextInput(attrs={'class': 'form-control', 'l': '닉네임'}))
+    email = forms.EmailField(label='이메일', widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': '이메일'}))
+    name = forms.CharField(label='이름', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': '이름'}))
+    pw1 = forms.CharField(label='비밀번호', widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': '비밀번호'}))
+    pw2 = forms.CharField(label='비밀번호 재입력', widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': '비밀번호 재입력'}))
 
     def clean(self):
         pw1 = self.cleaned_data['pw1']
@@ -37,8 +37,8 @@ class ProfileForm(forms.ModelForm):
 
 
 class LoginForm(forms.Form):
-    email = forms.CharField(label='', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': '이메일'}))
-    pw = forms.CharField(label='', widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': '비밀번호'}))
+    email = forms.CharField(label='이메일', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': '이메일'}))
+    pw = forms.CharField(label='비밀번호', widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': '비밀번호'}))
     
 class EditForm(forms.Form):
     username = forms.CharField(label='아이디', required=False, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder': '아이디'}))
@@ -55,10 +55,10 @@ class NewpwForm(forms.Form):
     new_pw2 = forms.CharField(label='비밀번호 재입력', widget=forms.PasswordInput(attrs={'class':'form-control', 'placeholder': '비밀번호 재입력'}))
 
 class ChangepwForm(forms.Form):
-    userid = forms.CharField(label='', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': '아이디를 입력하세요.'}))
-    email = forms.EmailField(label='', widget=forms.EmailInput(attrs={'class':'form-control', 'placeholder': '등록한 이메일을 입력하세요.'}))
+    userid = forms.CharField(label='아이디를 입력하세요.', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': '아이디를 입력하세요.'}))
+    email = forms.EmailField(label='등록한 이메일을 입력하세요.', widget=forms.EmailInput(attrs={'class':'form-control', 'placeholder': '등록한 이메일을 입력하세요.'}))
 
 class CheckForm(forms.Form):
-    username = forms.CharField(label='', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': '닉네임을 입력하세요.'}))
-    pw1 = forms.EmailField(label='', widget=forms.PasswordInput(attrs={'class':'form-control', 'placeholder': '비밀번호를 입력하세요.'}))
-    pw2 = forms.EmailField(label='', widget=forms.PasswordInput(attrs={'class':'form-control', 'placeholder': '비밀번호를 확인해주세요.'}))
+    username = forms.CharField(label='닉네임을 입력하세요.', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': '닉네임을 입력하세요.'}))
+    pw1 = forms.EmailField(label='비밀번호를 입력하세요.', widget=forms.PasswordInput(attrs={'class':'form-control', 'placeholder': '비밀번호를 입력하세요.'}))
+    pw2 = forms.EmailField(label='비밀번호를 확인해주세요.', widget=forms.PasswordInput(attrs={'class':'form-control', 'placeholder': '비밀번호를 확인해주세요.'}))

@@ -19,7 +19,7 @@
                 <!-- 구독 목록 -->
             </div>
             <div class="tab-pane fade" id="v-pills-my" role="tabpanel" aria-labelledby="v-pills-my-tab">
-                <a class="btn btn-dark" href="{% url 'playlists:my_list' %}">바로가기</a>
+                <a class="btn btn-dark" href="{% url 'accounts:user_list' request.user.id %}">바로가기</a>
                 <!-- 내 게시물 -->
             </div>
             <div class="tab-pane fade" id="v-pills-upload" role="tabpanel" aria-labelledby="v-pills-upload-tab">
@@ -31,9 +31,10 @@
                 <!-- 회원정보 수정 -->
             </div>
             <div class="tab-pane fade" id="v-pills-connect" role="tabpanel" aria-labelledby="v-pills-edit-connect">
-                <a href="{% provider_login_url 'facebook' method='js_sdk' %}">
+                <a href="{% provider_login_url 'facebook' process='connect' method='js_sdk' next='/' %}">
                     <i class="eva-facebook outline social facebook"></i>
                 </a>
+
                 <a href="{% provider_login_url 'google' process='connect' next='/' %}">
                     <i class="eva-google outline social google"></i>
                 </a>

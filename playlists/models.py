@@ -20,6 +20,7 @@ class PlayList(models.Model):
     scrap = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='scrap',through = 'Scrap')
     comments = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='comments',through = 'Comments')
     created_at=models.DateTimeField(auto_now_add=True)
+    stars=models.ManyToManyField(settings.AUTH_USER_MODEL,related_name='stars',through='Stars')
     def get_absolute_url(self):
         return reverse('blog:post_detail', args=[self.id])     #내용submit
 
@@ -47,6 +48,11 @@ class Scrap(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,related_name='scrap_user',on_delete=models.CASCADE)
     playlist = models.ForeignKey(PlayList,related_name='scrap_playlist', on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add = True)
+
+class Stars(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,related_name='stars_user',on_delete=models.CASCADE)
+    playlist=models.ForeignKey(PlayList,related_name='stars_playlist',on_delete=models.CASCADE)
+    star=models.FloatField()
     
 class Comments(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,related_name='comments_user', on_delete=models.CASCADE)

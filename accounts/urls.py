@@ -1,5 +1,8 @@
 from django.urls import path
 from . import views
+
+app_name = 'accounts'
+
 urlpatterns = [
     # 프로필 설정
     path('', views.profile_view, name='profile'),
@@ -22,6 +25,8 @@ urlpatterns = [
     path('find_pw', views.find_password_view, name='find_pw'),
     # 소셜 인증 체크
     path('check/', views.check, name='check'),
+    # 글 목록
+    path('user_list/<int:id>', views.user_list, name='user_list'),
 
     # path('email', views.send, name='send')
 ]

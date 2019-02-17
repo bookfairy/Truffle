@@ -28,7 +28,7 @@ main {
 
 /* hr 태그 색상 */
 hr {
-    border-color: rgba(0, 25, 53, 0.25);
+    /* border-color: rgba(0, 25, 53, 0.25); */
 }
 
 /* 아이콘(filled) */
@@ -97,11 +97,18 @@ hr {
 
 /* 부트스트랩 확장 */
 .card {
+    border: 1px solid #e4ebfe;
     border-radius: 0.5rem;
+    box-shadow: 0 0 1px 1px rgba(72, 118, 239, 0.05);
+    transition: border .25s, box-shadow .25s;
+}
+.card:hover {
+    border: 1px solid #a0c0ff;
+    box-shadow: 0 0 1px 1px rgba(72, 118, 239, 0.1);
 }
 
 [class*='display-'] {
-    color: #003168;
+    color: #4876EF;
     font-weight: bold;
 }
 
@@ -111,53 +118,53 @@ hr {
 }
 
 .text-muted {
-    color: rgba(255, 255, 255, 0.5) !important;
-}
-.text-muted.text-dark {
-    color: rgba(0, 25, 53, 0.5) !important;
+    color: rgba(72, 118, 239, 0.5) !important;
 }
 
 .nav-pills .nav-link.active,
 .btn-dark {
-    background-color: #003168;
-    border: rgba(255, 255, 255, 0.5);
+    background-color: rgba(72, 118, 239, 1);
+    border: rgba(72, 118, 239, 0.5);
     transition: background-color 0.5s;
+}
+.nav-pills .nav-link.active:hover,
+.btn-dark:hover {
+    background-color: rgba(72, 118, 239, 0.75);
+}
+.nav-pills .nav-link.active:active,
+.btn-dark:active {
+    background-color: rgba(72, 118, 239, 1) !important;
 }
 
 .btn-light {
-    border: 1px solid rgba(0, 0, 0, 0.25);
-}
-
-.nav-pills .nav-link.active:hover,
-.btn-dark:hover {
-    background-color: #0055b5;
+    border: 1px solid rgba(72, 118, 239, 0.25);
 }
 
 /* 커스텀 확장: 특수 link */
 /* 처음부터 눈에 띄는 강한 링크 */
 .markable-link {
     font-weight: bold;
-    color: rgba(255, 255, 255, 1);
-    border-bottom: 0.15rem solid rgba(255, 255, 255, 1);
+    color: rgba(72, 118, 239, 1);
+    border-bottom: 0.15rem solid rgba(72, 118, 239, 1);
     text-decoration: none;
 }
 
 .markable-link:hover {
-    color: rgba(255, 255, 255, 0.75);
-    border-bottom: 0.15rem solid rgba(255, 255, 255, 0.75);
+    color: rgba(72, 118, 239, 0.75);
+    border-bottom: 0.15rem solid rgba(72, 118, 239, 0.75);
     text-decoration: none;
 }
 
 /* 흐릿하게 눈에 띄는 약한 링크 */
 .unmarkable-link {
     font-weight: bold;
-    color: rgba(255, 255, 255, 0.25);
+    color: rgba(72, 118, 239, 0.25);
     text-decoration: none;
 }
 
 .unmarkable-link:hover {
-    color: rgba(255, 255, 255, 0.5);
-    border-bottom: 0.15rem solid rgba(255, 255, 255, 0.5);
+    color: rgba(72, 118, 239, 0.5);
+    border-bottom: 0.15rem solid rgba(72, 118, 239, 0.5);
     text-decoration: none;
 }
 
@@ -250,11 +257,15 @@ hr {
 
 /*-------------------- 헤더(상단) 검색 바 --------------------*/
 /* 검색 창 영역 */
+.search-form {
+    margin-bottom: 0 !important;
+}
 .search-form > .input-group {
     color: #555555;
     background-color: rgba(255, 255, 255, 0.25);
     border: 0;
     border-radius: 0.25rem;
+    transition: background-color 0.25s;
 }
 
 /* 검색 창 영역 focus(within) */
@@ -293,13 +304,17 @@ hr {
 
 /* 검색 창 input의 placeholder */
 .search-form > .input-group > .form-control::placeholder {
-    color: rgba(72, 118, 239, 0.75) !important;
+    color: rgba(255, 255, 255, 0.75) !important;
+}
+.search-form > .input-group > .form-control:focus::placeholder,
+.search-form > .input-group > .form-control:active::placeholder {
+    color: rgba(0, 0, 0, 0.75) !important;
 }
 
 /*-------------------- 푸터 --------------------*/
 /* 푸터 */
 footer {
-    background-color: #00254f;
+    background-color: #edf2ff;
 }
 
 /*-------------------- 랜딩 페이지 --------------------*/
@@ -323,22 +338,24 @@ footer {
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 0.25rem;
-    transition: border-radius 0.25s linear;
-    background-color: white;
+    border-radius: 5rem;
+    border: 1px solid #e4ebfe;
+    transition: border-radius 0.25s linear, border 0.25s;
+    background-color: #FFFFFF;
 }
 .feed-area > .feed-prepend > .profile-outer > .profile-inner {
     width: 64px;
     height: 64px;
     object-fit: cover;
-    border-radius: 0.25rem;
+    border-radius: 5rem;
     transition: border-radius 0.25s linear;
 }
 .feed-area > .feed-prepend > .profile-outer:hover {
-    border-radius: 5rem;
+    border-radius: 0.25rem;
+    border: 1px solid #a0c0ff;
 }
 .feed-area > .feed-prepend > .profile-outer:hover > .profile-inner {
-    border-radius: 5rem;
+    border-radius: 0.25rem;
 }
 
 /* feed-box: 게시글 상자 */
@@ -429,29 +446,34 @@ footer {
 
 /* 사이드바 */
 .side {
-    color: white;
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.25);
     border-radius: 0.5rem;
     font-size: 0.9rem;
     transition: background-color 0.25s;
+    border-color: rgba(72, 118, 2395, 0.25);
 }
 
 .side:hover {
-    background-color: rgba(255, 255, 255, 0.4);
+    background-color: rgba(255, 255, 255, 0.5);
 }
 
 /* 사이드바 타이틀 */
 .side > .side-title {
     margin: 0 1.25rem;
     padding: 0.75rem 0;
+    color: #4876EF;
     background-color: transparent;
     font-weight: bold;
+}
+
+.side > .side-tail {
+    background-color: transparent;
 }
 
 .side > .side-title,
 .side > .side-content,
 .side > .side-tail {
-    border-color: rgba(255, 255, 255, 0.5);
+    border-color: rgba(72, 118, 2395, 0.25);
 }
 
 /*-------------------- 계정 관리 --------------------*/
@@ -460,7 +482,7 @@ footer {
     width: 110px;
     height: 110px;
     background-color: #ffffff;
-    border: 2.5px solid #001935;
+    border: 1px solid #e4ebfe;
     border-radius: 5rem;
     display: flex;
     align-items: center;
@@ -468,7 +490,25 @@ footer {
     position: absolute;
     bottom: -3rem;
     z-index: 1;
+    box-shadow: 0 0 1px 1px rgba(72, 118, 239, 0.05);
+    transition: border .25s, box-shadow .25s;
 }
+
+.account-image-outer:hover {
+    box-shadow: 0 0 1px 1px rgba(72, 118, 239, 0.1);
+    border: 1px solid #a0c0ff;
+}
+
+/* .card {
+    border: 1px solid #e4ebfe;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 1px 1px rgba(72, 118, 239, 0.05);
+    transition: border .25s, box-shadow .25s;
+}
+.card:hover {
+    border: 1px solid #a0c0ff;
+    box-shadow: 0 0 1px 1px rgba(72, 118, 239, 0.1);
+} */
 
 .account-image-outer > .account-image-inner {
     width: 100px;
@@ -493,7 +533,7 @@ footer {
     margin-right: 0.75rem;
     object-fit: cover;
     overflow: hidden;
-    border: 1.5px solid rgba(0, 25, 53, 0.25);
+    border: 1px solid rgba(72, 118, 239, 0.25);
     border-radius: 0.25rem;
     display: flex;
     align-items: center;
