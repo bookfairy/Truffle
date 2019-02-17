@@ -4,67 +4,46 @@
 {% block raw_content %}
 
     {% include "layout/header.html" %}
-    <main>
-        {% if messages %}
-        <section class="container">
-            <div class="row">
-                {% for message in messages %}
-                <div class="col-12">
-                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                        <span class="alert-inner--icon">
-                            <i class="ni ni-bell-55"></i>
-                        </span>
-                        <span class="alert-inner--text">
-                            <strong>{{ message.tags }}!</strong> {{ message.message }}</span>
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <main> {% block content %} {% endblock %}</main>
+    {% include "layout/footer.html" %}
+
+    <!-- 토스트는 html 중 어디든 넣어도 ok -->
+
+    <div id="toast-container" class="position-relative" aria-live="polite" aria-atomic="true">
+        <div id="toast-container-inner" class="w-100 fixed-top ml-auto" style="right: 0;">
+
+            {% for message in messages %}
+            <div class="toast fade show m-2 ml-auto" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="true" data-delay="5000">
+                <div class="toast-header">
+                    <i class="eva-alert outline text-dark mr-2 pt-1"></i>
+                    <strong class="mr-auto">{{ message.tags }}</strong>
+                    <small class="text-dark text-muted">방금 전</small>
+                    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="toast-body">{{ message.message }}</div>
+            </div>
+            {% endfor %}
+            
+            {% for field, errors in form.errors.items %}
+                {% for error in errors %}
+            
+                <div class="toast fade show m-2 ml-auto" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="true" data-delay="5000">
+                    <div class="toast-header">
+                        <i class="eva-alert outline text-dark mr-2 pt-1"></i>
+                        <strong class="mr-auto">{{ field }}</strong>
+                        <small class="text-dark text-muted">방금 전</small>
+                        <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
+                    <div class="toast-body">{{ error|escape }}</div>
                 </div>
+            
                 {% endfor %}
-            </div>
-        </section>
-        {% endif %} {% block content %} {% endblock %} </main>
-    {% include "layout/footer.html" %}
+            {% endfor %}
 
-
-<!-- 토스트는 html 코드 어디든 넣어도 ok -->
-
-<div id="toast-container" class="position-relative" aria-live="polite" aria-atomic="true">
-    <div id="toast-container-inner" class="w-100 fixed-top ml-auto" style="right: 0;">
-
-        <div class="toast fade show m-2 ml-auto" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="true" data-delay="5000">
-            <div class="toast-header">
-                <svg class="bd-placeholder-img rounded mr-2" width="20" height="20" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img">
-                    <rect fill="#007aff" width="100%" height="100%"></rect>
-                </svg>
-                <strong class="mr-auto">Bootstrap</strong>
-                <small class="text-muted">just now</small>
-                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="toast-body">
-                See? Just like this.
-            </div>
         </div>
-
-        <div class="toast fade show m-2 ml-auto" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="true" data-delay="5000">
-            <div class="toast-header">
-                <svg class="bd-placeholder-img rounded mr-2" width="20" height="20" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img">
-                    <rect fill="#007aff" width="100%" height="100%"></rect>
-                </svg>
-                <strong class="mr-auto">Bootstrap</strong>
-                <small class="text-muted">2 seconds ago</small>
-                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="toast-body">
-                Heads up, toasts will stack automatically
-            </div>
-        </div>
-
     </div>
-</div>
 {% endblock %}

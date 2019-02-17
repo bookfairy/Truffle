@@ -15,7 +15,7 @@
 }
 
 /* Noto Serif CJK KR */
-
+/*  */
 @font-face {
     font-family: 'Noto Serif CJK KR';
     font-weight: 400;
@@ -70,66 +70,69 @@ body,
     -moz-osx-font-smoothing: grayscale;
 }
 
-.eva-star-filled:before {
-  content: "\e913";
+.eva-star.filled:before {
+    content: '\e913';
 }
-.eva-star-outline:before {
-  content: "\e914";
+.eva-star.outline:before {
+    content: '\e914';
 }
-.eva-kakaotalk-filled:before {
-  content: "\e911";
+.eva-kakaotalk.filled:before {
+    content: '\e911';
 }
-.eva-kakaotalk-outlined:before {
-  content: "\e912";
+.eva-kakaotalk.outline:before {
+    content: '\e912';
 }
 .eva-logo:before {
-  content: "\e90a";
+    content: '\e90a';
 }
-.eva-facebook-filled:before {
-  content: "\e90b";
+.eva-facebook.filled:before {
+    content: '\e90b';
 }
-.eva-facebook-outline:before {
-  content: "\e90c";
+.eva-facebook.outline:before {
+    content: '\e90c';
 }
-.eva-github-filled:before {
-  content: "\e90d";
+.eva-github.filled:before {
+    content: '\e90d';
 }
-.eva-github-outline:before {
-  content: "\e90e";
+.eva-github.outline:before {
+    content: '\e90e';
 }
-.eva-google-filled:before {
-  content: "\e90f";
+.eva-google.filled:before {
+    content: '\e90f';
 }
-.eva-google-outline:before {
-  content: "\e910";
+.eva-google.outline:before {
+    content: '\e910';
 }
-.eva-alert-filled:before {
-  content: "\e900";
+.eva-alert.filled:before {
+    content: '\e900';
 }
-.eva-alert-outline:before {
-  content: "\e901";
+.eva-alert.outline:before {
+    content: '\e901';
 }
-.eva-home-filled:before {
-  content: "\e902";
+.eva-home.filled:before {
+    content: '\e902';
 }
-.eva-home-outline:before {
-  content: "\e903";
+.eva-home.outline:before {
+    content: '\e903';
 }
-.eva-people-filled:before {
-  content: "\e904";
+.eva-people.filled:before {
+    content: '\e904';
 }
-.eva-people-outline:before {
-  content: "\e905";
+.eva-people.outline:before {
+    content: '\e905';
 }
-.eva-search-filled:before {
-  content: "\e906";
+.eva-search.filled:before {
+    content: '\e906';
 }
-.eva-search-outline:before {
-  content: "\e907";
+.eva-search.outline:before {
+    content: '\e907';
 }
-.eva-settings-filled:before {
-  content: "\e908";
+.eva-settings.filled:before {
+    content: '\e908';
 }
-.eva-settings-outline:before {
-  content: "\e909";
+.eva-settings.filled:hover:before {
+    content: '\e908';
+}
+.eva-settings.outline:before {
+    content: '\e909';
 }

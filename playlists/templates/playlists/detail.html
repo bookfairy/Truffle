@@ -1,38 +1,116 @@
 {% extends 'layout/layout.html' %}
-
+ {% block title %}{{ playlist.title }}{% endblock %} 
 {% block content %}
+{% load static %}
+<link href="{% static 'css/star.css' %}" rel="stylesheet">
 
- <table class="table">
-     <tr>
+{% if is_following %}
+<a class="btn btn-primary" href="{% url 'accounts:action' %}?action=unfollow&user_id={{ playlist.author.profile.id }}&next={{ request.path|urlencode }}">구독 취소</a>
+{% else %}
+<a class="btn btn-primary" href="{% url 'accounts:action' %}?action=follow&user_id={{ playlist.author.profile.id }}&next={{ request.path|urlencode }}">이 사람 구독하기</a>
+{% endif %}
+
+{% if is_scrap %}
+<a class="btn btn-primary" href="{% url 'accounts:action' %}?action=unscrap&playlist_id={{ playlist.id }}&next={{ request.path|urlencode }}">스크랩 취소</a>
+{% else %}
+<a class="btn btn-primary" href="{% url 'accounts:action' %}?action=scrap&playlist_id={{ playlist.id }}&next={{ request.path|urlencode }}">이 글 스크랩</a>
+{% endif %}
+<table class="table">
+    <tr>
         <th scope="col">제목</th>
-        <th scope="col">{{ playlist.title }}</th> 
-     </tr>
-     <tr>
+        <td>
+            <img src="{{ playlist.main_image.url }}">
+        </td>
+
+        <th scope="col">{{ playlist.title }}</th>
+
+    </tr>
+    <tr>
         <td scope="col">작성자</td>
-        <td scope="col">{{ playlist.author }}</td> 
-     </tr>
-      <tr>
+        <td scope="col">{{ playlist.author }}</td>
+    </tr>
+    <tr>
+        <td scope="col">요약</td>
+        <td scope="col">{{ playlist.description }}</td>
+    </tr>
+    </tr>
+    <tr>
         <td scope="col">내용</td>
-        <td scope="col">{{ playlist.detail }}</td> 
-      </tr>
-     {% for card, photos in cards %}
-     <tr></tr>
+        <td scope="col">{{ playlist.detail }}</td>
+    </tr>
+    {% for card, photos in cards %}
+    <tr></tr>
     <tr>
         <td>{{forloop.counter}}번 카드</td>
         <td>{{ card.text }}</td>
         {% for photo in photos %}
-        <td>사진</td>
-        <td>{{ photo.image }}</td>
+        <td>
+            <img src="{{ photo.image.url }}">
+        </td>
         {% endfor %}
 
-     </tr>
-     <tr></tr>
-     {% endfor %}
-     
-  <tr>
-    <td scope="col">댓글</td>
-    <td scope="col">{% for comment in  playlists.comment.all %}{{ comment }}{% endfor %}</td> 
-  </tr>
-</table>
-{% endblock %}
+    </tr>
+    <tr></tr>
+    {% endfor %}
+    <tr>
+        <td>
+            태그
+        </td>
+        <td>
+            {% for tag in playlist.tags.all %}
+                #{{ tag }} 
+            {% endfor %}
+        </td>
+    </tr>
 
+    <tr>
+        <td scope="col">댓글</td>
+        <td>
+            <table>
+            <tr>
+                <th></th>
+                <th>댓글</th>
+                <th>작성자</th>
+                <th>작성 일시</th>
+            </tr>
+            {% for comment,replier,time in comments%}
+            <tr ><td scope="row"><td scope="col">{{ comment }}</td><td>{{replier}}</td><td>{{time}}</td></td></tr>{% endfor %}
+            </table>
+        </td>
+        
+        
+    </tr>
+</table>
+{%if is_mine%}
+<div>
+    <a class="btn btn-primary" href="{% url 'playlists:edit_mine' playlist.id %}">수정하기</a>
+</div>
+{%endif%}
+<form action="" method="POST">
+    {% csrf_token %}
+    {{comment_form.comment}}
+    <button type="submit" class="save btn btn-primary">댓글저장</button>
+</form>
+<form action="" method="POST">
+ <fieldset class="rating">
+    <input type="radio" id="star5" name="rating" value="5" /><label class = "full" for="star5" title="Awesome - 5 stars"></label>
+    <input type="radio" id="star4half" name="rating" value="4 and a half" /><label class="half" for="star4half" title="Pretty good - 4.5 stars"></label>
+    <input type="radio" id="star4" name="rating" value="4" /><label class = "full" for="star4" title="Pretty good - 4 stars"></label>
+    <input type="radio" id="star3half" name="rating" value="3 and a half" /><label class="half" for="star3half" title="Meh - 3.5 stars"></label>
+    <input type="radio" id="star3" name="rating" value="3" /><label class = "full" for="star3" title="Meh - 3 stars"></label>
+    <input type="radio" id="star2half" name="rating" value="2 and a half" /><label class="half" for="star2half" title="Kinda bad - 2.5 stars"></label>
+    <input type="radio" id="star2" name="rating" value="2" /><label class = "full" for="star2" title="Kinda bad - 2 stars"></label>
+    <input type="radio" id="star1half" name="rating" value="1 and a half" /><label class="half" for="star1half" title="Meh - 1.5 stars"></label>
+    <input type="radio" id="star1" name="rating" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>
+    <input type="radio" id="starhalf" name="rating" value="half" /><label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>
+</fieldset>
+<script src="{% static 'js/jquery-3.3.1.slim.min.js' %}"></script>
+<script src="{%static 'js/star.js'%}"></script>
+
+</section>
+
+</form>
+
+
+
+{% endblock %}

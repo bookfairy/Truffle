@@ -58,7 +58,7 @@ class ChangepwForm(forms.Form):
     userid = forms.CharField(label='', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': '아이디를 입력하세요.'}))
     email = forms.EmailField(label='', widget=forms.EmailInput(attrs={'class':'form-control', 'placeholder': '등록한 이메일을 입력하세요.'}))
 
-class SoSignupForm(forms.Form):
+class CheckForm(forms.Form):
     username = forms.CharField(label='', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': '닉네임을 입력하세요.'}))
     pw1 = forms.EmailField(label='', widget=forms.PasswordInput(attrs={'class':'form-control', 'placeholder': '비밀번호를 입력하세요.'}))
     pw2 = forms.EmailField(label='', widget=forms.PasswordInput(attrs={'class':'form-control', 'placeholder': '비밀번호를 확인해주세요.'}))

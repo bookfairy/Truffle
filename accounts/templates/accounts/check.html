@@ -1,0 +1,11 @@
+{% extends 'accounts/layout.html' %} 
+
+{% block content %}
+<table>
+    <form method='POST'>
+        {% csrf_token %}
+        {{ form.as_table }}
+        <input type='submit' value='제출'>
+    </form>  
+</table>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'layout/layout.html' %}
+{% block content %}
+
+<section class="container mt-4">
+    <div class="row">
+        <div class="col-12 offset-sm-1 col-sm-10 offset-md-1 col-md-10 offset-lg-2 col-lg-8 mb-5 text-center text-md-left">
+            <h2 class="text-white display-6 ml-2 mb-4">{% block outer-title %}{% endblock %}</h2>
+        </div>
+
+        <div class="col-12 offset-sm-1 col-sm-10 offset-md-1 col-md-10 offset-lg-2 col-lg-8 d-flex justify-content-center align-items-center">
+            <div class="account-image-outer">
+                <img class="account-image-inner" src="{{ request.user.profile.photo.url }}" />
+            </div>
+        </div>
+
+        <div class="col-12 offset-sm-1 col-sm-10 offset-md-1 col-md-10 offset-lg-2 col-lg-8 mt-3">
+            <article class="card container">
+                <div class="card-body row px-2 pt-4">
+                    <div class="col-12">
+                        <h2 class="display-6 my-4 text-center">{% block inner-title %}{% endblock %}</h2>
+                        <!-- <hr> -->
+                    </div>
+                    {% block inner-content %}{% endblock %}
+                </div>
+            </article>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

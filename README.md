@@ -13,11 +13,6 @@
 
 # Assets
 * [서버](https://truffle.run.goorm.io/)
-* [아이콘](https://icons8.com/icons/set/truffle)
-* [Argon Document](https://demos.creative-tim.com/argon-design-system/docs/getting-started/quick-start.html)
-* [Argon GitHub](https://github.com/creativetimofficial/argon-design-system/tree/master/assets)
-
-https://docs.djangoproject.com/en/2.1/topics/forms/
 
 # App
 * 프로필, 로그인, 로그아웃, 피드(팔로우), 스크랩
@@ -48,3 +43,7 @@ https://docs.djangoproject.com/en/2.1/topics/forms/
 
 # 팔로잉
 * 마이 페이지 (게시글 목록) 들어가면 Playlists, Places, Follwing/Followed 보여주기?
+
+# 로그인
+* https://www.w3schools.com/howto/howto_js_form_steps.asp
+* https://codepen.io/collizo4sky/pen/ZGModv

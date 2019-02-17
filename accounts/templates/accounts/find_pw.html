@@ -1,0 +1,6 @@
+{% extends 'layout/layout.html' %} {% load static %} {% block content %}
+<form method="POST" style="margin-bottom: 0px;">
+    {% csrf_token %} {{ form.as_p }}
+    <button type="submit" class="login-button">인증번호 받기</button>
+</form>
+{% endblock %}

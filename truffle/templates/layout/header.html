@@ -1,49 +1,46 @@
 {% load static %}
-<nav class="navbar navbar-expand fixed-top navbar-light">
+<nav class="navbar navbar-expand fixed-top">
     <div class="container">
         <div class="col-2">
-            <a class="navbar-brand" href="{% url 'root' %}">
-                <span class="d-none d-md-inline">Truffle</span>
+            <a class="navbar-brand d-flex align-items-center" href="{% url 'root' %}">
+                <i class="eva-logo"></i><span class="d-none d-md-inline ml-1">Truffle</span>
             </a>
         </div>
-        <form class="search col-8 col-md-7" action="" method="GET">
+        <form class="search-form col-10 col-md-7" action="{% url 'playlists:search' %}" method="GET">
             <div class="input-group">
-                <div class="input-group-prepend eva-search-outline"></div>
-                <input class="form-control" type="search" name="search" placeholder="오늘 뭐 먹지?">
+                <div class="form-control-prepend eva-search outline"></div>
+                <input id="id_search" class="form-control" type="search" name="q" placeholder="오늘은 어디 가지?">
             </div>
         </form>
         <div class="d-none d-md-flex col-md-3 container">
             <ul class="navbar-nav col-md-3">
                 <li class="nav-item" data-toggle="tooltip" data-placement="bottom" title="홈">
                     <a href="{% url 'root' %}" class="nav-link active d-flex justify-content-center align-items-center">
-                        <i class="eva-home-filled"></i>
+                        <i class="eva-home outline light"></i>
                     </a>
                 </li>
             </ul>
             <ul class="navbar-nav col-md-3">
                 <li class="nav-item" data-toggle="tooltip" data-placement="bottom" title="검색">
-                    <a href="#" class="nav-link active d-flex justify-content-center align-items-center">
-                        <i class="eva-search-outline"></i>
+                    <a href="{% url 'playlists:search' %}" class="nav-link active d-flex justify-content-center align-items-center">
+                        <i class="eva-search outline light"></i>
                     </a>
                 </li>
             </ul>
             <ul class="navbar-nav col-md-3">
                 <li class="nav-item" data-toggle="tooltip" data-placement="bottom" title="구독">
-                    <a href="#" class="nav-link active d-flex justify-content-center align-items-center">
-                        <i class="eva-people-outline"></i>
+                    <a href="{% url 'accounts:subs' %}" class="nav-link active d-flex justify-content-center align-items-center">
+                        <i class="eva-people outline light"></i>
                     </a>
                 </li>
             </ul>
             <ul class="navbar-nav col-md-3">
                 <li class="nav-item" data-toggle="tooltip" data-placement="bottom" title="설정">
                     <a href="{% url 'accounts:profile' %}" class="nav-link active d-flex justify-content-center align-items-center">
-                        <i class="eva-settings-outline"></i>
+                        <i class="eva-settings outline light"></i>
                     </a>
                 </li>
             </ul>
-        </div>
-        <div class="d-flex d-md-none col-md-2">
-            Hello
         </div>
     </div>
 </nav>
@@ -52,25 +49,25 @@
         <ul class="navbar-nav w-100 text-center">
             <li class="nav-item col-3">
                 <a href="{% url 'root' %}" class="nav-link active d-flex flex-column align-items-center">
-                    <i class="eva-home-filled"></i>
+                    <i class="eva-home outline dark"></i>
                     <small>홈</small>
                 </a>
             </li>
             <li class="nav-item col-3">
-                <a href="#" class="nav-link active d-flex flex-column align-items-center">
-                    <i class="eva-search-outline"></i>
+                <a href="{% url 'playlists:search' %}" class="nav-link active d-flex flex-column align-items-center">
+                    <i class="eva-search outline dark"></i>
                     <small>검색</small>
                 </a>
             </li>
             <li class="nav-item col-3">
-                <a href="#" class="nav-link active d-flex flex-column align-items-center">
-                    <i class="eva-people-outline"></i>
+                <a href="{% url 'accounts:subs' %}" class="nav-link active d-flex flex-column align-items-center">
+                    <i class="eva-people outline dark"></i>
                     <small>구독</small>
                 </a>
             </li>
             <li class="nav-item col-3">
                 <a href="{% url 'accounts:profile' %}" class="nav-link active d-flex flex-column align-items-center">
-                    <i class="eva-settings-outline"></i>
+                    <i class="eva-settings outline dark"></i>
                     <small>설정</small>
                 </a>
             </li>

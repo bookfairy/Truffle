@@ -1,0 +1,44 @@
+{% block content %}
+
+<p>
+    <form action="" method="get">
+        <input type="text" name="q" value="{{ request.GET.q }}" />
+        <input type="submit" value="검색" class="btn btn-primary" />
+    </form>
+</p>
+<tbody>
+    {% for tag in tags %}
+        {% if tag in user.profile.subscribe_tags.all %}
+            <a href="{% url 'accounts:action' %}?action=unsubscribe&tag_id={{ tag.id }}&next={{ request.get_full_path|urlencode }}">
+            #{{ tag.name }} 구독 취소
+            </a> 
+        {% else %}
+            <a href="{% url 'accounts:action' %}?action=subscribe&tag_id={{ tag.id }}&next={{ request.get_full_path|urlencode }}">
+            #{{ tag.name }} 구독
+            </a> 
+        {% endif %} 
+    {% endfor %}
+    {% for playlist in post_list %}
+    
+    <br/>
+    <tr>
+        <td>{{ playlist.id }}</td>
+        <td>{{ playlist.author }}</td>
+        <td>{{ playlist.title }}</td>
+        <td><img src="{{ playlist.main_image.url }}"/></td>
+        <td>{{ playlist.tags }}</td>
+        <td>{{ playlist.created_at }}</td>
+        <td>
+            <a href="{% url 'playlists:detail' playlist.id %}">{{ playlist.title }}</a>
+    </tr>.
+    {% endfor %} 
+    {% if not post_list %}
+    <p>('검색결과가 없습니다 ٩(இ ⌓ இ๑)۶ ')</p>
+    {% endif %}
+</tbody>
+</table>
+</div>
+</div>
+
+</div>
+{% endblock %}

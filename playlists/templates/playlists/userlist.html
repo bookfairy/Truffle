@@ -1,0 +1,28 @@
+<table class="table table-hover table-bordered">
+    <thead>
+    <tr>
+        <th>작성자</th>
+        <th>제목</th>
+        <th>생성일시</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% if userlist %}
+        {% for play in userlist %}
+            <tr>
+                <td>{{ play.author.username }}</td>
+                <td><a href="{% url 'playlists:detail' play.id %}">
+                    {{ play.title }}
+                </a></td>
+                <td>
+                    <small>at {{ play.created_at }}</small>
+                </td>
+            </tr>
+        {% endfor %}
+    {% else %}
+        <p>
+            아직 게시물이 없습니다.
+        </p>
+    {% endif %}
+    </tbody>
+</table>

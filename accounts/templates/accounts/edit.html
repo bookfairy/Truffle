@@ -1,21 +1,34 @@
-{% extends 'layout/layout.html' %} {% block title %}계정 정보 수정{% endblock %} {% block content %}
-{% load imagekit %}
-<section class="container">
-    <div class="row">
-        <div class="offset-2 col-8">
-            <h2>{{ user.username }}님의 정보</h2>
-            <h5>아직 미구현입니다. 비밀번호 수정은 '비밀번호 바꾸기' 버튼을 눌러주세요.</h5>
-             <form method="POST" enctype="multipart/form-data">{% csrf_token %}
-                 {% if profile.photo %}
-                 {% thumbnail "300x300" profile.photo as thumb %}
-                    <img src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}"/>
-                 {% endif %}
-            {{ form.as_p }}
-            <input type="submit" value="정보수정" class="login-button">
-        </form>
+{% extends 'accounts/layout.html' %}
+{% block title %}회원정보 수정{% endblock %}
+{% block outer-title %}회원정보 수정하기{% endblock %}
+{% block inner-title %}{{ request.user.username }}{% endblock %}
 
-            <a class="btn btn-primary" href="{% url 'accounts:edit_pw' %}" type=submit>비밀번호 바꾸기</a>
+{% block inner-content %}
+<div class="col-12">
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="{{ form.username.id_for_label }}">{{ form.username.label }}</label>
+            <input type="text" id="{{ form.username.auto_id }}" class="form-control" name="{{ form.username.html_name }}" value="{{ form.username.value }}" placeholder="{{ form.username.label }}">
         </div>
-    </div>
-</section>
+
+        <div class="form-group">
+            <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
+            <input type="text" id="{{ form.email.auto_id }}" class="form-control" name="{{ form.email.html_name }}" value="{{ form.email.value }}" placeholder="{{ form.email.label }}">
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.photo.id_for_label }}">{{ form.photo.label }}</label>
+            <div class="custom-file">
+                <input type="file" id="{{ form.photo.auto_id }}" class="custom-file-input" name="{{ form.photo.html_name }}">
+                <label class="custom-file-label" for="{{ form.photo.id_for_label }}">{{ form.photo.label }}</label>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-between mt-5">
+            <a class="btn btn-dark" href="{% url 'accounts:profile' %}">뒤로 가기</a>
+            <input type="submit" value="수정하기" class="btn btn-dark">
+        </div>
+    </form>
+</div>
 {% endblock %}

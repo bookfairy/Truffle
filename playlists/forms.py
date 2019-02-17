@@ -31,3 +31,10 @@ class PhotoModelForm(forms.ModelForm):
     class Meta:
         model=Photo
         fields=('image',)
+        
+class CommentForm(forms.ModelForm):
+    comment=forms.CharField(widget=forms.Textarea(attrs={'placeholder':'댓글달기'}))
+    class Meta:
+        model=Comments
+        fields=('comment',)
+            

@@ -2,95 +2,107 @@
 @import 'font.css';
 @import 'bootstrap.min.css';
 
+/*-------------------- 전역 --------------------*/
+/* 드래그 색상 */
+::selection {
+    background-color: #cce2ff;
+    color: rgba(0, 0, 0, 0.87);
+}
+
+/* a 태그의 reboot */
+a,
+a:hover {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* body 태그 어두운 색 */
+body {
+    background-color: #f6f8fe;
+}
+
+/* main 태그에 상단 헤더바에 대한 여백 */
 main {
     padding-top: 56.2px;
 }
 
-.navbar.fixed-top {
-    background-color: white;
-    box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.1);
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+/* hr 태그 색상 */
+hr {
+    border-color: rgba(0, 25, 53, 0.25);
 }
 
-.navbar.fixed-top.is-scrolled {
-    transform: translate3d(0, -100%, 0);
+/* 아이콘(filled) */
+/* 추가로 헤더(하단)의 아이콘 툴팁 서식에도 적용 */
+.outline.light,
+.outline.light + small {
+    color: rgba(255, 255, 255, 0.75) !important;
+    transition: color 0.25s;
 }
-
-.navbar.fixed-top .navbar-brand::before {
-    content: url('../images/icon.svg');
-    display: inline-block;
-    width: 22px;
-    height: 26px;
-    opacity: 0.8;
-    margin-right: 0.5rem;
-    vertical-align: middle;
-}
-
-.navbar.fixed-bottom {
-    background-color: white;
-    box-shadow: 0 -2px 6px 0 rgba(0, 0, 0, 0.1);
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.navbar.fixed-bottom.is-scrolled {
-    transform: translate3d(0, 100%, 0);
-}
-
-.navbar.navbar.fixed-bottom .nav-link {
-    line-height: 1.25rem;
-}
-
-.navbar.fixed-bottom [class^='eva-'] {
-    font-size: 120%;
-}
-
-[class*='eva'][class*='-filled'],
-[class*='eva'][class*='-filled'] + small {
+.filled.light,
+.filled.light + small {
     font-weight: bold;
-    color: #795548 !important;
+    color: rgba(255, 255, 255, 1) !important;
+    transition: color 0.25s;
 }
 
-.search .form-control {
-    border: 0;
-    background-color: transparent;
+/* dark */
+.outline.dark,
+.outline.dark + small {
+    color: rgba(72, 118, 239, 0.75) !important;
+}
+.filled.dark,
+.filled.dark + small {
+    color: rgba(72, 118, 239, 1) !important;
 }
 
-.search .form-control:focus,
-.search .form-control:active {
-    box-shadow: none;
-    background-color: transparent;
+/* 소셜 아이콘 색상 */
+/* eva-facebook outline social facebook */
+.social {
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 5rem;
 }
 
-.search .form-control::placeholder {
-    color: #999999 !important;
+.social.facebook.outline {
+    color: #3b5998 !important;
+    border-color: #3b5998;
+}
+.social.facebook.filled {
+    color: white;
+    border-color: #3b5998;
 }
 
-.search > .input-group {
-    background-color: rgba(0, 0, 0, 0.04);
-    border: 0;
-    color: #555555;
-    border-radius: 0.25rem;
+.social.google.outline {
+    color: #DC4E41 !important;
+    border-color: #DC4E41;
+}
+.social.google.filled {
+    color: white;
+    border-color: #DC4E41;
 }
 
-.search > .input-group:focus-within {
-    background-color: rgba(0, 0, 0, 0.015);
+.social.kakaotalk.outline {
+    color: #FFE100 !important;
+    border-color: #FFE100;
+}
+.social.kakaotalk.filled {
+    color: white;
+    border-color: #FFE100;
 }
 
-.search > .input-group > .input-group-prepend::before {
-    width: 0;
-    line-height: 2.3rem;
-    padding-left: 0.4rem;
-    padding-right: 0.8rem;
-    vertical-align: middle;
-    display: inline-block;
+/* 풀스크린 페이지를 위해 사용 */
+.vh-100 {
+    height: 100vh;
+}
+
+/* 부트스트랩 확장 */
+.card {
+    border-radius: 0.5rem;
 }
 
 [class*='display-'] {
+    color: #003168;
     font-weight: bold;
-}
-
-.vh-100 {
-    height: 100vh;
 }
 
 .display-5 {
@@ -98,46 +110,402 @@ main {
     line-height: 1.2;
 }
 
-.bg-wall {
-    background: url('../images/background-black.svg') no-repeat;
-    background-size: cover;
+.text-muted {
+    color: rgba(255, 255, 255, 0.5) !important;
+}
+.text-muted.text-dark {
+    color: rgba(0, 25, 53, 0.5) !important;
 }
 
+.nav-pills .nav-link.active,
+.btn-dark {
+    background-color: #003168;
+    border: rgba(255, 255, 255, 0.5);
+    transition: background-color 0.5s;
+}
+
+.btn-light {
+    border: 1px solid rgba(0, 0, 0, 0.25);
+}
+
+.nav-pills .nav-link.active:hover,
+.btn-dark:hover {
+    background-color: #0055b5;
+}
+
+/* 커스텀 확장: 특수 link */
+/* 처음부터 눈에 띄는 강한 링크 */
+.markable-link {
+    font-weight: bold;
+    color: rgba(255, 255, 255, 1);
+    border-bottom: 0.15rem solid rgba(255, 255, 255, 1);
+    text-decoration: none;
+}
+
+.markable-link:hover {
+    color: rgba(255, 255, 255, 0.75);
+    border-bottom: 0.15rem solid rgba(255, 255, 255, 0.75);
+    text-decoration: none;
+}
+
+/* 흐릿하게 눈에 띄는 약한 링크 */
+.unmarkable-link {
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.25);
+    text-decoration: none;
+}
+
+.unmarkable-link:hover {
+    color: rgba(255, 255, 255, 0.5);
+    border-bottom: 0.15rem solid rgba(255, 255, 255, 0.5);
+    text-decoration: none;
+}
+
+/* 태그 */
+.tag {
+    margin-right: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    color: #666;
+    border: 1px solid #dddddd;
+    border-radius: 0.4rem;
+    word-break: keep-all;
+    transition: all 0.2s;
+    cursor: pointer;
+    user-select: none;
+}
+
+/* 태그 hover 상태일 때 */
+.tag:hover {
+    color: #333333;
+    border: 1px solid #999999;
+    box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+/*-------------------- 헤더(상단) --------------------*/
+/* 헤더(상단) */
+.navbar.fixed-top {
+    background-color: #4876EF;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 헤더(상단) 스크롤 상태일 때 */
+.navbar.fixed-top.is-scrolled {
+    transform: translate3d(0, -100%, 0);
+}
+
+/* 헤더(상단) 브랜드 */
+.navbar.fixed-top .navbar-brand {
+    transition: color 0.5s;
+    color: rgba(255, 255, 255, 0.75) !important;
+}
+.navbar.fixed-top .navbar-brand:hover {
+    color: rgba(255, 255, 255, 1) !important;
+}
+
+/* 헤더(상단)의 브랜드 로고 */
+/* .navbar.fixed-top .navbar-brand::before {
+    content: url('../images/icon.svg');
+    width: 22px;
+    height: 26px;
+    margin-right: 0.5rem;
+    display: inline-block;
+    vertical-align: middle;
+    opacity: 0.8;
+} */
+
+/* 토스트(알림) */
 #toast-container-inner {
     max-width: calc(350px + 1rem);
     transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* 토스트(알림) 스크롤 상태일 때 */
 #toast-container-inner.is-scrolled {
     transform: translate3d(0, -100%, 0);
 }
 
-.slogan {
+/*-------------------- 헤더(하단, 모바일) --------------------*/
+/* 헤더(하단) */
+.navbar.fixed-bottom {
+    background-color: #FFFFFF;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 헤더(하단) 스크롤 상태일 때 */
+.navbar.fixed-bottom.is-scrolled {
+    transform: translate3d(0, 100%, 0);
+}
+
+/* 헤더(하단) 아이콘 줄 여백 */
+.navbar.fixed-bottom .nav-link {
+    line-height: 1.25rem;
+}
+
+/* 헤더(하단) 아이콘 크기 */
+.navbar.fixed-bottom .nav-link > [class^='eva-'] {
+    font-size: 120%;
+}
+
+/*-------------------- 헤더(상단) 검색 바 --------------------*/
+/* 검색 창 영역 */
+.search-form > .input-group {
+    color: #555555;
+    background-color: rgba(255, 255, 255, 0.25);
+    border: 0;
+    border-radius: 0.25rem;
+}
+
+/* 검색 창 영역 focus(within) */
+.search-form > .input-group:focus-within {
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+/* 검색 창 input의 prepend */
+.search-form > .input-group > .form-control-prepend::before {
+    width: 0;
+    padding-left: 0.4rem;
+    padding-right: 0.8rem;
+    line-height: 2.3rem;
+    vertical-align: middle;
+    display: inline-block;
+}
+
+.search-form > .input-group:focus-within > .form-control-prepend::before {
+    color: rgba(72, 118, 239, 0.75);
+}
+
+/* 검색 창 input */
+.search-form > .input-group > .form-control {
+    border: 0;
+    color: rgba(255, 255, 255, 0.75);
+    background-color: transparent;
+}
+
+/* 검색 창 input의 focus, active */
+.search-form > .input-group > .form-control:focus,
+.search-form > .input-group > .form-control:active {
+    box-shadow: none;
+    color: rgba(0, 0, 0, 0.75);
+    background-color: transparent;
+}
+
+/* 검색 창 input의 placeholder */
+.search-form > .input-group > .form-control::placeholder {
+    color: rgba(72, 118, 239, 0.75) !important;
+}
+
+/*-------------------- 푸터 --------------------*/
+/* 푸터 */
+footer {
+    background-color: #00254f;
+}
+
+/*-------------------- 랜딩 페이지 --------------------*/
+/* 좌측 svg 배경 */
+.bg-wall {
+    background-color: #001935;
+    background: url('../images/background-black.svg') no-repeat;
+    background-size: cover;
+}
+
+/*-------------------- 피드 페이지 --------------------*/
+/* feed-area: playlist 한 덩어리 */
+.feed-area {
+    display: flex;
+}
+
+/* feed-prepend: (유저) 아이콘 */
+.feed-area > .feed-prepend > .profile-outer {
+    width: 71px;
+    height: 71px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0.25rem;
+    transition: border-radius 0.25s linear;
+    background-color: white;
+}
+.feed-area > .feed-prepend > .profile-outer > .profile-inner {
+    width: 64px;
+    height: 64px;
+    object-fit: cover;
+    border-radius: 0.25rem;
+    transition: border-radius 0.25s linear;
+}
+.feed-area > .feed-prepend > .profile-outer:hover {
+    border-radius: 5rem;
+}
+.feed-area > .feed-prepend > .profile-outer:hover > .profile-inner {
+    border-radius: 5rem;
+}
+
+/* feed-box: 게시글 상자 */
+.feed-area > .feed-box {
+    display: flex;
+    flex-grow: 1;
+    border-radius: 0.5rem;
+}
+
+/* feed-header: 게시글 상자 헤딩 */
+.feed-area > .feed-box > .feed-header {
+    border-bottom: none;
+    background-color: transparent;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* 게시글 상자 제목 */
+.feed-area > .feed-box > .feed-header > .feed-title {
     font-size: 0.9rem;
     font-weight: bold;
+    color: #333;
 }
 
-.markable-link {
+/* 게시글 상자 내 유저 아이콘 */
+.feed-area > .feed-box > .feed-header > .feed-title > .profile-outer > .profile-inner {
+    width: 30px;
+    height: 30px;
+    margin-left: -.5rem;
+    margin-right: 0.35rem;
+    object-fit: cover;
+    border-radius: 0.5rem;
+}
+
+/* 게시글 상자 작성 시간 */
+.feed-area > .feed-box > .feed-header > .feed-time {
+    font-size: 0.8rem;
+    color: #555555;
+}
+
+/* 게시글 상자 이미지 영역 */
+.feed-area > .feed-box > .feed-image {
+    width: 95%;
+    position: relative;
+    align-self: center;
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+/* 게시글 상자 메인 이미지 */
+.feed-area > .feed-box > .feed-image > .feed-image-main {
+    width: 100%;
+    object-fit: cover;
+    border-radius: 0.5rem;
+}
+
+/* 게시글 상자 서브 이미지 영역 */
+.feed-area > .feed-box > .feed-image > .feed-image-sub-area {
+    width: 100%;
+    padding: 1%;
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    justify-content: space-between;
+    transition: all 0.5s;
+    transform: translateY(80%);
+}
+
+/* 게시글 상자 서브 이미지 영역 hover일 때 */
+.feed-area > .feed-box > .feed-image > .feed-image-sub-area.is-hovered {
+    transform: translateY(0);
+}
+
+/* 게시글 상자 서브 이미지 */
+.feed-area > .feed-box > .feed-image > .feed-image-sub-area > .feed-image-sub {
+    width: 31%;
+    margin: 1%;
+    object-fit: cover;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* 게시글 상자 태그 영역 */
+.feed-area > .feed-box > .feed-content {
+    font-size: 0.9rem;
+}
+
+/* 사이드바 */
+.side {
+    color: white;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 0.5rem;
+    font-size: 0.9rem;
+    transition: background-color 0.25s;
+}
+
+.side:hover {
+    background-color: rgba(255, 255, 255, 0.4);
+}
+
+/* 사이드바 타이틀 */
+.side > .side-title {
+    margin: 0 1.25rem;
+    padding: 0.75rem 0;
+    background-color: transparent;
     font-weight: bold;
-    color: rgba(0, 0, 0, 1);
-    border-bottom: 0.15rem solid rgba(0, 0, 0, 1);
-    text-decoration: none;
 }
 
-.markable-link:hover {
-    color: rgba(0, 0, 0, 0.75);
-    border-bottom: 0.15rem solid rgba(0, 0, 0, 0.75);
-    text-decoration: none;
+.side > .side-title,
+.side > .side-content,
+.side > .side-tail {
+    border-color: rgba(255, 255, 255, 0.5);
 }
 
-.unmarkable-link {
-    font-weight: bold;
-    color: rgba(0, 0, 0, 0.25);
-    text-decoration: none;
+/*-------------------- 계정 관리 --------------------*/
+/* 프로필 이미지 */
+.account-image-outer {
+    width: 110px;
+    height: 110px;
+    background-color: #ffffff;
+    border: 2.5px solid #001935;
+    border-radius: 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    bottom: -3rem;
+    z-index: 1;
 }
 
-.unmarkable-link:hover {
-    color: rgba(0, 0, 0, 0.5);
-    border-bottom: 0.15rem solid rgba(0, 0, 0, 0.5);
-    text-decoration: none;
+.account-image-outer > .account-image-inner {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 5rem;
+}
+
+/*-------------------- 구독 관리 --------------------*/
+/* 구독 한 줄 */
+.subs-line {
+    padding: 0.5rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+}
+
+/* 프로필 이미지 */
+.subs-line > .subs-image-outer {
+    width: 45px;
+    height: 45px;
+    margin-right: 0.75rem;
+    object-fit: cover;
+    overflow: hidden;
+    border: 1.5px solid rgba(0, 25, 53, 0.25);
+    border-radius: 0.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.subs-line > .subs-image-outer > .subs-image-inner {
+    width: 90%;
+    object-fit: cover;
+    border-radius: 0.25rem;
+}
+
+.subs-line > .subs-text {
+    flex-grow: 1;
 }

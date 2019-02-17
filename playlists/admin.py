@@ -8,3 +8,4 @@ class PlayListAdmin(admin.ModelAdmin):
 admin.site.register(Photo)
 admin.site.register(Card)
 admin.site.register(Tag)
+admin.site.register(Comments)

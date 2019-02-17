@@ -1,12 +1,12 @@
 {% load socialaccount %}
+{% providers_media_js %}
 <ul>
-
     {% for provider in providers %}
     <li>
-        {% if provider.social_app %}
-        <a href="{% provider_login_url provider.id %}">{{provider.name}}</a>
+        {% if provider.name == 'Facebook' %}
+        <a href="{% provider_login_url "facebook" method="js_sdk" %}">{{ provider.name }}</a>
         {% else %}
-        <a>Provider {{ provider.name }} 아직 안돼 ㅃㅇ</a>
+        <a href="{% provider_login_url provider.id %}">{{provider.name}}</a>
         {% endif %}
     </li>
     {% endfor %}

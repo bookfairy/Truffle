@@ -1,37 +1,57 @@
-{% extends 'layout/layout.html' %} {% block title %}계정 관리{% endblock %} {% block content %}
-{% load socialaccount %}
+{% extends 'accounts/layout.html' %} {% load socialaccount %} {% block title %}계정 관리{% endblock %} {% block outer-title %}{{ user.username }}님, 반갑습니다!{% endblock %} {% block inner-title %}계정 설정{% endblock %} {% block inner-content %}
+<div class="col-12 row">
+    <div class="col-6 col-sm-5 col-md-4">
+        <div class="nav flex-column nav-pills" role="tablist" aria-orientation="vertical">
+            <a class="nav-link active" id="v-pills-sub-tab" data-toggle="pill" href="#v-pills-sub" role="tab" aria-controls="v-pills-sub" aria-selected="false">구독 목록</a>
+            <a class="nav-link" id="v-pills-my-tab" data-toggle="pill" href="#v-pills-my" role="tab" aria-controls="v-pills-my" aria-selected="false">내 게시물</a>
+            <a class="nav-link" id="v-pills-upload-tab" data-toggle="pill" href="#v-pills-upload" role="tab" aria-controls="v-pills-upload" aria-selected="false">게시물 작성</a>
+            <a class="nav-link" id="v-pills-edit-tab" data-toggle="pill" href="#v-pills-edit" role="tab" aria-controls="v-pills-edit" aria-selected="true">회원정보 수정</a>
+            <a class="nav-link" id="v-pills-connect-tab" data-toggle="pill" href="#v-pills-connect" role="tab" aria-controls="v-pills-connect" aria-selected="true">소셜계정 연결하기</a>
+            <a class="nav-link" id="v-pills-pw-tab" data-toggle="pill" href="#v-pills-pw" role="tab" aria-controls="v-pills-pw" aria-selected="false">비밀번호 바꾸기</a>
+            <a class="nav-link" id="v-pills-logout-tab" data-toggle="pill" href="#v-pills-logout" role="tab" aria-controls="v-pills-logout" aria-selected="false">로그아웃</a>
+        </div>
+    </div>
 
-<section class="container">
-    <div class="row">
-        <div class="col-12">
-            {% if user.username %}
-            <h2>{{ user.username }}님, 반갑습니다!</h2>
-            {% else %}
-            <h2>로그인을 해야 계정을 관리할 수 있습니다!</h2>
-            {% endif %}
+    <div class="col-6 col-sm-7 col-md-8">
+        <div class="tab-content text-center">
+            <div class="tab-pane fade show active" id="v-pills-sub" role="tabpanel" aria-labelledby="v-pills-sub-tab">
+                <a class="btn btn-dark" href="{% url 'accounts:subs' %}">바로가기</a>
+                <!-- 구독 목록 -->
+            </div>
+            <div class="tab-pane fade" id="v-pills-my" role="tabpanel" aria-labelledby="v-pills-my-tab">
+                <a class="btn btn-dark" href="{% url 'playlists:my_list' %}">바로가기</a>
+                <!-- 내 게시물 -->
+            </div>
+            <div class="tab-pane fade" id="v-pills-upload" role="tabpanel" aria-labelledby="v-pills-upload-tab">
+                <a class="btn btn-dark" href="{% url 'playlists:upload' %}">바로가기</a>
+                <!-- 게시물 작성 -->
+            </div>
+            <div class="tab-pane fade" id="v-pills-edit" role="tabpanel" aria-labelledby="v-pills-edit-tab">
+                <a class="btn btn-dark" href="{% url 'accounts:edit' %}">바로가기</a>
+                <!-- 회원정보 수정 -->
+            </div>
+            <div class="tab-pane fade" id="v-pills-connect" role="tabpanel" aria-labelledby="v-pills-edit-connect">
+                <a href="{% provider_login_url 'facebook' method='js_sdk' %}">
+                    <i class="eva-facebook outline social facebook"></i>
+                </a>
+                <a href="{% provider_login_url 'google' process='connect' next='/' %}">
+                    <i class="eva-google outline social google"></i>
+                </a>
+                <a href="{% provider_login_url 'kakao' process='connect' next='/'%}">
+                    <i class="eva-kakaotalk outline social kakaotalk"></i>
+                </a>
+                <!-- 소셜계정 연결 -->
+            </div>
+            <div class="tab-pane fade" id="v-pills-pw" role="tabpanel" aria-labelledby="v-pills-pw-tab">
+                <a class="btn btn-dark" href="{% url 'accounts:edit_pw' %}">바로가기</a>
+                <!-- 비밀번호 바꾸기 -->
+            </div>
+            <div class="tab-pane fade" id="v-pills-logout" role="tabpanel" aria-labelledby="v-pills-logout-tab">
+                <a class="btn btn-dark" href="{% url 'accounts:logout' %}">바로가기</a>
+                <!-- 로그아웃 -->
+            </div>
         </div>
     </div>
-    <div class="row">
-        {% if user.username %}
-        <div class="col-3">
-            <a class="btn btn-primary" href="{% url 'accounts:edit' %}">회원정보 수정</a>
-        </div>
-        <div class="col-3">
-            <a class="btn btn-primary" href="{% url 'accounts:logout' %}">로그아웃</a>
-        </div>
-        
-        <div>
-            <a href="{% provider_login_url "kakao" process="connect" %}">Connect a Twitter account</a>
-        </div>div>
-            <img src="{{ user.socialaccount_set.all.first.get_avatar_url }}" />
-        {% else %}
-        <div class="col-3">
-            <a class="btn btn-primary" href="{% url 'accounts:login' %}">로그인</a>
-        </div>
-        <div class="col-3">
-            <a class="btn btn-primary" href="{% url 'accounts:signup' %}">회원가입</a>
-        </div>
-        {% endif %}
-    </div>
-</section>
+</div>
+
 {% endblock %}

@@ -1,14 +1,27 @@
 from django.urls import path
 from . import views
-
 urlpatterns = [
+    # 프로필 설정
     path('', views.profile_view, name='profile'),
-    path('signup', views.signup, name='signup'),
+    # 회원 정보 수정 (이름, 이메일, 사진)
+    path('edit', views.profile_edit_view, name='edit'),
+    # 비밀번호 수정
+    path('edit_pw', views.profile_edit_password_view, name='edit_pw'),
+    # 구독 관리 페이지
+    path('subs', views.subs, name='subs'),
+    # 팔로우, 언팔로우, 스크랩하기
+    path('action', views.action, name='action'),
+    
+    # 회원가입
+    path('signup', views.signup_view, name='signup'),
+    # 로그인
     path('login', views.login_view, name='login'),
-    path('slogin', views.slogin, name='slogin'),
+    # 로그아웃
     path('logout', views.logout_view, name='logout'),
-    path('edit', views.edit, name='edit'),
-    path('edit_pw', views.edit_pw, name='edit_pw'),
-    path('changepw', views.changepw, name='changepw'),
-    path('check', views.check, name='check'),    #  todo 소셜로그인 후 특정 주소로 리다이렉트하고 프로필 생성하기. \
+    # 로그인 실패 시 비밀번호 찾기(바꾸기)
+    path('find_pw', views.find_password_view, name='find_pw'),
+    # 소셜 인증 체크
+    path('check/', views.check, name='check'),
+
+    # path('email', views.send, name='send')
 ]
