@@ -4,11 +4,13 @@ from . import views
 app_name = 'playlists'
 
 urlpatterns = [
-    # path('',views.playlist_list,name='playlist_list'),
-    path('upload',views.upload,name='upload'),
-    path('detail/<int:pk>/', views.detail, name='detail'),
-    path('search', views.search_view, name='search'),
-    path('edit_mine/<int:id>',views.edit_mine,name='edit_mine'),
-    path('commment/<int:id>',views.comment,name='comment'),
-]
+    path('upload/', views.upload_view, name='upload'),
+    path('<int:pk>/', views.detail_view, name='detail'),
+    path('<int:id>/edit/', views.edit_view, name='edit'),
+    # 삭제 기능이 없습니다!
+    # path('<int:id>/delete/', views.delete, name='delete'),
 
+    path('search/', views.search_main_view, name='search'),
+    path('search/more/', views.search_view, name='search_more'),
+    path('<int:id>/delete/',views.delete,name='delete'),
+]

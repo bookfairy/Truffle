@@ -11,7 +11,7 @@ class Tag(models.Model):
 
     
 class PlayList(models.Model):
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="user_playlists")
     title = models.CharField(max_length = 20)
     description = models.CharField(max_length=50)
     detail = models.TextField()
@@ -19,8 +19,9 @@ class PlayList(models.Model):
     tags = models.ManyToManyField('Tag', blank=True, verbose_name='tags')
     scrap = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='scrap',through = 'Scrap')
     comments = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='comments',through = 'Comments')
-    created_at=models.DateTimeField(auto_now_add=True)
-    stars=models.ManyToManyField(settings.AUTH_USER_MODEL,related_name='stars',through='Stars')
+    created_at = models.DateTimeField(auto_now_add=True)
+    stars = models.ManyToManyField(settings.AUTH_USER_MODEL,related_name='stars',through='Stars')
+    cost=models.IntegerField()
     def get_absolute_url(self):
         return reverse('blog:post_detail', args=[self.id])     #내용submit
 
@@ -43,6 +44,7 @@ class PlayList(models.Model):
             return f"#{'  # '.join(tags)}"
         else:
             return ''
+    
 
 class Scrap(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,related_name='scrap_user',on_delete=models.CASCADE)
@@ -63,6 +65,7 @@ class Comments(models.Model):
 class Card(models.Model):
     text=models.TextField()
     playlist=models.ForeignKey(PlayList,on_delete=models.CASCADE)
+    location = models.CharField(max_length=50)
 
     
     

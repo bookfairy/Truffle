@@ -1,55 +1,18 @@
-{% extends 'layout/layout.html' %} {% block title %}메인 페이지{% endblock %} {% block content %}
+{% extends 'layout/_layout.html' %} {% block title %}메인 페이지{% endblock %}
 
+{% block content %}
 <div class="container mt-4">
     <div class="row">
         <div class="col-12 col-md-8">
-
             {% for playlist in playlists %}
-            <article class="feed-area mb-4">
-                <setcion class="feed-prepend d-none d-md-block mr-1 mr-md-3">
-                    <a class="profile-outer" href="{% url 'accounts:user_list' playlist.author.id %}">
-                        <img class="profile-inner" src="{{ playlist.author.profile.photo.url }}">
-                    </a>
-                </setcion>
-
-                <section class="card feed-box">
-                    <div class="card-header feed-header">
-                        <div class="feed-title">
-                            <a class="profile-outer d-inline-block d-md-none" href="{% url 'accounts:user_list' playlist.author.id %}">
-                                <img class="profile-inner" src="{{ playlist.author.profile.photo.url }}">
-                            </a>
-                            <a href="{% url 'playlists:detail' playlist.id %}">{{ playlist.title }}</a>
-                        </div>
-                        <div class="feed-time">{{ playlist.created_at }}</div>
-                    </div>
-                    <a href="{% url 'playlists:detail' playlist.id %}" class="feed-image">
-                        <img src="{{ playlist.main_image.url }}" class="feed-image-main">
-                        <div class="feed-image-sub-area">
-                            <img src="https://i.imgur.com/bAZs0HI.jpg" class="feed-image-sub">
-                            <img src="https://i.imgur.com/GvB85NN.jpg" class="feed-image-sub">
-                            <img src="https://i.imgur.com/1EK5qDf.jpg" class="feed-image-sub">
-                        </div>
-                    </a>
-                    <div class="card-body feed-content">
-                        <p class="card-text">
-                            {% for tag in playlist.tags.all %}
-                            <span class="tag">#{{tag}}</span>
-                            {% endfor %}
-                        </p>
-                    </div>
-                </section>
-            </article>
+                {% include 'playlists/__playlist_card.html' with playlist=playlist prepend=True  %}
             {% endfor %}
-
+            <article class="etc">
+                <h1 class="display-6">피드 끝?<br>더 많이 구독하세요!<br>٩(இ ⌓ இ๑)۶</h1>
+            </article>
         </div>
         <div class="col-4 d-none d-md-block">
-
-            <section class="card side">
-                <div class="card-header side-title">사이드바</div>
-                <div class="card-body side-content">이런 저런 내용들</div>
-                <div class="card-footer side-tail">사이드푸터</div>
-            </section>
-
+            {% include 'core/__side.html' %}
         </div>
     </div>
 </div>

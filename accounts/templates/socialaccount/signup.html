@@ -1,0 +1,17 @@
+{% extends 'accounts/login.html' %}
+
+{% block connect_message %}
+<div class="alert alert-danger" role="alert">
+  이미 존재하는 이메일입니다. 로그인 후 {{ account.get_provider.name }} 계정을 연결해 주세요.
+</div>
+{% endblock %}
+
+{% block connect_next %}
+action = "{% url 'accounts:login' %}"
+{% endblock %}
+
+{% block connect_email %}
+value="{{ form.email.value }}"
+{% endblock %}
+
+{% block connect_id %}<input type="hidden" name="connect_id" value=1>{% endblock %}

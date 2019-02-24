@@ -24,7 +24,7 @@
                 <label class="custom-file-label" for="{{ form.photo.id_for_label }}">{{ form.photo.label }}</label>
             </div>
         </div>
-
+        <a href="{% url 'accounts:user_delete' %}">삭제하기</a>
         <div class="d-flex justify-content-between mt-5">
             <a class="btn btn-dark" href="{% url 'accounts:profile' %}">뒤로 가기</a>
             <input type="submit" value="수정하기" class="btn btn-dark">

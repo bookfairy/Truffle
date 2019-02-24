@@ -1,44 +1,54 @@
-{% block content %}
+{% extends 'layout/_layout.html' %} {% block title %}{{ request.GET.q }}의 검색결과{% endblock %} {% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-12 col-md-8">
+            <div class="mb-5 d-inline-block w-100 text-center text-md-left">
+                <h2 class="display-6 ml-2 mb-4">{{ cat }} 검색결과</h2>
+            </div>
+            <form action='' method='get'>
+                <input type='submit' name='order' value='작성일' class='btn btn-primary' />
+                <input type='submit' name='order' value='별점' class='btn btn-primary' />
+                <input type='hidden' name='q' value='{{request.GET.q}}' />
+                <input type='hidden' name='prev' value='{{request.GET.order}}' />
+                <input type='hidden' name='current_order' value='{{ current_order }}'/>
+                <input type='hidden' name='category' value='{{request.GET.category}}'/>
+            </form>
+            <form action='' method='get'>
+                <input type='submit' name='category' value='제목' class='btn btn-primary' />
+                <input type='submit' name='category' value='제목+내용' class='btn btn-primary' />
+                <input type='submit' name='category' value='내용' class='btn btn-primary' />
+                <input type='hidden' name='q' value='{{request.GET.q}}' />
+            </form>
+            <article class="card container mt-3 mb-4">
+                <div class="card-body row px-2 pt-4">
+                    <div class="col-12">
+                        <h2 class="display-6 my-4 text-center">{{ cat }} 검색결과</h2>
 
-<p>
-    <form action="" method="get">
-        <input type="text" name="q" value="{{ request.GET.q }}" />
-        <input type="submit" value="검색" class="btn btn-primary" />
-    </form>
-</p>
-<tbody>
-    {% for tag in tags %}
-        {% if tag in user.profile.subscribe_tags.all %}
-            <a href="{% url 'accounts:action' %}?action=unsubscribe&tag_id={{ tag.id }}&next={{ request.get_full_path|urlencode }}">
-            #{{ tag.name }} 구독 취소
-            </a> 
-        {% else %}
-            <a href="{% url 'accounts:action' %}?action=subscribe&tag_id={{ tag.id }}&next={{ request.get_full_path|urlencode }}">
-            #{{ tag.name }} 구독
-            </a> 
-        {% endif %} 
-    {% endfor %}
-    {% for playlist in post_list %}
-    
-    <br/>
-    <tr>
-        <td>{{ playlist.id }}</td>
-        <td>{{ playlist.author }}</td>
-        <td>{{ playlist.title }}</td>
-        <td><img src="{{ playlist.main_image.url }}"/></td>
-        <td>{{ playlist.tags }}</td>
-        <td>{{ playlist.created_at }}</td>
-        <td>
-            <a href="{% url 'playlists:detail' playlist.id %}">{{ playlist.title }}</a>
-    </tr>.
-    {% endfor %} 
-    {% if not post_list %}
-    <p>('검색결과가 없습니다 ٩(இ ⌓ இ๑)۶ ')</p>
-    {% endif %}
-</tbody>
-</table>
-</div>
-</div>
+                        <form action="" method="get">
+                            <input type="text" name="q" value="{{ request.GET.q }}" />
+                            <input type="submit" value="검색" class="btn btn-primary" />
+                        </form>
 
+                        {% for tag in tags %} {% if tag in user.profile.subscribe_tags.all %}
+                        <a href="{% url 'accounts:action' %}?action=unsubscribe&tag_id={{ tag.id }}&next={{ request.get_full_path|urlencode }}">
+                            #{{ tag.name }} 구독 취소
+                        </a>
+                        {% else %}
+                        <a href="{% url 'accounts:action' %}?action=subscribe&tag_id={{ tag.id }}&next={{ request.get_full_path|urlencode }}">
+                            #{{ tag.name }} 구독
+                        </a>
+                        {% endif %} {% endfor %}
+
+                    </div>
+                </div>
+            </article>
+            {% if post_list %} {% for playlist in post_list %} {% include 'playlists/__playlist_card.html' with playlist=playlist prepend=True %} {% endfor %} {% else %}
+            <p>('태그 검색결과가 없습니다 ٩(இ ⌓ இ๑)۶ ')</p>
+            {% endif %}
+        </div>
+        <div class="col-4 d-none d-md-block">
+            {% include 'core/__side.html' %}
+        </div>
+    </div>
 </div>
 {% endblock %}

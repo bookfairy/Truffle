@@ -27,6 +27,12 @@ urlpatterns = [
     path('check/', views.check, name='check'),
     # 글 목록
     path('user_list/<int:id>', views.user_list, name='user_list'),
+    path('user_delete', views.user_delete, name='user_delete'),
+    
+    # 기부
+    path('donation', views.donation_view, name='donation'),
+    path('donation/process', views.donation_process, name='donation_process'),
+    path('donation/done/<int:donation_id>', views.donation_done, name='donation_done'),
 
     # path('email', views.send, name='send')
 ]

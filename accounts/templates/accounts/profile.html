@@ -1,4 +1,4 @@
-{% extends 'accounts/layout.html' %} {% load socialaccount %} {% block title %}계정 관리{% endblock %} {% block outer-title %}{{ user.username }}님, 반갑습니다!{% endblock %} {% block inner-title %}계정 설정{% endblock %} {% block inner-content %}
+{% extends 'accounts/layout.html' %}{% load socialaccount %}{% load account %} {% block title %}계정 관리{% endblock %} {% block outer-title %}{{ user.username }}님, 반갑습니다!{% endblock %} {% block inner-title %}계정 설정{% endblock %} {% block inner-content %}{% get_social_accounts user as accounts %} {% get_providers as socialaccount_providers %}
 <div class="col-12 row">
     <div class="col-6 col-sm-5 col-md-4">
         <div class="nav flex-column nav-pills" role="tablist" aria-orientation="vertical">
@@ -31,16 +31,13 @@
                 <!-- 회원정보 수정 -->
             </div>
             <div class="tab-pane fade" id="v-pills-connect" role="tabpanel" aria-labelledby="v-pills-edit-connect">
-                <a href="{% provider_login_url 'facebook' process='connect' method='js_sdk' next='/' %}">
-                    <i class="eva-facebook outline social facebook"></i>
-                </a>
-
-                <a href="{% provider_login_url 'google' process='connect' next='/' %}">
-                    <i class="eva-google outline social google"></i>
-                </a>
-                <a href="{% provider_login_url 'kakao' process='connect' next='/'%}">
-                    <i class="eva-kakaotalk outline social kakaotalk"></i>
-                </a>
+                <div class="d-flex justify-content-around mt-3 w-50 mx-auto">
+                    {% for provider in socialaccount_providers %} 
+                        <a class="social-box {{ provider.id }} {% if provider.id in accounts.keys %} disabled{% endif %}" href="{% provider_login_url provider.id process='connect' method='js_sdk' next='/' %}">
+                            <i class="eva-{{ provider.id }} outline social {{ provider.id }}"></i>
+                        </a>
+                    {% endfor %}
+                </div>
                 <!-- 소셜계정 연결 -->
             </div>
             <div class="tab-pane fade" id="v-pills-pw" role="tabpanel" aria-labelledby="v-pills-pw-tab">

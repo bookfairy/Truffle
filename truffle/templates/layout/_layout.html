@@ -1,0 +1,10 @@
+{% extends 'layout/__base.html' %}
+{% load static %}
+
+{% block raw_content %}
+    {% include "layout/__header.html" %}
+    <main> {% block content %}{% endblock %}</main>
+    {% include "layout/__footer.html" %}
+    <!-- 토스트는 html 중 어디든 넣어도 ok -->
+    {% include "layout/__alert.html" %}
+{% endblock %}

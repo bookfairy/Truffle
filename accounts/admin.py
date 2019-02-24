@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Profile
+from .models import Profile, Donation
 # Register your models here.
 
 @admin.register(Profile)
@@ -16,3 +16,6 @@ class ProfileAdmin(admin.ModelAdmin):
         return obj.user.last_name+obj.user.first_name
     
     get_name.short_description = '이름'
+    
+
+admin.site.register(Donation)

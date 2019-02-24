@@ -20,16 +20,15 @@
 
     <a class="text-dark text-muted d-inline-block mt-3" href="{% url 'accounts:find_pw' %}"> 비밀번호를 잊어버리셨나요?</a>
 
-    <div class="d-flex justify-content-around mt-3">
-
-        <a href="{% provider_login_url 'facebook' method='js_sdk' %}">
+    <div class="d-flex justify-content-around mt-3 w-50 mx-auto">
+        <a class="social-box facebook" href="{% provider_login_url 'facebook' method='js_sdk' %}">
             <i class="eva-facebook outline social facebook"></i>
         </a>
-        <a href="{% provider_login_url 'google' method='login' %}">
+        <a class="social-box google" href="{% provider_login_url 'google' method='login' %}">
             <i class="eva-google outline social google"></i>
         </a>
-        <a href="{% provider_login_url 'kakao' method='login' %}">
-            <i class="eva-kakaotalk outline social kakaotalk"></i>
+        <a class="social-box kakao" href="{% provider_login_url 'kakao' method='login' %}">
+            <i class="eva-kakao outline social kakao"></i>
         </a>
     </div>
 

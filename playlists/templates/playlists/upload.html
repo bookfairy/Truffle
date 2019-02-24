@@ -1,66 +1,110 @@
-{% load static %}
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<form class="form-horizontal" method="POST" action="" enctype="multipart/form-data">
-    {% csrf_token %}
-    <div class="row spacer">
-        <div class="col-4">
-            <p>제목 : {{ playlistform.title }}</p>
-            <p>요약 : {{ playlistform.description }}</p>
-            <p>상세 : {{ playlistform.detail }}</p>
-            <p>메인 사진 : {{ playlistform.main_image }}</p>
-            <p>태그 : {{ playlistform.tag_string}}</p>
-        </div>
-    </div>
+{% extends 'layout/_layout.html' %}{% block title %}글 쓰기{% endblock %} {% block content %}
+<form method="POST" action="" enctype="multipart/form-data">
+{% csrf_token %} {{ subformset.management_from }}
+<section class='background-main-image'>
+    <div class="container">
+        <div class="row">
+            <div class="col-3 offset-sm-1 col-sm-4 offset-md-1 col-md-3 offset-lg-1 col-lg-2 d-flex align-items-center">
+                <div class="main-image"></div>
+            </div>
+            <div class="col-9 col-sm-6 col-md-7 col-lg-8 d-flex flex-column justify-content-center">
+                <div class="display-6 text-white">
+                    <div class="form-group">
+                        <input type="text" id="{{ form.description.auto_id }}" class="form-control" name="{{ form.description.html_name }}" placeholder="일정 요약을 적어주세요" required>
+                    </div>
 
-    {{ cardformset.management_from }}
-    {% for form in cardformset.forms %}
-        <div id="form_set">
-            <div class="table">
-                <input type="hidden" name="form-TOTAL_FORMS" value="1" id="id_form-TOTAL_FORMS"/>
-                <input type="hidden" name="form-INITIAL_FORMS" value="0" id="id_form-INITIAL_FORMS"/>
-                <input type="hidden" name="form-MAX_NUM_FORMS" id="id_form-MAX_NUM_FORMS"/>
-                <table class="no_error">
-                    {{ form.as_table }}
-                    <p>사진 : <input type="file" name="img-card-{{ forloop.counter0 }}" multiple></p>
-                </table>
+                    <div class="form-group mb-5">
+                        <input type="text" id="{{ form.title.auto_id }}" class="form-control" name="{{ form.title.html_name }}" placeholder="일정 제목을 적어주세요" required>
+                    </div>
+                </div>
+                <div class="display-6 text-white">
+                    <div class="form-group">
+                        <input type="text" id="{{ form.tag_string.auto_id }}" class="form-control" name="{{ form.tag_string.html_name }}" placeholder="태그 앞에는 반드시 #을 붙여 작성해주세요" required>
+                    </div>
+                </div>
             </div>
         </div>
-    {% endfor %}
-    <input type="button" value="카드 추가" id="add_more">
+    </div>
+</section>
 
-    <div id="empty_form" style="display:none">
-        <div class="table">
-            <table class="no_error">
-                {{ cardformset.empty_form.as_table }}
-                <p>사진 : <input type="file" name="image" multiple /></p>
-            </table>
-            <input id="delete-card-__prefix__" type="button" value="삭제"/>
+<section class="post-area container">
+    <div class="row">
+        <div class="col-12 offset-sm-1 col-sm-10 offset-md-1 col-md-10 mt-3">
+            <article class="card container">
+                <div class="card-body row px-2 pt-4">
+                    <div class="col-12">
+                        <input id='{{ form.main_image.auto_id }}' type='file' name='{{ form.main_image.html_name }}' hidden>
+                        <div class="form-group">
+                            <label for="{{ form.detail.id_for_label }}">{{ form.detail.label }}</label>
+                            <textarea type="text" id="{{ form.detail.auto_id }}" class="form-control" name="{{ form.detail.html_name }}" placeholder="여행 일정에 대해 상세히 알려주세요." rows='10' required></textarea>
+                        </div>
+                    </div>
+                </div>
+            </article>
         </div>
     </div>
-    <div class="row spacer">
-        <div class="col-4 offset-2">
-            <button type="submit" class="save btn btn-default">일정 저장</button>
+
+    <div class="row">
+        <div id="photos-container" class="owl-carousel text-center col-12 offset-sm-1 col-sm-10 offset-md-1 col-md-10 mt-3">
+            {% for form in subformset.forms %}
+                <div class="card photo">
+                    <div class="card-image-top owl-carousel-image"></div>
+                    <div class="card-body">
+                        <button class="upload btn btn-dark">사진 업로드</button>
+                        <input type="file" name="img-card-{{ forloop.counter0 }}" multiple hidden/>
+                        <div class="form-group mt-3">
+                            <input type="text" id="{{ form.location.auto_id }}" class="form-control" name="{{ form.location.html_name }}" placeholder="{{ form.location.label }}" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea type="text" id="{{ form.text.auto_id }}" class="form-control" name="{{ form.text.html_name }}" placeholder="{{ form.text.label }}" required></textarea>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            <div id="add-more" class="card plus"><div class="card-body">카드 추가하기</div></div>
         </div>
     </div>
-    
-    
-    <script src="{% static 'js/jquery-3.3.1.slim.min.js' %}"></script>
-    <script>
-        $(document).ready(function() {
-            $('#add_more').click(function(){
-                var form_idx=$('#id_form-TOTAL_FORMS').val();
-                console.log(form_idx)
-                $('#form_set')
-                    .append(
-                        $('#empty_form')
-                            .html()
-                            .replace(/__prefix__/g, form_idx)
-                            .replace('image', `img-card-${form_idx}`)
-                    );
-                $('#id_form-TOTAL_FORMS').val(parseInt(form_idx)+1);
-            }); 
-        });
-        
-    </script>
-    
+
+    <div class="row">
+        <div class="col-12 offset-sm-1 col-sm-10 offset-md-1 col-md-10 mt-3">
+            <article class="card container">
+                <div class="card-body row px-2 pt-4">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="{{ form.cost.id_for_label }}">{{ form.cost.label }}</label>
+                            <input type="text" id="{{ form.cost.auto_id }}" class="form-control" name="{{ form.cost.html_name }}" placeholder="{{ form.cost.label }}" required>
+                        </div>
+
+                        <div class="form-group text-center">
+                            <input class="btn btn-dark" type="submit" value="업로드">
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </div>
+</section>
+
+<input type="hidden" name="form-TOTAL_FORMS" value="1" id="id_form-TOTAL_FORMS" />
+<input type="hidden" name="form-INITIAL_FORMS" value="0" id="id_form-INITIAL_FORMS" />
+<input type="hidden" name="form-MAX_NUM_FORMS" id="id_form-MAX_NUM_FORMS" />
 </form>
+
+<!-- 찍어낼 복사본의 원본 -->
+<div id="empty-form" class="d-none">
+    <div class="card photo">
+        <div class="card-image-top owl-carousel-image"></div>
+        <div class="card-body">
+            <button class="upload btn btn-dark">사진 업로드</button>
+            <input type="file" name="img-card-__prefix__" multiple hidden/>
+            <div class="form-group mt-3">
+                <input type="text" id="{{ subformset.empty_form.location.auto_id }}" class="form-control" name="{{ subformset.empty_form.location.html_name }}" placeholder="{{ subformset.empty_form.location.label }}" required>
+            </div>
+            <div class="form-group">
+                <textarea type="text" id="{{ subformset.empty_form.text.auto_id }}" class="form-control" name="{{ subformset.empty_form.text.html_name }}" placeholder="{{ subformset.empty_form.text.label }}" required></textarea>
+            </div>
+            <input id="delete-card-__prefix__" class="card-remove btn btn-danger" type="button" value="삭제" />
+        </div>
+    </div>
+</div>
+{% endblock %}

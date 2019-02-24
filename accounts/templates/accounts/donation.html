@@ -1,0 +1,99 @@
+{% extends 'accounts/layout.html' %}
+{% load socialaccount %}
+{% load static %}
+{% block title %}개발자에게 후원하기{% endblock %}
+{% block outer-title %}개발자에게 후원하기{% endblock %}
+{% block inner-title %}{{ profile.user.username }}님 배고픈 개발자에게 후원해주세요{% endblock %}
+
+{% block inner-content %}
+
+<div class="col-12">
+    <div>
+  <input type="radio" id="product-500" name="product" value="500">
+  <label for="product-500">개발자에게 쫀쪼니 사주기 (500원)</label>
+</div>
+
+<div>
+  <input type="radio" id="product-2000" name="product" value="2000">
+  <label for="product-2000">개발자에게 붕어빵 사주기 (2000원)</label>
+</div>
+
+<div>
+  <input type="radio" id="product-4500" name="product" value="4500" checked>
+  <label for="product-4500">개발자에게 커피 한 잔 사주기 (4500원)</label>
+</div>
+
+<div>
+  <input type="radio" id="product-8500" name="product" value="8500">
+  <label for="product-8500">개발자에게 베이컨치즈와퍼세트 사주기 (8500원)</label>
+</div>
+
+
+<div>
+  <input type="radio" id="product-4500" name="product" value="18000">
+  <label for="product-18000">개발자에게 황금올리브닭다리 사주기 (18000원)</label>
+</div>
+
+
+<div>
+  <input type="radio" id="product-4500" name="product" value="49000">
+  <label for="product-49000">개발자에게 한우 꽃등심 사주기 (49000원)</label>
+</div>
+    
+<div>
+  <input type="text" id="comment" name="comment" value="" placeholder="개발자에게 한마디를 남겨주세요.">
+</div>
+
+<div>
+    <input id="donate" type="button" onclick="requestDonate()" value="개발자에게 사주기">
+</div>
+    아직 카카오페이는 안됩니다.
+</div>
+{% endblock %}
+
+{% block script_bottom %}
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+    <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+    <script src="{% static 'js/popper.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/bs-custom-file-input.min.js' %}"></script>
+    <script src="{% static 'js/styles.js' %}"></script>
+
+    <script>
+    $(document).ready(function() {
+        IMP.init("imp13758793");
+
+        $('#donate').click(function() {
+
+        });
+    });
+
+    function requestDonate(){
+        var amount = Number($("input[name='product']:checked").val());
+        var comment = $('#comment').val();
+
+        IMP.request_pay({
+            amount : amount,
+            buyer_name : '{{ profile.user.username }}',
+            buyer_email : '{{ profile.user.email }}',
+            name : 'Truffle 개발자에게 후원'
+        }, function(response) {
+            if ( response.success ) {
+                console.log(response);
+                // alert(response);
+                $.post("{% url 'accounts:donation_process' %}",
+                  {
+                    amount: amount,
+                    comment: comment,
+                  },
+                  function(data, status){
+                    window.location = data.next;
+                  });
+            } else {
+                console.log(response);
+                alert('결제실패 : ' + response.error_msg);
+            }
+        });
+    }
+    </script>
+{% endblock %}

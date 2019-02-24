@@ -1,0 +1,11 @@
+<form method="post" action="">
+    {% csrf_token %}
+    <div class="modal-header">
+    <h4 class="modal-title">정말 삭제하시겠습니까?</h4>
+   
+  </div>
+    <div class="modal-body">
+        <input class="btn btn-primary" value="삭제" name='delete_yes'>
+        <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+    </div>
+</form>

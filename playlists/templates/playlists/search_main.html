@@ -1,0 +1,67 @@
+{% extends 'layout/_layout.html' %} {% block title %}{{ request.GET.q }}의 검색결과{% endblock %} {% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-12 col-md-8">
+            <div class="d-inline-block w-100 text-center text-md-left">
+                <h2 class="display-6 ml-2">검색결과</h2>
+            </div>
+            <article class="card container mt-3 mb-4">
+                <div class="card-body row px-2 pt-4">
+                    <div class="col-12">
+                        <h2 class="display-6 my-4 text-center">'{{ request.GET.q }}'의 검색결과</h2>
+                        <form action="" method="get">
+                            <div class="form-group">
+                                <input type="text" name="q" value="{{ request.GET.q }}" class="form-control" required>
+                            </div>
+                            <input type="submit" value="검색" class="btn btn-dark" />
+                        </form>
+                        
+                        <p class="mb-0">태그 구독하기 
+                        {% for tag in tags %}
+                            {% if not tag in user.profile.subscribe_tags.all %}
+                            <a href="{% url 'accounts:action' %}?action=subscribe&tag_id={{ tag.id }}&next={{ request.get_full_path|urlencode }}"><span class="tag">#{{ tag.name }}</span></a>
+                            {% endif %}
+                        {% endfor %}
+                        </p>
+                        
+                    </div>
+                </div>
+            </article>
+            
+            
+            <div class="d-inline-block w-100 text-center text-md-left mb-3">
+                <h2 class="display-6 ml-2">일정 검색 결과</h2>
+            </div>
+            {% if posts %}
+                {% for playlist in posts %}
+                    {% include 'playlists/__playlist_card.html' with playlist=playlist prepend=True %}
+                {% endfor %}
+                <div class="container text-right">
+                    <a class="btn btn-dark" href="{% url 'playlists:search_more' %}?q={{ request.GET.q }}&category=일정" />일정 검색 결과 더 보기</a>
+                </div>
+            {% else %}
+                <div class="container text-right">
+                    <p>('일정 검색결과가 없습니다 ٩(இ ⌓ இ๑)۶ ')</p>
+                </div>
+            {% endif %}
+        
+        
+            <div class="d-inline-block w-100 text-center text-md-left mb-3">
+                <h2 class="display-6 ml-2">유저 검색 결과</h2>
+            </div>
+            {% if authors %}
+                {% for author in authors %}
+                    <a class="btn btn-dark" href="{% url 'accounts:user_list' author.user.id %}"> {{ author }} </a>
+                {% endfor %}
+            {% else %}
+                <div class="container text-right">
+                    <p>('유저 검색결과가 없습니다 ٩(இ ⌓ இ๑)۶ ')</p>
+                </div>
+            {% endif %}
+        </div>
+        <div class="col-4 d-none d-md-block">
+            {% include 'core/__side.html' %}
+        </div>
+    </div>
+</div>
+{% endblock %}

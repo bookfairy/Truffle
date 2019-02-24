@@ -5,19 +5,14 @@ import re
 from django.forms import ValidationError
 from django.utils.translation import gettext, gettext_lazy as _
 
-
-def phone_number_check(number):
-    pass
-    # if not re.match(r'^010-[1-9]\d{3}-\d{4}$', number):
-    #     raise ValidationError('{}는 형식이 틀렸습니다.\n010-xxxx-xxxx 형식으로 입력하세요.'.format(number)
-
 class ProfileForm(forms.ModelForm):
-    username = forms.CharField(label='닉네임', widget=forms.TextInput(attrs={'class': 'form-control', 'l': '닉네임'}))
+    username = forms.CharField(label='닉네임', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': '닉네임'}))
     email = forms.EmailField(label='이메일', widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': '이메일'}))
     name = forms.CharField(label='이름', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': '이름'}))
     pw1 = forms.CharField(label='비밀번호', widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': '비밀번호'}))
     pw2 = forms.CharField(label='비밀번호 재입력', widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': '비밀번호 재입력'}))
-
+    
+    
     def clean(self):
         pw1 = self.cleaned_data['pw1']
         pw2 = self.cleaned_data['pw2']
@@ -29,15 +24,14 @@ class ProfileForm(forms.ModelForm):
 
     class Meta:
         model = Profile
-        fields = ('address','phone_number')
+        fields = ('phone_number',)
+        help_texts = {'phone_number': "ex) 01X-XXX-XXXX",}
         widgets = {
             'phone_number':forms.TextInput(attrs={'class':'form-control','placeholder':'전화번호'}),
-            'address':forms.TextInput(attrs={'class':'form-control','placeholder':'주소'}),
         }
 
-
 class LoginForm(forms.Form):
-    email = forms.CharField(label='이메일', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': '이메일'}))
+    email = forms.EmailField(label='이메일', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': '이메일'}))
     pw = forms.CharField(label='비밀번호', widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': '비밀번호'}))
     
 class EditForm(forms.Form):
@@ -60,5 +54,5 @@ class ChangepwForm(forms.Form):
 
 class CheckForm(forms.Form):
     username = forms.CharField(label='닉네임을 입력하세요.', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': '닉네임을 입력하세요.'}))
-    pw1 = forms.EmailField(label='비밀번호를 입력하세요.', widget=forms.PasswordInput(attrs={'class':'form-control', 'placeholder': '비밀번호를 입력하세요.'}))
-    pw2 = forms.EmailField(label='비밀번호를 확인해주세요.', widget=forms.PasswordInput(attrs={'class':'form-control', 'placeholder': '비밀번호를 확인해주세요.'}))
+    pw1 = forms.CharField(label='비밀번호를 입력하세요.', widget=forms.PasswordInput(attrs={'class':'form-control', 'placeholder': '비밀번호를 입력하세요.'}))
+    pw2 = forms.CharField(label='비밀번호를 확인해주세요.', widget=forms.PasswordInput(attrs={'class':'form-control', 'placeholder': '비밀번호를 확인해주세요.'}))

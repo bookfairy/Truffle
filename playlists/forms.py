@@ -14,17 +14,19 @@ class PlayListModelForm(forms.ModelForm):
         'placeholder':'여행에 대해서 자세하게 써주세요'
     }))
     main_image=forms.ImageField(widget=forms.FileInput())
+    cost=forms.CharField(widget=forms.Textarea(attrs={'cols':50,'rows':1,'placeholder':'여행 경비를 숫자로 입력해주세요'},))
     tag_string = forms.CharField(label='태그', widget=forms.TextInput(attrs={'placeholder':'태그 앞에 꼭 #을 붙여서 작성해주세요'}))
 
     class Meta:
         model=PlayList
-        fields=('title','description','detail','main_image')
+        fields=('title','description','detail','main_image','cost')
 
 class CardModelForm(forms.ModelForm):
     text=forms.CharField(widget=forms.Textarea(attrs={'cols': 40, 'rows': 10,'placeholder':'사진에 대해 설명해주세요'}))
+    location=forms.CharField(widget=forms.Textarea(attrs={'cols': 10, 'rows': 10,'placeholder':'장소에 대해 설명해주세요'}))
     class Meta:
         model=Card
-        fields=('text',)
+        fields=('location','text',)
 
 class PhotoModelForm(forms.ModelForm):
     image=forms.ImageField(widget=forms.FileInput(attrs={'multiple':True}))

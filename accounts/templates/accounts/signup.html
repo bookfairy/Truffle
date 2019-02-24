@@ -5,33 +5,31 @@
         {% csrf_token %}
         <div class="form-group">
             <label for="{{ form.username.id_for_label }}">{{ form.username.label }}</label>
-            <input type="text" id="{{ form.username.auto_id }}" class="form-control" name="{{ form.username.html_name }}" placeholder="{{ form.username.label }}">
-        </div>
-        <div class="form-group">
-            <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
-            <input type="email" id="{{ form.email.auto_id }}" class="form-control" name="{{ form.email.html_name }}" placeholder="{{ form.email.label }}">
-        </div>
-        <div class="form-group">
-            <label for="{{ form.address.id_for_label }}">{{ form.address.label }}</label>
-            <input type="text" id="{{ form.address.auto_id }}" class="form-control" name="{{ form.address.html_name }}" placeholder="{{ form.address.label }}">
-        </div>
-        <div class="form-group">
-            <label for="{{ form.phone_number.id_for_label }}">{{ form.phone_number.label }}</label>
-            <input type="text" id="{{ form.phone_number.auto_id }}" class="form-control" name="{{ form.phone_number.html_name }}" placeholder="{{ form.phone_number.label }}">
+            <input type="text" id="{{ form.username.auto_id }}" class="form-control" name="{{ form.username.html_name }}" placeholder="{{ form.username.label }}" required>
         </div>
         <div class="form-group">
             <label for="{{ form.name.id_for_label }}">{{ form.name.label }}</label>
-            <input type="text" id="{{ form.name.auto_id }}" class="form-control" name="{{ form.name.html_name }}" placeholder="{{ form.name.label }}">
+            <input type="text" id="{{ form.name.auto_id }}" class="form-control" name="{{ form.name.html_name }}" placeholder="{{ form.name.label }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
+            <input type="email" id="{{ form.email.auto_id }}" class="form-control" name="{{ form.email.html_name }}" placeholder="{{ form.email.label }}" required>
         </div>
         <div class="form-group">
             <label for="{{ form.pw1.id_for_label }}">{{ form.pw1.label }}</label>
-            <input type="password" id="{{ form.pw1.auto_id }}" class="form-control" name="{{ form.pw1.html_name }}" placeholder="{{ form.pw1.label }}">
+            <input type="password" id="{{ form.pw1.auto_id }}" class="form-control" name="{{ form.pw1.html_name }}" placeholder="{{ form.pw1.label }}" required>
         </div>
         <div class="form-group">
             <label for="{{ form.pw2.id_for_label }}">{{ form.pw2.label }}</label>
-            <input type="password" id="{{ form.pw2.auto_id }}" class="form-control" name="{{ form.pw2.html_name }}" placeholder="{{ form.pw2.label }}">
+            <input type="password" id="{{ form.pw2.auto_id }}" class="form-control" name="{{ form.pw2.html_name }}" placeholder="{{ form.pw2.label }}" required>
         </div>
-        
+        <div class="form-group">
+            <label for="{{ form.phone_number.id_for_label }}">{{ form.phone_number.label }} / {{form.phone_number.help_text}}</label>
+            <input type="text" id="{{ form.phone_number.auto_id }}" class="form-control" name="{{ form.phone_number.html_name }}" placeholder="{{ form.phone_number.label }}" required>
+            
+        </div>
+
         <div class="text-center mt-4">
             <input type="submit" value="회원가입" class="btn btn-dark">
         </div>

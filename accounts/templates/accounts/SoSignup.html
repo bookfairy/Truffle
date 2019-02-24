@@ -1,9 +1,9 @@
-<form action="" method='POST'>
-    {% csrf_token %}
-    <p>
-        {{ form.as_p }}
-    </p>
-    <p>
-        <input type='submit' value='제출'>
-    </p>
-</form>
+{% extends 'accounts/layout_anonymous.html' %} {% load socialaccount %} {% load static %} {% providers_media_js %} {% block title %}회원가입{% endblock %} {% block outer-title %}환영합니다!{% endblock %} {% block inner-title %}회원가입{% endblock %} {% block inner-content%}
+<div class="col-12">
+    <form action="" method='POST'>
+        {% csrf_token %}
+        <p>{{ form.as_p }}</p>
+        <p><input type='submit' class="btn btn-dark" value='제출'></p>
+    </form>
+</div>
+{% endblock %}

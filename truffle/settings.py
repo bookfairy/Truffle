@@ -25,7 +25,7 @@ SECRET_KEY = '6t0bs79y0(o^z6fwe$jlgy#r=6qrf7r^r_sffmp)f8p8bh%=5@'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['truffle.run.goorm.io', '*']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -50,8 +50,8 @@ INSTALLED_APPS += [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.kakao',
-    'allauth.socialaccount.providers.github',
     'allauth.socialaccount.providers.facebook',
+    'bootstrap_modal_forms',
 ]
 
 AUTHENTICATION_BACKENDS = (

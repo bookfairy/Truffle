@@ -7,7 +7,7 @@ $(document).ready(function() {
 
     // 부트스트랩 토스트(알림)을 활성화시키는 기본 코드
     $('.toast').toast('show');
-    
+
     // 파일 입력창에서 파일을 업로드할 때, input 태그 내 글자가 바뀌도록 하는 코드
     bsCustomFileInput.init();
 
@@ -21,8 +21,30 @@ $(document).ready(function() {
     var navbar_height = $('.navbar.fixed-top').outerHeight();
     $toasts.css('margin-top', navbar_height);
 
+    // + 일정 영역에서는 헤더바를 투명하게 만듭니다
+    if (
+        window.location.pathname.includes('playlists') &&
+        !window.location.pathname.includes('search')
+    ) {
+        if (current_scroll > navbar_height * 4) {
+            $('.navbar.fixed-top').removeClass('transparent');
+        } else {
+            $('.navbar.fixed-top').addClass('transparent');
+        }
+    }
     $(window).scroll(function() {
         current_scroll = $(window).scrollTop();
+
+        if (
+            window.location.pathname.includes('playlists') &&
+            !window.location.pathname.includes('search')
+        ) {
+            if (current_scroll > navbar_height * 4) {
+                $('.navbar.fixed-top').removeClass('transparent');
+            } else {
+                $('.navbar.fixed-top').addClass('transparent');
+            }
+        }
 
         if (current_scroll > last_scroll && current_scroll > navbar_height * 2) {
             $navbar.addClass('is-scrolled');
@@ -74,6 +96,126 @@ $(document).ready(function() {
         .mouseleave(function() {
             $(this).removeClass('is-hovered');
         });
+
+    /*-------------------- 글 쓰기 페이지 --------------------*/
+    // owl 캐러셀의 전통적 nexted 오류 해결
+    function stopOwlPropagation(element) {
+        jQuery(element).on('to.owl.carousel', function(e) { e.stopPropagation(); });
+        jQuery(element).on('next.owl.carousel', function(e) { e.stopPropagation(); });
+        jQuery(element).on('prev.owl.carousel', function(e) { e.stopPropagation(); });
+        jQuery(element).on('destroy.owl.carousel', function(e) { e.stopPropagation(); });
+        jQuery(element).on('add.owl.carousel', function(e) { e.stopPropagation(); });
+        jQuery(element).on('remove.owl.carousel', function(e) { e.stopPropagation(); });
+        jQuery(element).on('refresh.owl.carousel', function(e) { e.stopPropagation(); });
+        jQuery(element).on('update.owl.carousel', function(e) { e.stopPropagation(); });
+    }
+    stopOwlPropagation('.owl-carousel');
+    stopOwlPropagation('.owl-carousel-image');
+    
+    // 메인 이미지(.main-image) 클릭 시 사진 업로드(input#id_main_image)
+    $('.main-image').on('click', function() {
+        $('input#id_main_image').click();
+    });
+
+    // 사진 업로드(input#id_main_image) 시 두 군데에서 프리뷰
+    $('input#id_main_image').on('change', function() {
+        if (this.files && this.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                $('.main-image').css('background-image', "url('" + e.target.result + "')");
+                $('.background-main-image').css(
+                    'background-image',
+                    "linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('" +
+                        e.target.result +
+                        "')"
+                );
+            };
+            reader.readAsDataURL(this.files[0]);
+        }
+    });
+
+    // 카드 사진 업로드 버튼(button.upload) 클릭 시 사진 업로드(input#id_image1)
+    $(document).on('click', '.upload', function() {
+        $(this).next().click();
+        return false;
+    });
+
+    // 사진 여러 개 업로드(input#id_image1) 시 파일 프리뷰
+    $(document).on('change', '.upload + input[multiple]', function() {
+        stopOwlPropagation('.owl-carousel');
+        stopOwlPropagation('.owl-carousel-image');
+        var $image_area = $(this).closest('.card.photo').children('.owl-carousel-image');
+        
+        for (var i = 0; i <= $image_area.find('.owl-item').length; i++) {
+            $image_area.owlCarousel('remove', [i]).owlCarousel('refresh');
+        }
+
+        if (this.files) $.each(this.files, function(i, file) {
+            if (!/\.(jpe?g|png|gif)$/i.test(file.name)) {
+                return alert(file.name + ' 은 이미지 파일이 아닙니다!');
+            } // else...
+
+            var reader = new FileReader();
+            
+            // $image_area.owlCarousel('add', $('<img/>', { src: this.result }).html()).owlCarousel('update');
+            
+            $(reader).on('load', function() {
+                $image_area.owlCarousel('add', $('<img/>', { src: this.result })).owlCarousel('update');
+            });
+
+            reader.readAsDataURL(file);
+        });
+    });
+
+    // 카드 추가
+    $(document).on('click', '#add-more', function() {
+        stopOwlPropagation('.owl-carousel');
+        stopOwlPropagation('.owl-carousel-image');
+        var form_idx = parseInt($('#id_form-TOTAL_FORMS').val());
+        $('#photos-container')
+            .trigger('add.owl.carousel', [
+                $('#empty-form')
+                    .html()
+                    .replace(/__prefix__/g, form_idx)
+                    .replace('image', `img-card-${form_idx}`),
+                $('.card.photo').length + 1
+            ])
+            .trigger('refresh.owl.carousel');
+
+        $('#id_form-TOTAL_FORMS').val(form_idx + 1);
+    });
+    
+    // 카드 삭제
+    $(document).on("click", '.card-remove', function() {
+        stopOwlPropagation('.owl-carousel');
+        stopOwlPropagation('.owl-carousel-image');
+        $('#photos-container').trigger('remove.owl.carousel', $(this).parents('.owl-item').index()).trigger('refresh.owl.carousel');
+    });
+    
+
+    // 카드 수평 뷰
+    $('.owl-carousel').owlCarousel({
+        autoWidth: false,
+        margin: 4,
+        nav: true,
+        dotsEach: true,
+        mouseDrag: false,
+        responsiveClass: true,
+        responsive: {
+            0: {
+                items: 1
+            },
+            768: {
+                items: 2
+            },
+            992: {
+                items: 3
+            }
+        }
+    });
+
+    // 카드 내 이미지 수평뷰
+    $('.owl-carousel-image').owlCarousel({ items: 1, lazyLoad: true, autoHeight: true, margin: 2 });
 
     /*-------------------- 기타 페이지 --------------------*/
     // 포스트 목록에서 태그를 클릭하면, 곧바로 검색하지 않고 상단의 검색창에 원격 입력시키는 코드입니다

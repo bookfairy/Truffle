@@ -1,0 +1,33 @@
+<section class="card side">
+    <div class="card-header side-title">추천 일정</div>
+    <div class="card-body side-content py-2">
+    {% if recomm %}
+        {% for post in recomm %}
+        <div class="subs-line border-0">
+            <a class="subs-image-outer" href="{% url 'playlists:detail' post.id %}">
+                <img class="subs-image-inner" src="{{ post.main_image.url }}">
+            </a>
+            <a class="subs-text" href="{% url 'playlists:detail' post.id %}">
+                <span>
+                    {{ post.title }}
+                </span>
+                <span class="subs-subtext">
+                    {{ post.description }}
+                </span>
+            </a>
+        </div>
+        {% endfor %}
+    {% else %}
+        추천할 게시물이 없습니다.
+    {% endif %}
+    </div>
+    <div class="card-footer side-tail"><small class="text-muted">혹시 못 보고 지나쳤을 꿀 일정들</small></div>
+</section>
+
+<section class="card side">
+    <div class="card-body side-content d-flex">
+        <a href="{% url 'playlists:upload' %}" class="icon-container flex-grow-1 d-flex justify-content-center align-items-center" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="글쓰기">
+            <i class="eva-upload dark outline"></i>
+        </a>
+    </div>
+</section>

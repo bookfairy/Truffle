@@ -1,0 +1,54 @@
+<footer class="footer mt-5 px-2 px-sm-3 px-md-4 px-lg-5 py-3">
+    <div class="container-fluid px-md-5 py-0 py-md-5">
+        <div class="row px-md-5 py-3 py-md-5">
+            <div class="col-12 col-md-3 py-3 py-md-0">
+                <p class="d-inline-block d-md-block display-6">언제든지 여행 가세요.</p>
+                <small class="text-muted">
+                    <span class="ml-1 ml-md-0 d-inline-block d-md-block">&copy; 2019 Truffle Inc.</span>
+                    <span class="ml-1 ml-md-0 d-inline-block d-md-block"></span>All Rights Reserved</span>
+                </small>
+            </div>
+            <div class="col-12 col-md-9 py-3 py-md-0">
+                <h4 class="display-6">사람이 여행을 하는 것은
+                    <br>도착하기 위해서가 아니라 여행하기 위해서이다.
+                    <small class="text-muted"> - 괴테
+                    </small>
+                </h4>
+            </div>
+        </div>
+        <div class="row px-md-5 py-3 py-md-5">
+            <div class="offset-0 offset-md-3 col-4 col-md-3">
+                <h5 class="text-muted mb-3">후원하기</h5>
+                <a href="{% url 'accounts:donation' %}" class="markable-link d-none d-md-inline-block">가난한 개발자에게<br>커피 한 잔의 후원으로 응원해주세요.</a>
+                <a href="{% url 'accounts:donation' %}" class="markable-link d-inline-block d-md-none">응원하기<br>커피 한 잔.</a>
+            </div>
+            <div class="col-4 col-md-3">
+                <h5 class="text-muted mb-3">바탕화면에 바로가기</h5>
+                <a href="javascript:addFavorite('Truffle', '{% url 'root' %}')" class="markable-link d-none d-md-inline-block">바로가기 추가하기</a>
+            </div>
+            <div class="col-4 col-md-3 text-dark">
+                <a href="{% url 'root' %}">
+                    <i class="eva-home outline dark"></i>
+                </a>
+                <a href="{% url 'playlists:search' %}">
+                    <i class="eva-search outline dark"></i>
+                </a>
+                <a href="{% url 'accounts:subs' %}">
+                    <i class="eva-people outline dark"></i>
+                </a>
+                <a href="{% url 'accounts:profile' %}">
+                    <i class="eva-settings outline dark"></i>
+                </a>
+            </div>
+        </div>
+        <div class="row px-md-5 py-3 pt-md-5 pb-md-0">
+            <div class="col-12 offset-md-3 col-md-9 pt-4 pt-md-0 text-center text-md-left">
+                <small class="text-muted">
+                    <a href="#" class="unmarkable-link">TERMS</a> -
+                    <a href="#" class="unmarkable-link">PRIVACY</a> -
+                    <a href="#" class="unmarkable-link">ABOUT</a>
+                </small>
+            </div>
+        </div>
+    </div>
+</footer>

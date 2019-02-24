@@ -9,12 +9,14 @@ from allauth.socialaccount.models import SocialAccount
 from allauth.account.views import LoginView
 from django.core.mail import send_mail
 from .forms import ProfileForm, LoginForm, EditForm, NewpwForm, ChangepwForm, CheckForm
-from .models import Profile
+from .models import Profile, Donation
 from playlists.models import PlayList, Tag
 from django.core.files import File
 from django.core.files.temp import NamedTemporaryFile
 from urllib.request import urlopen
-
+from django.views.decorators.csrf import csrf_exempt
+from django.urls import reverse
+from django.http import JsonResponse
 
 @login_required
 def profile_view(request):
@@ -37,8 +39,9 @@ def signup_view(request):
                 form.add_error('email', '이미 사용 중인 이메일입니다.')
             if form.errors:
                 return render(request, 'accounts/signup.html', {'form': form, })
+            
             pw = form.cleaned_data['pw']
-            name = form.cleaned_data['name']
+            name = form.cleaned_data['name'] 
 
             user = User()
             user.email = email
@@ -249,7 +252,8 @@ def subs(request):
     following = request.user.profile.following.order_by('user__username')
     followers = Profile.objects.filter(following=request.user.profile).order_by('user__username')
     scraps = request.user.profile.scrap_playlists.all()
-    return render(request, 'accounts/subs.html', {'following': following, 'followers': followers, 'scraps': scraps, })
+    tags = request.user.profile.subscribe_tags.all()
+    return render(request, 'accounts/subs.html', {'following': following, 'followers': followers, 'scraps': scraps, 'tags':tags, })
 
 
 def send(request):
@@ -258,10 +262,71 @@ def send(request):
 
 
 def user_list(request,id):
+    is_following=False
+    ctx={}
+
     if id:
         user = User.objects.get(id=id)
+        if user.profile in request.user.profile.following.all():
+            is_following = True
+        
     else:
         user = request.user
+    if user==request.user:
+        ctx['mine']=True
         
     userlist = PlayList.objects.filter(author=user).order_by('-created_at')
-    return render(request, 'accounts/userlist.html', {'userlist': userlist, 'author': user, })
+    following = user.profile.following.all()
+    followed = user.profile.followed.all()
+    tags = user.profile.subscribe_tags.all()
+    
+    ctx['userlist']=userlist
+    ctx['following']=following 
+    ctx['is_following']=is_following
+    ctx['tags']=tags
+    ctx['author']=user
+    ctx['followed']=followed
+    return render(request, 'accounts/userlist.html',ctx)
+
+
+@login_required
+def donation_view(request):
+    profile = request.user.profile
+    return render(request, 'accounts/donation.html', {'profile': profile})
+
+
+@login_required
+@csrf_exempt
+def donation_process(request):
+    profile = request.user.profile
+    amount = int(request.POST.get('amount'))
+    comment = request.POST.get('comment')
+    donation = Donation.objects.create(profile=profile, amount=amount, comment=comment)
+    
+    return JsonResponse({'next': reverse('accounts:donation_done', args=(donation.pk,))})
+
+
+@login_required
+def donation_done(request, donation_id):
+    profile = request.user.profile
+    donation = Donation.objects.get(pk=donation_id)
+    return render(request, 'accounts/donation_done.html', {'profile': profile, 'donation': donation})
+
+@login_required
+def user_delete(request):
+    check = request.POST.get('check')
+    pw = request.POST.get('pw')
+    print(pw)
+    print(check)
+    user = request.user
+
+    if check == '네':
+        if user.check_password(pw):
+            print('pwcheck')
+            user.delete()
+            return redirect('core:index')
+        else:
+            print('nono')
+            return redirect('/')     
+    else:
+        return render(request, 'accounts/user_delete.html')

@@ -1,21 +1,20 @@
-{% extends 'accounts/layout.html' %}
-{% load socialaccount %}
-{% block title %}구독 목록{% endblock %}
-{% block outer-title %}팔로우, 팔로잉 목록{% endblock %}
-{% block inner-title %}구독 관리{% endblock %}
-
-{% block inner-content %}
+{% extends 'accounts/layout.html' %} {% load socialaccount %} {% block title %}구독 목록{% endblock %} {% block outer-title %}팔로우, 팔로잉 목록{% endblock %} {% block inner-title %}구독 관리{% endblock %} {% block inner-content %}
 <div class="col-12">
     <nav>
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
             <a class="nav-item nav-link active" id="nav-following-tab" data-toggle="tab" href="#nav-following" role="tab" aria-controls="nav-following" aria-selected="true">팔로잉
-                <small> {{ following|length }}</small>
+                <small> {{ following|length }}
+                    <!-- 태그 구독도 더합시다 -->
+                </small>
             </a>
             <a class="nav-item nav-link" id="nav-follower-tab" data-toggle="tab" href="#nav-follower" role="tab" aria-controls="nav-follower" aria-selected="false">팔로워
                 <small> {{ followers|length }}</small>
             </a>
+            <a class="nav-item nav-link" id="nav-tag-tab" data-toggle="tab" href="#nav-tag" role="tab" aria-controls="nav-tag" aria-selected="false">태그
+                <small> {{ tags|length }}</small>
+            </a>
             <a class="nav-item nav-link" id="nav-scrap-tab" data-toggle="tab" href="#nav-scrap" role="tab" aria-controls="nav-scrap" aria-selected="false">스크랩
-            <small> {{ scraps|length }}</small>
+                <small> {{ scraps|length }}</small>
             </a>
         </div>
     </nav>
@@ -23,6 +22,7 @@
 
         <!-- 팔로잉 -->
         <div class="tab-pane fade show active" id="nav-following" role="tabpanel" aria-labelledby="nav-following-tab">
+            <!-- 태그 구독도 보여줍시다 -->
             {% for person in following %}
             <div class="subs-line">
                 <a class="subs-image-outer" href="{% url 'accounts:user_list' person.user.id %}">
@@ -46,35 +46,53 @@
                 <a class="subs-text" href="{% url 'accounts:user_list' person.user.id %}">{{ person.user.username }}</a>
                 <div class="subs-button-outer">
                     {% if person in request.user.profile.following.all %}
-                        <a class="btn btn-light subs-button disabled" href="#">이미 맞팔</a>
+                    <a class="btn btn-light subs-button disabled" href="#">이미 맞팔</a>
                     {% else %}
-                        <a class="btn btn-dark subs-button" href="{% url 'accounts:action' %}?action=follow&user_id={{ person.id }}&next={{ request.path|urlencode }}">서로 구독하기</a>
+                    <a class="btn btn-dark subs-button" href="{% url 'accounts:action' %}?action=follow&user_id={{ person.id }}&next={{ request.path|urlencode }}">서로 구독하기</a>
                     {% endif %}
                 </div>
             </div>
             {% endfor %}
         </div>
-        
+        <!-- 태그 -->
+        <div class="tab-pane fade" id="nav-tag" role="tabpanel" aria-labelledby="nav-tag-tab">
+            {% for tag in tags %}
+            <div class="subs-line">
+                <a class="subs-text" href='/playlists/search/?q=%23{{tag}}'class="tag">
+                    <span>
+                        #{{ tag }}
+                    </span>
+                </a>
+                <div class="subs-button-outer">
+                   <a href="{% url 'accounts:action' %}?action=unsubscribe&tag_id={{ tag.id }}&next={{ request.get_full_path|urlencode }}">구독 취소</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
         <!-- 스크랩 -->
         <div class="tab-pane fade" id="nav-scrap" role="tabpanel" aria-labelledby="nav-scrap-tab">
             {% for playlist in scraps %}
             <div class="subs-line">
-                <img class="subs-image-inner" src="{{ playlist.photo.image.url }}">
-                <div class="subs-text">
-                    <a href="{% url 'playlists:detail' playlist.id %}">
+                <a class="subs-image-outer" href="{% url 'playlists:detail' playlist.id %}">
+                    <img class="subs-image-inner" src="{{ playlist.main_image.url }}">
+                </a>
+                <a class="subs-text" href="{% url 'playlists:detail' playlist.id %}">
+                    <span>
                         {{ playlist.title }}
-                    </a>
-                </div>
+                    </span>
+                    <span class="subs-subtext">
+                        {{ playlist.description }}
+                    </span>
+                </a>
                 <div class="subs-button-outer">
                     <a class="btn btn-light subs-button" href="{% url 'accounts:action' %}?action=unscrap&playlist_id={{ playlist.id }}&next={{ request.path|urlencode }}">스크랩 취소</a>
                 </div>
             </div>
             {% endfor %}
         </div>
-        
-    </div>
 
-    <div class="d-flex justify-content-between mt-5">
-        <a class="btn btn-dark" href="{% url 'accounts:profile' %}">뒤로 가기</a>
-</div>
-{% endblock %}
+        <div class="d-flex justify-content-between mt-5">
+            <a class="btn btn-dark" href="{% url 'accounts:profile' %}">뒤로 가기</a>
+        </div>
+        {% endblock %}

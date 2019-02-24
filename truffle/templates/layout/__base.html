@@ -1,0 +1,30 @@
+{% load static %} {% load socialaccount %} {% providers_media_js %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="theme-color" content="#4876EF" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimun-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <title>{% block title %}{% endblock %} | Truffle</title>
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+    <link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet">
+</head>
+
+<body>
+    {% block raw_content %} {% endblock %} {% block script_bottom %}
+    <script src="{% static 'js/jquery-3.3.1.slim.min.js' %}"></script>
+    <script src="{% static 'js/popper.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/jquery.bootstrap.modal.forms.js' %}"></script>
+    <script src="{% static 'js/bs-custom-file-input.min.js' %}"></script>
+    <script src="{% static 'js/owl.carousel.js' %}"></script>
+    <script src="{%static 'js/star.js'%}"></script>
+
+    <script src="{% static 'js/styles.js' %}"></script>
+    <!-- <script src="{% static 'js/juso.js' %}"></script> -->
+    {% endblock %}
+</body>
+
+</html>

@@ -1,119 +1,266 @@
-{% extends 'layout/layout.html' %}
- {% block title %}{{ playlist.title }}{% endblock %} 
-{% block content %}
-{% load static %}
-<link href="{% static 'css/star.css' %}" rel="stylesheet">
+{% extends 'layout/_layout.html' %}{% block title %}{{ playlist.title }}{% endblock %} {% block content %}{% load static %}
+<section class='background-main-image' style="background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('{{ playlist.main_image.url }}');">
+    <div class="container">
+        <div class="row">
+            <div class="col-3 offset-sm-1 col-sm-4 offset-md-1 col-md-3 offset-lg-1 col-lg-2 d-flex align-items-center">
+                <div class="main-image" style="background-image: url('{{ playlist.main_image.url }}');"></div>
+            </div>
+            <div class="col-9 col-sm-6 col-md-7 col-lg-8 d-flex flex-column justify-content-center">
+                <div class="display-6 text-white">
+                    <div class="form-group">
+                        <input type="text" id="{{ form.description.auto_id }}" class="form-control" value="{{ playlist.description }}" placeholder="일정 요약을 적어주세요" readonly>
+                    </div>
 
-{% if is_following %}
-<a class="btn btn-primary" href="{% url 'accounts:action' %}?action=unfollow&user_id={{ playlist.author.profile.id }}&next={{ request.path|urlencode }}">구독 취소</a>
-{% else %}
-<a class="btn btn-primary" href="{% url 'accounts:action' %}?action=follow&user_id={{ playlist.author.profile.id }}&next={{ request.path|urlencode }}">이 사람 구독하기</a>
-{% endif %}
+                    <div class="form-group">
+                        <input type="text" id="id_title" class="form-control" value="{{ playlist.title }}" placeholder="일정 제목을 적어주세요" readonly>
+                    </div>
+                </div>
+                <div class="stars-container">
+                    <i class="eva-star light filled"></i>
+                    <i class="eva-star light filled"></i>
+                    <i class="eva-star light filled"></i>
+                    <i class="eva-star light filled"></i>
+                    <i class="eva-star light outline"></i>
+                    <div class="star-detail">평균
+                        <span class="font-weight-bold">{{ all_stars.avg }}</span> ({{ all_stars.num }}명)</div>
+                </div>
+                <div class="display-6 text-white">
+                    <div class="form-group">
+                        <input type="text" id="{{ form.tag_string.auto_id }}" class="form-control" value="{% for tag in playlist.tags.all %} #{{ tag }} {% endfor %}" placeholder="태그 앞에는 반드시 #을 붙여 작성해주세요" readonly>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
-{% if is_scrap %}
-<a class="btn btn-primary" href="{% url 'accounts:action' %}?action=unscrap&playlist_id={{ playlist.id }}&next={{ request.path|urlencode }}">스크랩 취소</a>
-{% else %}
-<a class="btn btn-primary" href="{% url 'accounts:action' %}?action=scrap&playlist_id={{ playlist.id }}&next={{ request.path|urlencode }}">이 글 스크랩</a>
-{% endif %}
-<table class="table">
-    <tr>
-        <th scope="col">제목</th>
-        <td>
-            <img src="{{ playlist.main_image.url }}">
-        </td>
+<section class="post-area container">
+    <div class="row">
+        <div class="col-12 offset-sm-1 col-sm-10 offset-md-1 col-md-10 mt-3">
+            <article class="card container">
+                <div class="card-body row px-2 pt-2">
+                    <div class="col-12 d-flex">
 
-        <th scope="col">{{ playlist.title }}</th>
+                        <div class="subs-line border-0 flex-grow-1">
+                            <a class="subs-image-outer" href="{% url 'accounts:user_list' playlist.author.id %}">
+                                <img class="subs-image-inner" src="{{ playlist.author.profile.photo.url }}">
+                            </a>
+                            <a class="subs-text" href="{% url 'accounts:user_list' playlist.author.id %}">{{ playlist.author }}</a>
+                            <div class="subs-button-outer">
+                                {% if is_following %}
+                                <a class="btn btn-light subs-button" href="{% url 'accounts:action' %}?action=unfollow&user_id={{ playlist.author.profile.id }}&next={{ request.path|urlencode }}">구독 취소</a>
+                                {% else %}
+                                <a class="btn btn-dark subs-button" href="{% url 'accounts:action' %}?action=follow&user_id={{ playlist.author.profile.id }}&next={{ request.path|urlencode }}">구독하기</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="subs-line border-0 justify-content-end">
+                            <a href="#" onclick="javascript:window.open('http://share.naver.com/web/shareView.nhn?url=' +encodeURIComponent(document.URL)+'&title='+encodeURIComponent(document.title), 'naversharedialog', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');return false;"
+                            target="_blank" class="share">
+                                <img src="{% static 'images/sns_blog.png' %}">
+                            </a>
+                            <a href="#" onclick="javascript:window.open('https://www.facebook.com/sharer/sharer.php?u=' +encodeURIComponent(document.URL)+'&t='+encodeURIComponent(document.title), 'facebooksharedialog', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');return false;"
+                            target="_blank" class="share">
+                                <img src="{% static 'images/sns_face.png' %}">
+                            </a>
+                            <a href="#" onclick="javascript:window.open('https://twitter.com/intent/tweet?text=[%EA%B3%B5%EC%9C%A0]%20' +encodeURIComponent(document.URL)+'%20-%20'+encodeURIComponent(document.title), 'twittersharedialog', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');return false;"
+                            target="_blank" class="share">
+                                <img src="{% static 'images/sns_tw.png' %}">
+                            </a>
+                            <a href="#" onclick="javascript:window.open('https://story.kakao.com/s/share?url=' +encodeURIComponent(document.URL), 'kakaostorysharedialog', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes, height=400,width=600');return false;" target="_blank" class="share">
+                                <img src="{% static 'images/sns_kakao.png' %}">
+                            </a>
+                        </div>
+                        <div class="detail-scrap">
+                            {% if playlist not in request.user.profile.scrap_playlists.all %}
+                            <a class="bookmark-box" href="{% url 'accounts:action' %}?action=scrap&playlist_id={{ playlist.id }}&next={{ request.path|urlencode }}" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="스크랩하기">
+                                <i class="eva-bookmark outline dark"></i>
+                            </a>
+                            {% else %}
+                            <a class="bookmark-box" href="{% url 'accounts:action' %}?action=unscrap&playlist_id={{ playlist.id }}&next={{ request.path|urlencode }}" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="스크랩 삭제하기">
+                                <i class="eva-bookmark filled dark"></i>
+                                {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <input id='{{ form.main_image.auto_id }}' type='file' name='{{ form.main_image.html_name }}' hidden>
+                        <div class="form-group">
+                            <label for="{{ form.detail.id_for_label }}">{{ form.detail.label }}</label>
+                            <textarea type="text" id="{{ form.detail.auto_id }}" class="form-control" rows='10' readonly>{{ playlist.detail }}</textarea>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </div>
 
-    </tr>
-    <tr>
-        <td scope="col">작성자</td>
-        <td scope="col">{{ playlist.author }}</td>
-    </tr>
-    <tr>
-        <td scope="col">요약</td>
-        <td scope="col">{{ playlist.description }}</td>
-    </tr>
-    </tr>
-    <tr>
-        <td scope="col">내용</td>
-        <td scope="col">{{ playlist.detail }}</td>
-    </tr>
-    {% for card, photos in cards %}
-    <tr></tr>
-    <tr>
-        <td>{{forloop.counter}}번 카드</td>
-        <td>{{ card.text }}</td>
-        {% for photo in photos %}
-        <td>
-            <img src="{{ photo.image.url }}">
-        </td>
-        {% endfor %}
-
-    </tr>
-    <tr></tr>
-    {% endfor %}
-    <tr>
-        <td>
-            태그
-        </td>
-        <td>
-            {% for tag in playlist.tags.all %}
-                #{{ tag }} 
+    <div class="row">
+        <div id="photos-container" class="owl-carousel text-center col-12 offset-sm-1 col-sm-10 offset-md-1 col-md-10 mt-3">
+            {% for card, photos in cards %}
+            <div class="card photo">
+                <div class="card-image-top owl-carousel-image">
+                    {% for photo in photos %}
+                    <img src="{{ photo.image.url }}">
+                    {% endfor %}
+                </div>
+                <div class="card-body">
+                    <input type="file" name="img-card-{{ forloop.counter0 }}" multiple hidden/>
+                    <h5 class="card-title">{{ card.location }}</h5>
+                    <p class="card-text">{{ card.text }}</p>
+                </div>
+            </div>
             {% endfor %}
-        </td>
-    </tr>
+        </div>
+    </div>
 
-    <tr>
-        <td scope="col">댓글</td>
-        <td>
-            <table>
-            <tr>
-                <th></th>
-                <th>댓글</th>
-                <th>작성자</th>
-                <th>작성 일시</th>
-            </tr>
-            {% for comment,replier,time in comments%}
-            <tr ><td scope="row"><td scope="col">{{ comment }}</td><td>{{replier}}</td><td>{{time}}</td></td></tr>{% endfor %}
-            </table>
-        </td>
+    <div class="row">
+        <div class="col-12 offset-sm-1 col-sm-10 offset-md-1 col-md-10 mt-3">
+            <article class="card container">
+                <div class="card-body row px-2 pt-4">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="{{ form.cost.id_for_label }}">{{ form.cost.label }}
+                                <small>({{full_cost}}원)</small>
+                            </label>
+                            <input type="text" id="{{ form.cost.auto_id }}" class="form-control" value="{{ cost_10000 }}만{% if cost_1000 %} {{cost_1000}}천{%endif%}{% if cost_100 %} {{cost_100}}백{%endif%}원" placeholder="{{ form.cost.label }}" readonly>
+                        </div>
+                        {% if is_mine %}
+                        <div class="text-right">
+                            <a class="btn btn-warning" href="{% url 'playlists:edit' playlist.id %}">수정하기</a>
+                            <a class="delete btn btn-danger" href="{% url 'playlists:delete' playlist.id %}">삭제하기</a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </article>
+        </div>
+    </div>
+</section>
+    
+    
+<section class="post-area container mt-4">
+    <div class="row">
+        <div class="col-12 offset-sm-1 col-sm-10 offset-md-1 col-md-10 text-center text-md-left">
+            <h2 class="display-6 ml-2 mb-4">댓글 ({{ comments|length }})</h2>
+        </div>
         
+        <div class="col-12 offset-sm-1 col-sm-10 offset-md-1 col-md-10 mb-3">
+            <div class="card">
+                <div class="card-body">
+                {% if comments %}
+                    {% for comment in comments %}
+                    <div class="subs-line">
+                        <a class="subs-image-outer" href="{% url 'playlists:detail' playlist.id %}">
+                            <img class="subs-image-inner" src="{{ comment.user.profile.photo.url }}">
+                        </a>
+                        <a class="subs-text flex-grow-0 mr-3" href="{% url 'playlists:detail' playlist.id %}">
+                            <span>
+                                {{ comment.user.username }}
+                            </span>
+                            <span class="subs-subtext d-none d-md-block">
+                                {{ comment.created_at }}
+                            </span>
+                        </a>
+                        <div class="subs-button-outer d-block flex-grow-1">
+                            <p class="mb-0">{{ comment.comment }}</p>
+                        </div>
+                    {% if comment.user == request.user %}
+                        <form action="" method="POST" class="mb-0">
+                            {% csrf_token %}
+                            <input type="hidden" name="del_comment" value="{{ comment.id }}">
+                            <button type="submit" class="btn btn-dark">삭제</button>
+                        </form>
+                    {% endif %}
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="mb-0">현재 작성된 댓글이 없습니다. 첫 번째로 댓글을 남겨보세요!</p>
+                {% endif %}
+                </div>
+            </div>
+        </div>
         
-    </tr>
-</table>
-{%if is_mine%}
-<div>
-    <a class="btn btn-primary" href="{% url 'playlists:edit_mine' playlist.id %}">수정하기</a>
-</div>
-{%endif%}
+        <div class="col-12 offset-sm-1 col-sm-10 offset-md-1 col-md-10">
+            <div class="card">
+                <div class="card-body">
+                    
+                    
+                    
+                    
+                    
+{% if not star %}
 <form action="" method="POST">
     {% csrf_token %}
-    {{comment_form.comment}}
-   {% if review_available %}
     <fieldset class="rating">
-    <input type="radio" id="star5" name="rating" value="5" /><label class = "full" for="star5" title="Awesome - 5 stars"></label>
-    <input type="radio" id="star4half" name="rating" value="4 and a half" /><label class="half" for="star4half" title="Pretty good - 4.5 stars"></label>
-    <input type="radio" id="star4" name="rating" value="4" /><label class = "full" for="star4" title="Pretty good - 4 stars"></label>
-    <input type="radio" id="star3half" name="rating" value="3 and a half" /><label class="half" for="star3half" title="Meh - 3.5 stars"></label>
-    <input type="radio" id="star3" name="rating" value="3" /><label class = "full" for="star3" title="Meh - 3 stars"></label>
-    <input type="radio" id="star2half" name="rating" value="2 and a half" /><label class="half" for="star2half" title="Kinda bad - 2.5 stars"></label>
-    <input type="radio" id="star2" name="rating" value="2" /><label class = "full" for="star2" title="Kinda bad - 2 stars"></label>
-    <input type="radio" id="star1half" name="rating" value="1 and a half" /><label class="half" for="star1half" title="Meh - 1.5 stars"></label>
-    <input type="radio" id="star1" name="rating" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>
-    <input type="radio" id="starhalf" name="rating" value="half" /><label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>
-</fieldset>
-    {% endif %}
-    <button type="submit" class="save btn btn-primary">댓글저장</button>
-    
-<script src="{% static 'js/jquery-3.3.1.slim.min.js' %}"></script>
-<script src="{%static 'js/star.js'%}"></script>
-
+        <input type="radio" id="star5" name="rating" value="5" />
+        <label class="full" for="star5" title="Awesome - 5 stars"></label>
+        <input type="radio" id="star4half" name="rating" value="4 and a half" />
+        <label class="half" for="star4half" title="Pretty good - 4.5 stars"></label>
+        <input type="radio" id="star4" name="rating" value="4" />
+        <label class="full" for="star4" title="Pretty good - 4 stars"></label>
+        <input type="radio" id="star3half" name="rating" value="3 and a half" />
+        <label class="half" for="star3half" title="Meh - 3.5 stars"></label>
+        <input type="radio" id="star3" name="rating" value="3" />
+        <label class="full" for="star3" title="Meh - 3 stars"></label>
+        <input type="radio" id="star2half" name="rating" value="2 and a half" />
+        <label class="half" for="star2half" title="Kinda bad - 2.5 stars"></label>
+        <input type="radio" id="star2" name="rating" value="2" />
+        <label class="full" for="star2" title="Kinda bad - 2 stars"></label>
+        <input type="radio" id="star1half" name="rating" value="1 and a half" />
+        <label class="half" for="star1half" title="Meh - 1.5 stars"></label>
+        <input type="radio" id="star1" name="rating" value="1" />
+        <label class="full" for="star1" title="Sucks big time - 1 star"></label>
+        <input type="radio" id="starhalf" name="rating" value="half" />
+        <label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>
+    </fieldset>
+    <button type="submit" class="btn btn-dark">별점저장</button>
 </form>
-
- 
-
-
-
-
-
+{% else %}
+<form action="" method="POST">
+    {% csrf_token %}
+        
+    <fieldset class="rating">
+        <input type="radio" id="star5" name="rating" value="5" {{checked_10}}/>
+        <label class="full" for="star5" title="Awesome - 5 stars"></label>
+        <input type="radio" id="star4half" name="rating" value="4 and a half" {{checked_9}}/>
+        <label class="half" for="star4half" title="Pretty good - 4.5 stars"></label>
+        <input type="radio" id="star4" name="rating" value="4" {{checked_8}}/>
+        <label class="full" for="star4" title="Pretty good - 4 stars"></label>
+        <input type="radio" id="star3half" name="rating" value="3 and a half" {{checked_7}}/>
+        <label class="half" for="star3half" title="Meh - 3.5 stars"></label>
+        <input type="radio" id="star3" name="rating" value="3" {{checked_6}}/>
+        <label class="full" for="star3" title="Meh - 3 stars"></label>
+        <input type="radio" id="star2half" name="rating" value="2 and a half" {{checked_5}}/>
+        <label class="half" for="star2half" title="Kinda bad - 2.5 stars"></label>
+        <input type="radio" id="star2" name="rating" value="2" {{checked_4}}/>
+        <label class="full" for="star2" title="Kinda bad - 2 stars"></label>
+        <input type="radio" id="star1half" name="rating" value="1 and a half" {{checked_3}}/>
+        <label class="half" for="star1half" title="Meh - 1.5 stars"></label>
+        <input type="radio" id="star1" name="rating" value="1" {{checked_2}}/>
+        <label class="full" for="star1" title="Sucks big time - 1 star"></label>
+        <input type="radio" id="starhalf" name="rating" value="half" {{checked_1}}/>
+        <label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>
+    </fieldset>
+    <button type="submit" class="btn btn-dark">별점저장</button>
+</form>
+{% endif %}
+                    
+                    
+                    
+                    {% if star %}
+                    <p>{{ user }}님이 {{ star }}점을 주셨습니다.</p>
+                    {% endif %}
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <textarea name="{{ comment_form.comment.html_name }}" rows="5" placeholder="댓글 달기" id="{{ comment_form.comment.auto_id }}" class="form-control" required></textarea> 
+                        </div>
+                        <button type="submit" class="btn btn-dark">등록</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+    
 {% endblock %}

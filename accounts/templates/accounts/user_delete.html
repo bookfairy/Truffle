@@ -1,0 +1,15 @@
+<form action='{% url "accounts:user_delete" %}' method='POST'>
+    {% csrf_token %}
+    <p>
+        비밀번호를 입력하세요
+    </p>
+    <input type='password' name='pw'>
+    <br>
+    <p>
+        정말 탈퇴하시겠습니까?
+    </p>
+    <br>
+
+    <input type='submit' name='check' value=네>
+    <input type='submit' name='check' value=아니오>
+</form>
